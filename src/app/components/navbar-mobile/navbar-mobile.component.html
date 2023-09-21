@@ -1,0 +1,126 @@
+<div
+  #container
+  class="fixed bg-background py-6 pl-6 m-0 left-0 min-h-full w-3/4 max-w-sm inset-y-0 border-r border-border animate-slide-in"
+  (animationend)="onDialogAnimationEnd($event)"
+>
+  <a
+    routerLink="/"
+    class="text-xl font-bold flex gap-1.5 items-center text-[#0c1220]"
+  >
+    <svg
+      xmlns="http://www.w3.org/2000/svg"
+      width="20"
+      height="20"
+      fill="none"
+      viewBox="0 0 40 40"
+    >
+      <circle cx="20" cy="20" r="20" fill="#0c1220" />
+      <path
+        fill="#fff"
+        d="M23.688 19.36c.976.208 1.76.696 2.352 1.464.592.752.888 1.616.888 2.592 0 1.408-.496 2.528-1.488 3.36-.976.816-2.344 1.224-4.104 1.224h-7.848V11.152h7.584c1.712 0 3.048.392 4.008 1.176.976.784 1.464 1.848 1.464 3.192 0 .992-.264 1.816-.792 2.472-.512.656-1.2 1.112-2.064 1.368Zm-6.096-1.392h2.688c.672 0 1.184-.144 1.536-.432.368-.304.552-.744.552-1.32 0-.576-.184-1.016-.552-1.32-.352-.304-.864-.456-1.536-.456h-2.688v3.528Zm3.024 6.72c.688 0 1.216-.152 1.584-.456.384-.32.576-.776.576-1.368 0-.592-.2-1.056-.6-1.392-.384-.336-.92-.504-1.608-.504h-2.976v3.72h3.024Z"
+      />
+    </svg>
+    BOOKSTORE
+  </a>
+
+  <button
+    class="absolute right-4 top-4 rounded-md transition-opacity opacity-70 ring-offset-background focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 hover:opacity-100"
+    (click)="closeModal()"
+  >
+    <svg
+      width="15"
+      height="15"
+      viewBox="0 0 15 15"
+      fill="none"
+      xmlns="http://www.w3.org/2000/svg"
+      class="h-4 w-4"
+    >
+      <path
+        d="M11.7816 4.03157C12.0062 3.80702 12.0062 3.44295 11.7816 3.2184C11.5571 2.99385 11.193 2.99385 10.9685 3.2184L7.50005 6.68682L4.03164 3.2184C3.80708 2.99385 3.44301 2.99385 3.21846 3.2184C2.99391 3.44295 2.99391 3.80702 3.21846 4.03157L6.68688 7.49999L3.21846 10.9684C2.99391 11.193 2.99391 11.557 3.21846 11.7816C3.44301 12.0061 3.80708 12.0061 4.03164 11.7816L7.50005 8.31316L10.9685 11.7816C11.193 12.0061 11.5571 12.0061 11.7816 11.7816C12.0062 11.557 12.0062 11.193 11.7816 10.9684L8.31322 7.49999L11.7816 4.03157Z"
+        fill="currentColor"
+        fill-rule="evenodd"
+        clip-rule="evenodd"
+      ></path>
+    </svg>
+    <span class="sr-only">Close</span>
+  </button>
+
+  <div class="my-4 w-full h-[calc(100vh-8rem)] overflow-hidden overflow-y-auto scrollbar">
+    <div class="pr-6">
+      <cdk-accordion [multi]="true">
+        <ng-container *ngFor="let item of data.navigation; let index = index">
+          <div *ngIf="item.link" class="border-b">
+            <a
+              [routerLink]="item.link"
+              class="block py-3 text-sm font-medium text-foreground hover:underline"
+            >
+              {{ item.label }}
+            </a>
+          </div>
+          <cdk-accordion-item
+            *ngIf="item.children"
+            #accordionItem="cdkAccordionItem"
+            class="block border-b group"
+            role="button"
+            tabindex="0"
+            [expanded]="true"
+            [attr.id]="'accordion-header-' + index"
+            [attr.aria-expanded]="accordionItem.expanded"
+            [attr.aria-controls]="'accordion-body-' + index"
+          >
+            <button
+              class="flex items-center py-3 justify-between w-full text-sm font-medium text-foreground hover:underline"
+              (click)="toggleAccordion(accordionItem, index)"
+            >
+              {{ item.label }}
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="16"
+                height="16"
+                viewBox="0 0 24 24"
+                class="text-muted-foreground transition group-aria-[expanded=true]:rotate-180"
+              >
+                <g fill="none" fill-rule="evenodd">
+                  <path
+                    d="M24 0v24H0V0h24ZM12.593 23.258l-.011.002l-.071.035l-.02.004l-.014-.004l-.071-.035c-.01-.004-.019-.001-.024.005l-.004.01l-.017.428l.005.02l.01.013l.104.074l.015.004l.012-.004l.104-.074l.012-.016l.004-.017l-.017-.427c-.002-.01-.009-.017-.017-.018Zm.265-.113l-.013.002l-.185.093l-.01.01l-.003.011l.018.43l.005.012l.008.007l.201.093c.012.004.023 0 .029-.008l.004-.014l-.034-.614c-.003-.012-.01-.02-.02-.022Zm-.715.002a.023.023 0 0 0-.027.006l-.006.014l-.034.614c0 .012.007.02.017.024l.015-.002l.201-.093l.01-.008l.004-.011l.017-.43l-.003-.012l-.01-.01l-.184-.092Z"
+                  />
+                  <path
+                    fill="currentColor"
+                    d="M12.707 15.707a1 1 0 0 1-1.414 0L5.636 10.05A1 1 0 1 1 7.05 8.636l4.95 4.95l4.95-4.95a1 1 0 0 1 1.414 1.414l-5.657 5.657Z"
+                  />
+                </g>
+              </svg>
+            </button>
+
+            <div
+              #accordionContent
+              class="overflow-hidden text-sm"
+              [ngClass]="{
+                hidden: !accordionItem.expanded,
+                'animate-accordion-down': accordionItem.expanded,
+                'animate-accordion-up': !accordionItem.expanded
+              }"
+              role="region"
+              [attr.id]="'accordion-body-' + index"
+              [attr.aria-labelledby]="'accordion-header-' + index"
+              style="{{
+                '--accordion-content-height:' + accordionContentHeights[item.id]
+              }}"
+              (animationend)="onAccordionAnimationEnd($event, accordionItem)"
+            >
+              <div class="pt-0 pb-4 flex flex-col space-y-2">
+                <a
+                  class="text-foreground/70 transition-colors hover:text-foreground"
+                  *ngFor="let subItem of item.children"
+                  [routerLink]="subItem.link"
+                >
+                  {{ subItem.label }}
+                </a>
+              </div>
+            </div>
+          </cdk-accordion-item>
+        </ng-container>
+      </cdk-accordion>
+    </div>
+  </div>
+</div>

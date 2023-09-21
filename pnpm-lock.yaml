@@ -8,6 +8,9 @@ dependencies:
   '@angular/animations':
     specifier: ^16.2.5
     version: 16.2.5(@angular/core@16.2.5)
+  '@angular/cdk':
+    specifier: ^16.2.4
+    version: 16.2.4(@angular/common@16.2.5)(@angular/core@16.2.5)(rxjs@7.5.7)
   '@angular/common':
     specifier: ^16.2.5
     version: 16.2.5(@angular/core@16.2.5)(rxjs@7.5.7)
@@ -29,6 +32,9 @@ dependencies:
   '@angular/router':
     specifier: ^16.2.5
     version: 16.2.5(@angular/common@16.2.5)(@angular/core@16.2.5)(@angular/platform-browser@16.2.5)(rxjs@7.5.7)
+  '@fontsource/poppins':
+    specifier: ^5.0.8
+    version: 5.0.8
   rxjs:
     specifier: ~7.5.0
     version: 7.5.7
@@ -280,6 +286,21 @@ packages:
     dependencies:
       '@angular/core': 16.2.5(rxjs@7.5.7)(zone.js@0.13.3)
       tslib: 2.6.2
+    dev: false
+
+  /@angular/cdk@16.2.4(@angular/common@16.2.5)(@angular/core@16.2.5)(rxjs@7.5.7):
+    resolution: {integrity: sha512-Hnh7Gs+gAkBnRYIMkDXRElEPAmBFas37isIfOtiqEmkgmSPFxsPpDOXK1soXeDk8U+yNmDWnO0fcHPp/pobHCw==}
+    peerDependencies:
+      '@angular/common': ^16.0.0 || ^17.0.0
+      '@angular/core': ^16.0.0 || ^17.0.0
+      rxjs: ^6.5.3 || ^7.4.0
+    dependencies:
+      '@angular/common': 16.2.5(@angular/core@16.2.5)(rxjs@7.5.7)
+      '@angular/core': 16.2.5(rxjs@7.5.7)(zone.js@0.13.3)
+      rxjs: 7.5.7
+      tslib: 2.6.2
+    optionalDependencies:
+      parse5: 7.1.2
     dev: false
 
   /@angular/cli@16.2.2:
@@ -1937,6 +1958,10 @@ packages:
     dev: true
     optional: true
 
+  /@fontsource/poppins@5.0.8:
+    resolution: {integrity: sha512-P8owfYWluoUY5Nyzk4gT/L6LmLmseP6ezFWhj6VBUa5pRIdnCvNJpoQ6i/vhekjtJOfqX6nKlB+LCttoUl2GQQ==}
+    dev: false
+
   /@isaacs/cliui@8.0.2:
     resolution: {integrity: sha512-O8jcjabXaleOG9DQ0+ARXWZBTfnP4WNAqzuiJK7ll44AmxGKv/J2M4TPjxjY3znBCfvBXFzucm1twdyFybFqEA==}
     engines: {node: '>=12'}
@@ -3572,7 +3597,6 @@ packages:
   /entities@4.5.0:
     resolution: {integrity: sha512-V0hjH4dGPh9Ao5p0MoRY6BVqtwCjhz6vI5LT8AJ55H+4g9/4vbHx1I54fS0XuclLhDHArPQCiMjDxjaL8fPxhw==}
     engines: {node: '>=0.12'}
-    dev: true
 
   /env-paths@2.2.1:
     resolution: {integrity: sha512-+h1lkLKhZMTYjog1VEpJNG7NZJWcuc2DDk/qsqSTRRCOXiLjeQ1d1/udrUGhqMxUgAlwKNZ0cf2uqan5GLuS2A==}
@@ -5627,7 +5651,6 @@ packages:
     resolution: {integrity: sha512-Czj1WaSVpaoj0wbhMzLmWD69anp2WH7FXMB9n1Sy8/ZFF9jolSQVMu1Ij5WIyGmcBmhk7EOndpO4mIpihVqAXw==}
     dependencies:
       entities: 4.5.0
-    dev: true
 
   /parseurl@1.3.3:
     resolution: {integrity: sha512-CiyeOxFT/JZyN5m0z9PfXw4SCBJ6Sygz1Dpl0wqjlhDEGGBP1GnsUVEL0p63hoG1fcj3fHynXi9NYO4nWOL+qQ==}

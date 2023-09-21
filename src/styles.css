@@ -2,3 +2,35 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+@import '@fontsource/poppins/400.css';
+@import '@fontsource/poppins/500.css';
+@import '@fontsource/poppins/700.css';
+@import '@angular/cdk/overlay-prebuilt.css';
+
+:root {
+  --background: 255 255 255;
+  --foreground: 12 18 32;
+  --primary: 12 18 32;
+  --primary-foreground: 255 255 255;
+  --muted: 244 244 245;
+  --muted-foreground: 102 103 110;
+  --accent: 244 244 245;
+  --accent-foreground: 12 18 32;
+  --border: 228 228 231;
+  --ring: 12 18 32;
+  --scrollbar: rgb(228, 228, 231);
+}
+
+.scrollbar::-webkit-scrollbar {
+  width: 8px;
+}
+
+.scrollbar::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.scrollbar::-webkit-scrollbar-thumb {
+  background-color: var(--scrollbar);
+  border-radius: 5px;
+}
+
