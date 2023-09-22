@@ -40,7 +40,7 @@ export interface NavigationBar {
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class NavbarComponent {
-  @ViewChild(CdkMenuTrigger) categoriesTrigger!: CdkMenuTrigger;
+  @ViewChildren(CdkMenuTrigger) dropdownTriggers!: QueryList<CdkMenuTrigger>;
   @ViewChildren('buttonOrigin') buttonsTrigger!: QueryList<
     ElementRef<HTMLButtonElement>
   >;
@@ -80,35 +80,68 @@ export class NavbarComponent {
     ),
   ];
 
-  openDropdown(menu: ElementRef<HTMLUListElement> | undefined) {
-    this.buttonsTrigger.first.nativeElement.setAttribute(
-      'data-state',
-      'opened'
+  openDropdown({
+    menu,
+    id,
+  }: {
+    menu: ElementRef<HTMLUListElement> | undefined;
+    id: string;
+  }) {
+    const button = this.buttonsTrigger.find(
+      (button) => button.nativeElement.id === id
     );
-    this.categoriesTrigger.open();
-    menu?.nativeElement?.classList.remove('hidden');
-    menu?.nativeElement?.setAttribute('data-state', 'opened');
+
+    if (button) {
+      button.nativeElement.setAttribute('data-state', 'opened');
+    }
+
+    const trigger = this.dropdownTriggers.find(
+      (trigger) => (trigger.menuData as { id: string }).id === id
+    );
+
+    if (trigger) {
+      trigger.open();
+
+      menu?.nativeElement?.classList.remove('hidden');
+      menu?.nativeElement?.setAttribute('data-state', 'opened');
+    }
   }
 
-  closeDropdown(menu: ElementRef<HTMLUListElement> | undefined) {
+  closeDropdown({
+    menu,
+    id,
+  }: {
+    menu: ElementRef<HTMLUListElement> | undefined;
+    id: string;
+  }) {
     menu?.nativeElement?.setAttribute('data-state', 'closed');
-    this.buttonsTrigger.first.nativeElement.setAttribute(
-      'data-state',
-      'closed'
+
+    const button = this.buttonsTrigger.find(
+      (button) => button.nativeElement.id === id
     );
+
+    if (button) {
+      button.nativeElement.setAttribute('data-state', 'closed');
+    }
 
     const animationEndHandler = (event: AnimationEvent) => {
       if (event.animationName === 'zoom-out') {
-        this.categoriesTrigger.close();
-        menu?.nativeElement?.classList.add('hidden');
-        menu?.nativeElement?.removeEventListener(
-          'animationend',
-          animationEndHandler
+        const trigger = this.dropdownTriggers.find(
+          (trigger) => (trigger.menuData as { id: string }).id === id
         );
+
+        if (trigger) {
+          trigger.close();
+          menu?.nativeElement?.classList.add('hidden');
+          menu?.nativeElement?.removeEventListener(
+            'animationend',
+            animationEndHandler
+          );
+        }
       }
     };
 
-    menu?.nativeElement.addEventListener('animationend', animationEndHandler);
+    menu?.nativeElement?.addEventListener('animationend', animationEndHandler);
   }
 
   openNavbarMobile() {

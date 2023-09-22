@@ -23,6 +23,7 @@ import {
   switchMap,
   takeUntil,
 } from 'rxjs';
+import { NavigationBar } from '../navbar/navbar.component';
 
 @Component({
   selector: 'dropdown-menu',
@@ -36,6 +37,8 @@ export class DropdownMenuComponent implements OnInit, OnDestroy {
   @ViewChild('menu') menu!: ElementRef<HTMLUListElement>;
 
   @Input({ required: true }) dropdownOrigin!: HTMLButtonElement;
+  @Input({ required: true }) dropdownId!: string;
+  @Input({ required: true }) data!: NavigationBar[];
   @Output() open = new EventEmitter<any>();
   @Output() close = new EventEmitter<any>();
 
@@ -50,7 +53,6 @@ export class DropdownMenuComponent implements OnInit, OnDestroy {
       switchMap((enterEvent) =>
         fromEvent(document, 'mousemove').pipe(
           startWith(enterEvent),
-          // debounceTime(5),
           filter((event) => this.dropdownOrigin === event['target'])
         )
       ),
@@ -83,7 +85,9 @@ export class DropdownMenuComponent implements OnInit, OnDestroy {
 
   private changeState(isOpened: boolean) {
     this.isOpened = isOpened;
-    isOpened ? this.open.emit(this.menu) : this.close.emit(this.menu);
+    isOpened
+      ? this.open.emit({ menu: this.menu, id: this.dropdownId })
+      : this.close.emit({ menu: this.menu, id: this.dropdownId });
     this.changeDetectorRef.markForCheck();
   }
 

@@ -35,7 +35,7 @@
           #buttonOrigin
           *ngIf="item.children"
           [cdkMenuTriggerFor]="dropdownMenu.template"
-          [cdkMenuTriggerData]="{ $implicit: item.children }"
+          [cdkMenuTriggerData]="{ id: item.id }"
           [cdkMenuPosition]="dropdownPosition"
           disabled
           [id]="item.id"
@@ -63,6 +63,8 @@
 
           <dropdown-menu
             #dropdownMenu
+            [data]="item.children"
+            [dropdownId]="item.id"
             [dropdownOrigin]="buttonOrigin"
             (open)="openDropdown($event)"
             (close)="closeDropdown($event)"
