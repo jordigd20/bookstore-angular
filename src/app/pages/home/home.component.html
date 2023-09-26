@@ -1,1 +1,94 @@
-<app-navbar class="block sticky top-0 z-50 w-full border-b border-border bg-background" />
+<app-navbar
+  class="block sticky top-0 z-50 w-full border-b border-border bg-background"
+/>
+<main>
+  <div class="container py-8">
+    <section
+      class="py-12 sm:py-16 xl:py-24 flex gap-4 md:gap-2 flex-col-reverse md:flex-row"
+    >
+      <div class="flex flex-col gap-4 justify-center items-start max-w-[38.5rem]">
+        <h1 class="font-bold text-4xl md:text-5xl lg:text-6xl xl:text-7xl">
+          Find Your Next Book
+        </h1>
+        <p class="text-muted-foreground lg:text-lg">
+          Dive into a literary adventure like no other and immerse yourself in
+          the magic of words. Find yout perfect read no matter if you're a
+          seasoned bookworm or just starting your reading journey, we have
+          something special waiting just for you.
+        </p>
+        <button
+          class="py-2 px-3 border-[1px] rounded-md shadow-sm bg-primary text-primary-foreground transition-colors hover:bg-primary/90"
+        >
+          Explore now
+        </button>
+      </div>
+      <img
+        class="m-auto md:m-0 w-[500px] md:w-[400px] lg:w-[550px] xl:w-[715px]"
+        src="../../../assets/hero-image.svg"
+        alt="Introduction image"
+        width="715"
+        height="455"
+      />
+    </section>
+
+    <app-home-section title="Categories" link="/" buttonText="See all">
+      <p class="text-muted-foreground">
+        Explore a curated collection of books across all genres, from timeless
+        classics to the latest bestsellers.
+      </p>
+      <div
+        class="py-4 grid gap-4 grid-cols-1 xxs:grid-cols-2 md:grid-cols-3 lg:grid-cols-4"
+      >
+        <a
+          *ngFor="let item of categories"
+          class="group relative w-full rounded-md h-48 overflow-hidden border shadow"
+          [routerLink]="item.link"
+        >
+          <div
+            class="absolute w-full h-full z-10 inset-0 bg-zinc-950/60 transition-colors group-hover:bg-zinc-950/70"
+          ></div>
+          <img
+            class="absolute inset-0 object-cover transition-transform group-hover:scale-105 overflow-hidden h-full w-full"
+            [src]="'../../../assets/categories/' + item.image"
+            [alt]="item.name + ' genre'"
+          />
+          <span
+            class="absolute z-20 bottom-4 left-4 pr-4 text-sm sm:text-lg text-zinc-200 group-hover:text-zinc-100 transition-colors"
+          >
+            {{ item.name }}
+          </span>
+        </a>
+      </div>
+    </app-home-section>
+
+    <app-home-section title="Best rated" link="/" buttonText="See more">
+      <div
+        class="py-2 grid grid-cols-1 xxs:grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 xl:grid-cols-6"
+      >
+        <ng-container *ngFor="let i of [1, 2, 3, 4, 5, 6]; even as isEven">
+          <app-vertical-card [isEven]="isEven" />
+        </ng-container>
+      </div>
+    </app-home-section>
+
+    <app-home-section title="Bestsellers" link="/" buttonText="See more">
+      <div class="py-2 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3">
+        <ng-container *ngFor="let i of [1, 2, 3, 4, 5, 6]; even as isEven">
+          <app-horizontal-card [isEven]="isEven" />
+        </ng-container>
+      </div>
+    </app-home-section>
+
+    <app-home-section title="On sale" link="/" buttonText="See more">
+      <div
+        class="py-2 grid grid-cols-1 xxs:grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 xl:grid-cols-6"
+      >
+        <ng-container *ngFor="let i of [1, 2, 3, 4, 5, 6]; even as isEven">
+          <app-vertical-card [isEven]="isEven" />
+        </ng-container>
+      </div>
+    </app-home-section>
+  </div>
+</main>
+
+<app-footer />

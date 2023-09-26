@@ -1,0 +1,55 @@
+<a
+  class="p-2 flex w-full h-48 rounded-md text-sm transition-color hover:bg-accent"
+  routerLink="/"
+>
+  <img
+    class="object-cover rounded-md"
+    [src]="
+      isEven
+        ? '../../../assets/books/harry-potter-1.webp'
+        : '../../../assets/books/harry-potter-2.webp'
+    "
+    alt="Harry Potter and the Philosopher's Stone book cover"
+  />
+  <div class="w-full px-2 flex flex-col items-start">
+    <h3 class="font-semibold max-h-[60px] overflow-hidden">
+      {{
+        isEven
+          ? "Harry Potter and the Philosopher's Stone book cover"
+          : "The Great Gatsby"
+      }}
+    </h3>
+    <div class="flex gap-2">
+      <span class="font-semibold">19.99€</span>
+      <span class="line-through text-muted-foreground">25.99€</span>
+    </div>
+    <span class="text-muted-foreground">J.K Rowling</span>
+    <div class="flex flex-wrap items-center leading-[initial]">
+      <div class="flex items-center">
+        <svg
+          *ngFor="let item of [1, 2, 3, 4, 5]"
+          width="20"
+          height="20"
+          viewBox="0 0 24 24"
+          fill="none"
+          xmlns="http://www.w3.org/2000/svg"
+          [ngClass]="{
+            'text-[#e9c867]': item <= 4,
+            'text-gray-400': item > 4
+          }"
+        >
+          <path
+            d="M5.825 22L7.45 14.975L2 10.25L9.2 9.625L12 3L14.8 9.625L22 10.25L16.55 14.975L18.175 22L12 18.275L5.825 22Z"
+            fill="currentColor"
+          />
+        </svg>
+      </div>
+      <span>(4,5)</span>
+    </div>
+    <button
+      class="mt-2 py-2 px-3 border-[1px] rounded-md shadow-sm bg-primary text-sm text-primary-foreground transition-colors hover:bg-primary/90"
+    >
+      Add to cart
+    </button>
+  </div>
+</a>
