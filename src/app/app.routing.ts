@@ -5,5 +5,13 @@ export const routes: Routes = [
   {
     path: '',
     component: HomeComponent,
+    pathMatch: 'full',
+  },
+  {
+    path: 'signin',
+    loadComponent: () =>
+      import('./pages/auth/signin/signin.component').then(
+        (m) => m.SigninComponent
+      ),
   },
 ];

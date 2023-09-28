@@ -17,6 +17,7 @@
   --muted-foreground: 102 103 110;
   --accent: 244 244 245;
   --accent-foreground: 12 18 32;
+  --destructive: 239, 68, 68;
   --border: 228 228 231;
   --ring: 12 18 32;
   --scrollbar: rgb(228, 228, 231);
@@ -35,3 +36,8 @@
   border-radius: 5px;
 }
 
+@media (max-width: 640px) {
+  .container {
+    @apply px-4;
+  }
+}

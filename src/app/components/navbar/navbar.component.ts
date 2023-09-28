@@ -3,7 +3,6 @@ import {
   Component,
   ElementRef,
   QueryList,
-  ViewChild,
   ViewChildren,
   inject,
 } from '@angular/core';

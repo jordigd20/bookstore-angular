@@ -34,6 +34,7 @@ module.exports = {
           DEFAULT: 'rgb(var(--accent))',
           foreground: 'rgb(var(--accent-foreground))',
         },
+        destructive: 'rgb(var(--destructive))',
         ring: 'rgb(var(--ring))',
       },
       fontFamily: {
