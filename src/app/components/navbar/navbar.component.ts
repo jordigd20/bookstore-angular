@@ -13,6 +13,7 @@ import { Dialog, DialogModule } from '@angular/cdk/dialog';
 import { ConnectionPositionPair } from '@angular/cdk/overlay';
 import { DropdownMenuComponent } from '../dropdown-menu/dropdown-menu.component';
 import { NavbarMobileComponent } from '../navbar-mobile/navbar-mobile.component';
+import { AuthService } from '../../services/auth.service';
 
 export interface NavigationBar {
   id: string;
@@ -45,6 +46,7 @@ export class NavbarComponent {
   >;
 
   dialog = inject(Dialog);
+  authService = inject(AuthService);
 
   navigation: NavigationBar[] = [
     { id: 'home', label: 'Home', link: '/' },

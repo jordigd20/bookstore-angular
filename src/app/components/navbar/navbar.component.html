@@ -112,12 +112,23 @@
       </svg>
       <span class="sr-only">Open Cart</span>
     </button>
+
     <a
+      *ngIf="!authService.token(); else signedIn"
       routerLink="/signin"
       class="py-2 px-3 border-[1px] rounded-md shadow-sm bg-primary text-sm text-primary-foreground transition-colors hover:bg-primary/90"
     >
       Sign In
     </a>
+
+    <ng-template #signedIn>
+      <button
+        class="py-2 px-3 border-[1px] rounded-md shadow-sm bg-primary text-sm text-primary-foreground transition-colors hover:bg-primary/90"
+        (click)="authService.logOut()"
+      >
+        Sign Out
+      </button>
+    </ng-template>
     <!-- <button
       class="py-1 px-1.5 border-[1px] rounded-md text-foreground shadow-sm transition-colors hover:bg-accent"
     >

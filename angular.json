@@ -54,7 +54,13 @@
               "vendorChunk": true,
               "extractLicenses": false,
               "sourceMap": true,
-              "namedChunks": true
+              "namedChunks": true,
+              "fileReplacements": [
+                {
+                  "replace": "src/environments/environment.ts",
+                  "with": "src/environments/environment.development.ts"
+                }
+              ]
             }
           },
           "defaultConfiguration": "production"
@@ -66,7 +72,10 @@
               "browserTarget": "bookstore-angular:build:production"
             },
             "development": {
-              "browserTarget": "bookstore-angular:build:development"
+              "browserTarget": "bookstore-angular:build:development",
+              "headers": {
+                "Cross-Origin-Opener-Policy": "same-origin, same-origin-allow-popups"
+              }
             }
           },
           "defaultConfiguration": "development"
