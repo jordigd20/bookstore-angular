@@ -16,4 +16,12 @@ export const routes: Routes = [
         (m) => m.SigninComponent
       ),
   },
+  {
+    path: 'signup',
+    canActivate: [NoAuthGuard],
+    loadComponent: () =>
+      import('./pages/auth/signup/signup.component').then(
+        (m) => m.SignupComponent
+      ),
+  }
 ];

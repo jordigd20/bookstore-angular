@@ -1,19 +1,14 @@
-import {
-  ChangeDetectionStrategy,
-  Component,
-  inject,
-  signal,
-} from '@angular/core';
+import { Component, inject, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Router, RouterLink } from '@angular/router';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
+import { AuthBackgroundComponent } from 'src/app/components/auth/auth-background/auth-background.component';
 import { AuthService } from '../../../services/auth.service';
-import { AuthBackgroundComponent } from '../../../components/auth/auth-background/auth-background.component';
 import { AuthFormComponent } from '../../../components/auth/auth-form/auth-form.component';
 import { Subject } from 'rxjs';
 
 @Component({
-  selector: 'app-signin',
+  selector: 'app-signup',
   standalone: true,
   imports: [
     CommonModule,
@@ -22,15 +17,16 @@ import { Subject } from 'rxjs';
     AuthBackgroundComponent,
     AuthFormComponent,
   ],
-  changeDetection: ChangeDetectionStrategy.OnPush,
-  templateUrl: './signin.component.html',
+  templateUrl: './signup.component.html',
 })
-export class SigninComponent {
+export class SignupComponent {
   fb = inject(FormBuilder);
   authService = inject(AuthService);
   router = inject(Router);
 
-  signinForm = this.fb.group({
+  signupForm = this.fb.group({
+    firstName: ['', [Validators.required, Validators.minLength(2)]],
+    lastName: ['', [Validators.required, Validators.minLength(2)]],
     email: ['', [Validators.required, Validators.email]],
     password: [
       '',
@@ -49,25 +45,38 @@ export class SigninComponent {
   focusInput = new Subject<string>();
 
   async onSubmit() {
-    if (this.signinForm.get('email')?.invalid) {
+
+    if(this.signupForm.get('firstName')?.invalid) {
+      this.focusInput.next('firstName');
+      return;
+    }
+
+    if(this.signupForm.get('lastName')?.invalid) {
+      this.focusInput.next('lastName');
+      return;
+    }
+
+    if (this.signupForm.get('email')?.invalid) {
       this.focusInput.next('email');
       return;
     }
 
-    if (this.signinForm.get('password')?.invalid) {
+    if (this.signupForm.get('password')?.invalid) {
       this.focusInput.next('password');
       return;
     }
 
     this.isLoading.set(true);
-    const { email, password } = this.signinForm.value;
-    const isLoggedIn = await this.authService.handleSignin({
+    const { firstName, lastName, email, password } = this.signupForm.value;
+    const isLoggedIn = await this.authService.handleSignup({
+      firstName: firstName as string,
+      lastName: lastName as string,
       email: email as string,
       password: password as string,
     });
 
     if (isLoggedIn) {
-      this.router.navigateByUrl('/');
+      this.router.navigateByUrl('/signin');
     }
 
     this.isLoading.set(false);

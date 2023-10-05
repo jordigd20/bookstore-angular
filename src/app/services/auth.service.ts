@@ -10,12 +10,15 @@ import {
   AuthState,
   AuthUser,
   GoogleSigninResponse,
+  SigninBody,
+  SignupBody,
 } from '../interfaces/auth.interface';
 import { HttpService } from './http.service';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { StorageService } from './storage.service';
 import { catchError, map, tap, of, switchMap, throwError } from 'rxjs';
 import { Router } from '@angular/router';
+import { User } from '../interfaces/user.interface';
 
 @Injectable({
   providedIn: 'root',
@@ -67,7 +70,7 @@ export class AuthService {
       });
   }
 
-  handleSignin(email: string, password: string) {
+  handleSignin({ email, password }: SigninBody) {
     return new Promise<boolean>((resolve) => {
       this.httpService
         .executePost<AuthUser>('/auth/login', { email, password })
@@ -80,6 +83,27 @@ export class AuthService {
               loaded: true,
             }));
 
+            resolve(true);
+          },
+          error: (error) => {
+            console.error(error);
+            resolve(false);
+          },
+        });
+    });
+  }
+
+  handleSignup({ firstName, lastName, email, password }: SignupBody) {
+    return new Promise<boolean>((resolve) => {
+      this.httpService
+        .executePost<User>('/auth/register', {
+          firstName,
+          lastName,
+          email,
+          password,
+        })
+        .subscribe({
+          next: () => {
             resolve(true);
           },
           error: (error) => {

@@ -1,0 +1,182 @@
+<div class="rounded-xl border bg-background text-foreground shadow">
+  <header class="p-6 pb-4">
+    <h3 class="font-semibold text-2xl">
+      {{ formType === "signin" ? "Sign in" : "Sign up" }}
+    </h3>
+    <p class="text-sm text-muted-foreground">
+      {{
+        formType === "signin"
+          ? "Please enter your login credentials"
+          : "Please enter your credentials to create a new account"
+      }}
+    </p>
+  </header>
+
+  <div class="px-6 pb-6">
+    <div class="flex justify-center h-10">
+      <div id="googleSignin"></div>
+    </div>
+
+    <div class="relative my-4 py-2">
+      <div class="absolute inset-0 flex items-center">
+        <span class="border-t w-full"></span>
+      </div>
+      <div class="absolute inset-0 flex justify-center">
+        <span class="px-3 bg-background text-sm text-muted-foreground">
+          OR
+        </span>
+      </div>
+    </div>
+
+    <form
+      class="flex flex-col gap-4"
+      [formGroup]="formType === 'signin' ? signinForm : signupForm"
+      (ngSubmit)="onSubmit()"
+    >
+      <div *ngIf="formType === 'signup'" class="text-sm space-y-2">
+        <label
+          class="font-medium"
+          [ngClass]="{
+            'text-destructive': firstName?.invalid && submitted
+          }"
+          for="firstName"
+        >
+          First name
+        </label>
+        <input
+          #formInput
+          class="w-full h-9 border rounded-md px-3 py-1 shadow-sm bg-background focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:cursor-not-allowed placeholder:text-muted-foreground"
+          type="text"
+          placeholder="John"
+          id="firstName"
+          name="firstName"
+          formControlName="firstName"
+        />
+        <p
+          *ngIf="firstName?.invalid && submitted"
+          class="text-[0.8rem] font-medium text-destructive"
+        >
+          Please enter a first name with at least 2 characters
+        </p>
+      </div>
+
+      <div *ngIf="formType === 'signup'" class="text-sm space-y-2">
+        <label
+          class="font-medium"
+          [ngClass]="{
+            'text-destructive': lastName?.invalid && submitted
+          }"
+          for="lastName"
+        >
+          Last name
+        </label>
+        <input
+          #formInput
+          class="w-full h-9 border rounded-md px-3 py-1 shadow-sm bg-background focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:cursor-not-allowed placeholder:text-muted-foreground"
+          type="text"
+          placeholder="Doe"
+          id="lastName"
+          name="lastName"
+          formControlName="lastName"
+        />
+        <p
+          *ngIf="lastName?.invalid && submitted"
+          class="text-[0.8rem] font-medium text-destructive"
+        >
+          Please enter a last name with at least 2 characters
+        </p>
+      </div>
+
+      <div class="text-sm space-y-2">
+        <label
+          [ngClass]="{ 'text-destructive': email?.invalid && submitted }"
+          class="font-medium"
+          for="email"
+        >
+          Email
+        </label>
+        <input
+          #formInput
+          class="w-full h-9 border rounded-md px-3 py-1 shadow-sm bg-background focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:cursor-not-allowed placeholder:text-muted-foreground"
+          type="email"
+          placeholder="johndoe@email.com"
+          id="email"
+          name="email"
+          formControlName="email"
+        />
+        <p
+          *ngIf="email?.invalid && submitted"
+          class="text-[0.8rem] font-medium text-destructive"
+        >
+          Please enter a valid email address
+        </p>
+      </div>
+
+      <div class="text-sm space-y-2">
+        <label
+          class="font-medium"
+          [ngClass]="{
+            'text-destructive': password?.invalid && submitted
+          }"
+          for="password"
+        >
+          Password
+        </label>
+        <input
+          #formInput
+          class="w-full h-9 border rounded-md px-3 py-1 shadow-sm bg-background focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:cursor-not-allowed placeholder:text-muted-foreground"
+          type="password"
+          placeholder="***********"
+          id="password"
+          name="password"
+          formControlName="password"
+          (ngModelChange)="onPasswordChange()"
+        />
+        <p
+          *ngIf="password?.invalid && submitted"
+          class="text-[0.8rem] font-medium text-destructive"
+        >
+          {{ currentPasswordError }}
+        </p>
+      </div>
+
+      <button
+        class="w-full flex justify-center items-center gap-2 border rounded-md text-sm font-medium bg-primary text-primary-foreground px-4 py-2 transition-colors hover:bg-primary/90 disabled:opacity-50"
+        type="submit"
+        [disabled]="isLoading"
+      >
+        <svg
+          *ngIf="isLoading"
+          xmlns="http://www.w3.org/2000/svg"
+          width="20"
+          height="20"
+          viewBox="0 0 24 24"
+          class="animate-spin"
+        >
+          <path
+            fill="currentColor"
+            fill-opacity=".9"
+            d="M12 2.25c-5.384 0-9.75 4.366-9.75 9.75s4.366 9.75 9.75 9.75v-2.438A7.312 7.312 0 1 1 19.313 12h2.437c0-5.384-4.366-9.75-9.75-9.75Z"
+          />
+        </svg>
+        {{ formType === "signin" ? "Sign in" : "Sign up" }}
+      </button>
+    </form>
+  </div>
+
+  <footer class="pb-6 px-6 flex flex-wrap gap-2 items-center justify-between">
+    <div class="text-sm text-muted-foreground">
+      <span class="hidden sm:inline-block">{{
+        formType === "signin"
+          ? "Don't have an account?"
+          : "Already have an account?"
+      }}</span>
+      <a
+        class="text-foreground font-medium hover:underline"
+        [routerLink]="formType === 'signin' ? '/signup' : '/signin'"
+      >
+        {{ formType === "signin" ? "Sign up" : "Sign in" }}
+      </a>
+    </div>
+  </footer>
+</div>
