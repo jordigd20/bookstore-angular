@@ -1,11 +1,16 @@
 import {
+  AfterViewInit,
   ChangeDetectionStrategy,
   Component,
   ElementRef,
   EventEmitter,
   Input,
+  OnDestroy,
+  OnInit,
   Output,
   QueryList,
+  Renderer2,
+  ViewChild,
   ViewChildren,
   inject,
 } from '@angular/core';
@@ -23,7 +28,8 @@ import { Observable, Subject, takeUntil } from 'rxjs';
   templateUrl: './auth-form.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class AuthFormComponent {
+export class AuthFormComponent implements OnInit, AfterViewInit, OnDestroy {
+  @ViewChild('googleContainer') googleContainer!: ElementRef<HTMLDivElement>;
   @ViewChildren('formInput') formInputs!: QueryList<
     ElementRef<HTMLInputElement>
   >;
@@ -44,6 +50,8 @@ export class AuthFormComponent {
   @Output() submitHandler: EventEmitter<void> = new EventEmitter<void>();
 
   authService = inject(AuthService);
+  renderer = inject(Renderer2);
+  el = inject(ElementRef);
 
   submitted = false;
   passwordErrors: { [key: string]: string } = {
@@ -77,19 +85,6 @@ export class AuthFormComponent {
   }
 
   ngOnInit() {
-    //@ts-ignore
-    google.accounts.id.initialize({
-      client_id:
-        '240456501479-2tupv41rrq7sq013c8uq01nsm67aqnr4.apps.googleusercontent.com',
-      callback: this.handleGoogleResponse.bind(this),
-    });
-
-    //@ts-ignore
-    google.accounts.id.renderButton(document.getElementById('googleSignin'), {
-      theme: 'outline',
-      size: 'large',
-    });
-
     this.focusInput$
       .pipe(takeUntil(this.destroy$))
       .subscribe((inputToFocus) => {
@@ -103,6 +98,37 @@ export class AuthFormComponent {
           }
         }
       });
+  }
+
+  ngAfterViewInit() {
+    this.renderGoogleDiv().then(() => {
+      //@ts-ignore
+      google.accounts.id.initialize({
+        client_id:
+          '240456501479-2tupv41rrq7sq013c8uq01nsm67aqnr4.apps.googleusercontent.com',
+        callback: this.handleGoogleResponse.bind(this),
+      });
+
+      //@ts-ignore
+      google.accounts.id.renderButton(document.getElementById('googleSignin'), {
+        theme: 'outline',
+        size: 'large',
+      });
+    });
+  }
+
+  renderGoogleDiv() {
+    return new Promise<void>((resolve) => {
+      const googleButton = this.renderer.createElement('div');
+      googleButton.id = 'googleSignin';
+
+      this.renderer.appendChild(
+        this.googleContainer.nativeElement,
+        googleButton
+      );
+
+      resolve();
+    });
   }
 
   ngOnDestroy() {

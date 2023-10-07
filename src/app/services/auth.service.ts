@@ -19,6 +19,7 @@ import { StorageService } from './storage.service';
 import { catchError, map, tap, of, switchMap, throwError } from 'rxjs';
 import { Router } from '@angular/router';
 import { User } from '../interfaces/user.interface';
+import { ToastrService } from 'ngx-toastr';
 
 @Injectable({
   providedIn: 'root',
@@ -28,6 +29,7 @@ export class AuthService {
   private storageService = inject(StorageService);
   private router = inject(Router);
   private ngZone = inject(NgZone);
+  private toast = inject(ToastrService);
 
   // State
   private authState = signal<AuthState>({
@@ -54,9 +56,8 @@ export class AuthService {
   }
 
   handleGoogleSignin(response: GoogleSigninResponse) {
-    this.httpService
-      .executePost<AuthUser>('/auth/google', response)
-      .subscribe((response: AuthUser) => {
+    this.httpService.executePost<AuthUser>('/auth/google', response).subscribe({
+      next: (response: AuthUser) => {
         this.authState.update((state) => ({
           ...state,
           user: response.user,
@@ -67,7 +68,13 @@ export class AuthService {
         this.ngZone.run(() => {
           this.router.navigateByUrl('/');
         });
-      });
+      },
+      error: (error) => {
+        this.showToast(
+          error.error.message ?? 'Something went wrong. Please try again later.'
+        );
+      },
+    });
   }
 
   handleSignin({ email, password }: SigninBody) {
@@ -86,7 +93,11 @@ export class AuthService {
             resolve(true);
           },
           error: (error) => {
-            console.error(error);
+            this.showToast(
+              error.error.message ??
+                'Something went wrong. Please try again later.'
+            );
+
             resolve(false);
           },
         });
@@ -169,5 +180,15 @@ export class AuthService {
       token: null,
       loaded: false,
     }));
+  }
+
+  showToast(message: string) {
+    this.toast.warning(message, '', {
+      toastClass:
+        'relative overflow-hidden w-80 bg-background text-foreground text-sm font-medium border rounded-md shadow p-4 pl-12 m-3 bg-no-repeat bg-[length:24px] bg-[15px_center] pointer-events-auto',
+      positionClass: 'toast-bottom-right',
+      tapToDismiss: true,
+      disableTimeOut: true,
+    });
   }
 }

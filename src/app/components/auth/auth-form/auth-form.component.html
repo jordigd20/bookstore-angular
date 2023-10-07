@@ -13,8 +13,8 @@
   </header>
 
   <div class="px-6 pb-6">
-    <div class="flex justify-center h-10">
-      <div id="googleSignin"></div>
+    <div #googleContainer class="flex justify-center h-10">
+      <!-- <div id="googleSignin"></div> -->
     </div>
 
     <div class="relative my-4 py-2">
@@ -178,5 +178,12 @@
         {{ formType === "signin" ? "Sign up" : "Sign in" }}
       </a>
     </div>
+    <a
+      *ngIf="formType === 'signin'"
+      class="text-sm font-medium hover:underline"
+      routerLink="/reset-password"
+    >
+      Reset password
+    </a>
   </footer>
 </div>
