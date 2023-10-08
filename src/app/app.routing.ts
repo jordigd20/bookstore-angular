@@ -23,5 +23,13 @@ export const routes: Routes = [
       import('./pages/auth/signup/signup.component').then(
         (m) => m.SignupComponent
       ),
-  }
+  },
+  {
+    path: 'forgot-password',
+    canActivate: [NoAuthGuard],
+    loadComponent: () =>
+      import('./pages/auth/forgot-password/forgot-password.component').then(
+        (m) => m.ForgotPasswordComponent
+      ),
+  },
 ];

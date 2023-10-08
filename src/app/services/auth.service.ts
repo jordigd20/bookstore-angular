@@ -172,6 +172,26 @@ export class AuthService {
     );
   }
 
+  handleForgotPassword(email: string) {
+    return new Promise<boolean>((resolve) => {
+      this.httpService
+        .executePost('/auth/forgot-password', { email })
+        .subscribe({
+          next: () => {
+            resolve(true);
+          },
+          error: (error) => {
+            this.showToast(
+              error.error.message ??
+                'Something went wrong. Please try again later.'
+            );
+
+            resolve(false);
+          },
+        });
+    });
+  }
+
   logOut() {
     this.storageService.removeToken();
     this.authState.update((state) => ({
@@ -187,8 +207,7 @@ export class AuthService {
       toastClass:
         'relative overflow-hidden w-80 bg-background text-foreground text-sm font-medium border rounded-md shadow p-4 pl-12 m-3 bg-no-repeat bg-[length:24px] bg-[15px_center] pointer-events-auto',
       positionClass: 'toast-bottom-right',
-      tapToDismiss: true,
-      disableTimeOut: true,
+      tapToDismiss: false,
     });
   }
 }

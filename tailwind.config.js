@@ -47,6 +47,8 @@ module.exports = {
         'zoom-out': 'zoom-out 0.2s cubic-bezier(0.6, 0.6, 0, 1)',
         'accordion-down': 'accordion-down 0.3s cubic-bezier(0.6, 0.6, 0, 1)',
         'accordion-up': 'accordion-up 0.3s cubic-bezier(0.6, 0.6, 0, 1)',
+        'fade-in': 'fade-in 0.3s cubic-bezier(0.6, 0.6, 0, 1)',
+        'fade-out': 'fade-out 0.3s cubic-bezier(0.6, 0.6, 0, 1)',
       },
       keyframes: {
         'slide-in': {
@@ -97,6 +99,22 @@ module.exports = {
           },
           to: {
             height: '0',
+          }
+        },
+        'fade-in': {
+          from: {
+            opacity: 0,
+          },
+          to: {
+            opacity: 1,
+          }
+        },
+        'fade-out': {
+          from: {
+            opacity: 1,
+          },
+          to: {
+            opacity: 0,
           }
         }
       }

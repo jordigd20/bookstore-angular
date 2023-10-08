@@ -47,7 +47,7 @@ export class AuthFormComponent implements OnInit, AfterViewInit, OnDestroy {
   }>;
   @Input({ required: true }) isLoading: boolean = false;
   @Input({ required: true }) focusInput$!: Observable<string>;
-  @Output() submitHandler: EventEmitter<void> = new EventEmitter<void>();
+  @Output() submitHandler = new EventEmitter<void>();
 
   authService = inject(AuthService);
   renderer = inject(Renderer2);
