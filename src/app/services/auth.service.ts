@@ -20,6 +20,7 @@ import { catchError, map, tap, of, switchMap, throwError } from 'rxjs';
 import { Router } from '@angular/router';
 import { User } from '../interfaces/user.interface';
 import { ToastrService } from 'ngx-toastr';
+import { AbstractControl } from '@angular/forms';
 
 @Injectable({
   providedIn: 'root',
@@ -70,7 +71,7 @@ export class AuthService {
         });
       },
       error: (error) => {
-        this.showToast(
+        this.showErrorToast(
           error.error.message ?? 'Something went wrong. Please try again later.'
         );
       },
@@ -93,7 +94,7 @@ export class AuthService {
             resolve(true);
           },
           error: (error) => {
-            this.showToast(
+            this.showErrorToast(
               error.error.message ??
                 'Something went wrong. Please try again later.'
             );
@@ -175,15 +176,51 @@ export class AuthService {
   handleForgotPassword(email: string) {
     return new Promise<boolean>((resolve) => {
       this.httpService
-        .executePost('/auth/forgot-password', { email })
+        .executePost<{ message: string; ok: boolean }>(
+          '/auth/forgot-password',
+          { email }
+        )
         .subscribe({
           next: () => {
             resolve(true);
           },
           error: (error) => {
-            this.showToast(
+            this.showErrorToast(
               error.error.message ??
                 'Something went wrong. Please try again later.'
+            );
+
+            resolve(false);
+          },
+        });
+    });
+  }
+
+  handleResetPassword(
+    password: string,
+    confirmPassword: string,
+    token: string
+  ) {
+    return new Promise<boolean>((resolve) => {
+      this.httpService
+        .executeAuthPost<{ message: string; ok: boolean }>(
+          '/auth/reset-password',
+          { password, confirmPassword },
+          token
+        )
+        .subscribe({
+          next: ({ message }) => {
+            this.showSuccessToast(message);
+            resolve(true);
+          },
+          error: (error) => {
+            const message =
+              error.error.message ??
+              'Something went wrong. Please try again later.';
+            this.showErrorToast(
+              message === 'Unauthorized'
+                ? 'The time to reset your password has expired'
+                : message
             );
 
             resolve(false);
@@ -202,12 +239,41 @@ export class AuthService {
     }));
   }
 
-  showToast(message: string) {
+  showErrorToast(message: string) {
     this.toast.warning(message, '', {
       toastClass:
         'relative overflow-hidden w-80 bg-background text-foreground text-sm font-medium border rounded-md shadow p-4 pl-12 m-3 bg-no-repeat bg-[length:24px] bg-[15px_center] pointer-events-auto',
       positionClass: 'toast-bottom-right',
       tapToDismiss: false,
     });
+  }
+
+  showSuccessToast(message: string) {
+    this.toast.success(message, '', {
+      toastClass:
+        'relative overflow-hidden w-80 bg-background text-foreground text-sm font-medium border rounded-md shadow p-4 pl-12 m-3 bg-no-repeat bg-[length:24px] bg-[15px_center] pointer-events-auto',
+      positionClass: 'toast-bottom-right',
+      tapToDismiss: false,
+    });
+  }
+
+  matchPasswords(password: string, confirmPassword: string) {
+    return (formGroup: AbstractControl): { [key: string]: any } | null => {
+      const control = formGroup.get(password);
+      const matchingControl = formGroup.get(confirmPassword);
+
+      if (!control || !matchingControl) return null;
+
+      if (matchingControl.errors && !matchingControl.errors['mustMatch'])
+        return null;
+
+      if (control.value !== matchingControl.value) {
+        matchingControl.setErrors({ mustMatch: true });
+        return { mustMatch: true };
+      } else {
+        matchingControl.setErrors(null);
+        return null;
+      }
+    };
   }
 }

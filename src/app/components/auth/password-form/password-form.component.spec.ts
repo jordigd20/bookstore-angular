@@ -1,16 +1,16 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { ForgotPasswordFormComponent } from './forgot-password-form.component';
+import { PasswordFormComponent } from './password-form.component';
 
 describe('ForgotPasswordFormComponent', () => {
-  let component: ForgotPasswordFormComponent;
-  let fixture: ComponentFixture<ForgotPasswordFormComponent>;
+  let component: PasswordFormComponent;
+  let fixture: ComponentFixture<PasswordFormComponent>;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [ForgotPasswordFormComponent]
+      imports: [PasswordFormComponent]
     });
-    fixture = TestBed.createComponent(ForgotPasswordFormComponent);
+    fixture = TestBed.createComponent(PasswordFormComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

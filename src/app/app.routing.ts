@@ -1,6 +1,7 @@
 import { Routes } from '@angular/router';
 import { HomeComponent } from './pages/home/home.component';
 import { NoAuthGuard } from './guards/noauth.guard';
+import { ResetPasswordGuard } from './guards/reset-password.guard';
 
 export const routes: Routes = [
   {
@@ -30,6 +31,14 @@ export const routes: Routes = [
     loadComponent: () =>
       import('./pages/auth/forgot-password/forgot-password.component').then(
         (m) => m.ForgotPasswordComponent
+      ),
+  },
+  {
+    path: 'reset-password',
+    canActivate: [ResetPasswordGuard],
+    loadComponent: () =>
+      import('./pages/auth/reset-password/reset-password.component').then(
+        (m) => m.ResetPasswordComponent
       ),
   },
 ];

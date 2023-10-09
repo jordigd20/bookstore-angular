@@ -9,9 +9,9 @@ import {
 import { CommonModule } from '@angular/common';
 import { RouterLink } from '@angular/router';
 import { AuthBackgroundComponent } from '../../../components/auth/auth-background/auth-background.component';
-import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
+import { FormBuilder, Validators } from '@angular/forms';
 import { AuthService } from 'src/app/services/auth.service';
-import { ForgotPasswordFormComponent } from '../../../components/auth/forgot-password-form/forgot-password-form.component';
+import { PasswordFormComponent } from '../../../components/auth/password-form/password-form.component';
 import { Subject } from 'rxjs';
 import { EmailSentComponent } from '../../../components/auth/email-sent/email-sent.component';
 
@@ -22,8 +22,7 @@ import { EmailSentComponent } from '../../../components/auth/email-sent/email-se
     CommonModule,
     RouterLink,
     AuthBackgroundComponent,
-    ReactiveFormsModule,
-    ForgotPasswordFormComponent,
+    PasswordFormComponent,
     EmailSentComponent,
   ],
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -38,7 +37,7 @@ export class ForgotPasswordComponent {
   forgotPasswordForm = this.fb.group({
     email: ['', [Validators.required, Validators.email]],
   });
-  focusInput = new Subject<void>();
+  focusInput = new Subject<string>();
   isLoading = signal(false);
   emailSent = signal(false);
 
@@ -48,7 +47,7 @@ export class ForgotPasswordComponent {
 
   async onSubmit() {
     if (this.email?.invalid) {
-      this.focusInput.next();
+      this.focusInput.next('email');
       return;
     }
 
@@ -67,7 +66,7 @@ export class ForgotPasswordComponent {
 
   async resendEmail() {
     if (this.email?.invalid) {
-      this.authService.showToast('Something went wrong. Please try again.');
+      this.authService.showErrorToast('Something went wrong. Please try again.');
       return;
     }
 
