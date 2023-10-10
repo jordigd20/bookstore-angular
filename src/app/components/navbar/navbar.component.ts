@@ -3,17 +3,23 @@ import {
   Component,
   ElementRef,
   QueryList,
+  ViewChild,
   ViewChildren,
   inject,
 } from '@angular/core';
 import { NgFor, NgIf } from '@angular/common';
 import { RouterLink } from '@angular/router';
-import { CdkMenuTrigger, CdkMenu, CdkMenuItem } from '@angular/cdk/menu';
+import {
+  CdkMenuTrigger,
+  CdkMenu,
+  CdkMenuItem,
+} from '@angular/cdk/menu';
 import { Dialog, DialogModule } from '@angular/cdk/dialog';
 import { ConnectionPositionPair } from '@angular/cdk/overlay';
-import { DropdownMenuComponent } from '../dropdown-menu/dropdown-menu.component';
+import { HoverDropdownMenuComponent } from '../hover-dropdown-menu/hover-dropdown-menu.component';
 import { NavbarMobileComponent } from '../navbar-mobile/navbar-mobile.component';
 import { AuthService } from '../../services/auth.service';
+import { AccountMenuComponent } from '../account-menu/account-menu.component';
 
 export interface NavigationBar {
   id: string;
@@ -32,9 +38,10 @@ export interface NavigationBar {
     CdkMenuTrigger,
     CdkMenu,
     CdkMenuItem,
-    DropdownMenuComponent,
+    HoverDropdownMenuComponent,
     NavbarMobileComponent,
     DialogModule,
+    AccountMenuComponent,
   ],
   templateUrl: './navbar.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -44,6 +51,8 @@ export class NavbarComponent {
   @ViewChildren('buttonOrigin') buttonsTrigger!: QueryList<
     ElementRef<HTMLButtonElement>
   >;
+  @ViewChild('accountDropdownMenu')
+  accountDropdownMenu!: ElementRef<HTMLDivElement>;
 
   dialog = inject(Dialog);
   authService = inject(AuthService);
@@ -73,11 +82,16 @@ export class NavbarComponent {
       ],
     },
   ];
-
   dropdownPosition = [
     new ConnectionPositionPair(
       { originX: 'center', originY: 'bottom' },
       { overlayX: 'center', overlayY: 'top' }
+    ),
+  ];
+  accountMenuPosition = [
+    new ConnectionPositionPair(
+      { originX: 'end', originY: 'bottom' },
+      { overlayX: 'end', overlayY: 'top' }
     ),
   ];
 

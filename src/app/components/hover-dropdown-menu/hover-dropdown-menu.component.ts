@@ -26,13 +26,13 @@ import {
 import { NavigationBar } from '../navbar/navbar.component';
 
 @Component({
-  selector: 'dropdown-menu',
+  selector: 'hover-dropdown-menu',
   standalone: true,
   imports: [NgFor, RouterLink],
-  templateUrl: './dropdown-menu.component.html',
+  templateUrl: './hover-dropdown-menu.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class DropdownMenuComponent implements OnInit, OnDestroy {
+export class HoverDropdownMenuComponent implements OnInit, OnDestroy {
   @ViewChild('template', { static: true }) template!: TemplateRef<any>;
   @ViewChild('menu') menu!: ElementRef<HTMLUListElement>;
 

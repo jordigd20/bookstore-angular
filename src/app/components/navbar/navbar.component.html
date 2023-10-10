@@ -37,7 +37,6 @@
           [cdkMenuTriggerFor]="dropdownMenu.template"
           [cdkMenuTriggerData]="{ id: item.id }"
           [cdkMenuPosition]="dropdownPosition"
-          disabled
           [id]="item.id"
           class="px-4 py-2 text-sm font-medium rounded-md flex items-center gap-1 transition-colors hover:bg-accent hover:cursor-pointer group data-[state=opened]:bg-accent"
           data-state="closed"
@@ -61,14 +60,14 @@
             </g>
           </svg>
 
-          <dropdown-menu
+          <hover-dropdown-menu
             #dropdownMenu
             [data]="item.children"
             [dropdownId]="item.id"
             [dropdownOrigin]="buttonOrigin"
             (open)="openDropdown($event)"
             (close)="closeDropdown($event)"
-          ></dropdown-menu>
+          ></hover-dropdown-menu>
         </button>
       </ng-container>
     </nav>
@@ -123,36 +122,20 @@
 
     <ng-template #signedIn>
       <button
-        class="py-2 px-3 border-[1px] rounded-md shadow-sm bg-primary text-sm text-primary-foreground transition-colors hover:bg-primary/90"
-        (click)="authService.logOut()"
+        #buttonOrigin
+        [cdkMenuTriggerFor]="accountMenu.template"
+        [cdkMenuPosition]="accountMenuPosition"
+        [cdkMenuTriggerData]="{ id: 'account' }"
+        class="w-9 h-9 rounded-full overflow-hidden transition-shadow shadow-sm group"
       >
-        Sign Out
+        <img src="../../../assets/user.webp" alt="User image" />
+
+        <app-account-menu
+          #accountMenu
+          [fullName]="authService.userFullName()"
+          (logout)="authService.logOut()"
+        />
       </button>
     </ng-template>
-    <!-- <button
-      class="py-1 px-1.5 border-[1px] rounded-md text-foreground shadow-sm transition-colors hover:bg-accent"
-    >
-      <svg
-        xmlns="http://www.w3.org/2000/svg"
-        width="24"
-        height="24"
-        fill="none"
-        viewBox="0 0 24 24"
-      >
-        <path
-          stroke="currentColor"
-          stroke-linecap="round"
-          stroke-linejoin="round"
-          stroke-width="2"
-          d="M16.125 6.75c-.184 2.478-2.063 4.5-4.126 4.5-2.062 0-3.944-2.021-4.124-4.5-.188-2.578 1.64-4.5 4.124-4.5 2.485 0 4.313 1.969 4.126 4.5Z"
-        />
-        <path
-          stroke="currentColor"
-          stroke-miterlimit="10"
-          stroke-width="2"
-          d="M12 14.25c-4.078 0-8.217 2.25-8.983 6.497-.092.512.197 1.003.733 1.003h16.5c.536 0 .826-.491.734-1.003C20.217 16.5 16.078 14.25 12 14.25Z"
-        />
-      </svg>
-    </button> -->
   </div>
 </header>

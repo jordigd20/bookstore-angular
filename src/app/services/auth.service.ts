@@ -42,6 +42,10 @@ export class AuthService {
 
   // Selectors
   user = computed(() => this.authState().user);
+  userFullName = computed(
+    () =>
+      `${this.authState().user!.firstName} ${this.authState().user!.lastName}`
+  );
   token = computed(() => this.authState().token);
   loaded = computed(() => this.authState().loaded);
   error = computed(() => this.authState().error);

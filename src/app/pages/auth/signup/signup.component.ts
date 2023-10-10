@@ -25,8 +25,14 @@ export class SignupComponent {
   router = inject(Router);
 
   signupForm = this.fb.group({
-    firstName: ['', [Validators.required, Validators.minLength(2)]],
-    lastName: ['', [Validators.required, Validators.minLength(2)]],
+    firstName: [
+      '',
+      [Validators.required, Validators.minLength(2), Validators.maxLength(25)],
+    ],
+    lastName: [
+      '',
+      [Validators.required, Validators.minLength(2), Validators.maxLength(50)],
+    ],
     email: ['', [Validators.required, Validators.email]],
     password: [
       '',
@@ -45,13 +51,12 @@ export class SignupComponent {
   focusInput = new Subject<string>();
 
   async onSubmit() {
-
-    if(this.signupForm.get('firstName')?.invalid) {
+    if (this.signupForm.get('firstName')?.invalid) {
       this.focusInput.next('firstName');
       return;
     }
 
-    if(this.signupForm.get('lastName')?.invalid) {
+    if (this.signupForm.get('lastName')?.invalid) {
       this.focusInput.next('lastName');
       return;
     }
