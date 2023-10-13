@@ -11,7 +11,7 @@ export class HttpService {
   constructor(private http: HttpClient) {}
 
   executeGet<T>(endpoint: string, params: any = {}) {
-    return this.http.get<T>(`${API_URL}${endpoint}`, params);
+    return this.http.get<T>(`${API_URL}${endpoint}`, { params });
   }
 
   executeAuthGet<T>(endpoint: string, params: any, token: string) {

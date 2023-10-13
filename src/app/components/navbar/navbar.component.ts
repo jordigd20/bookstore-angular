@@ -9,17 +9,14 @@ import {
 } from '@angular/core';
 import { NgFor, NgIf } from '@angular/common';
 import { RouterLink } from '@angular/router';
-import {
-  CdkMenuTrigger,
-  CdkMenu,
-  CdkMenuItem,
-} from '@angular/cdk/menu';
+import { CdkMenuTrigger, CdkMenu, CdkMenuItem } from '@angular/cdk/menu';
 import { Dialog, DialogModule } from '@angular/cdk/dialog';
 import { ConnectionPositionPair } from '@angular/cdk/overlay';
 import { HoverDropdownMenuComponent } from '../hover-dropdown-menu/hover-dropdown-menu.component';
 import { NavbarMobileComponent } from '../navbar-mobile/navbar-mobile.component';
 import { AuthService } from '../../services/auth.service';
 import { AccountMenuComponent } from '../account-menu/account-menu.component';
+import { SideCartComponent } from '../side-cart/cart/side-cart.component';
 
 export interface NavigationBar {
   id: string;
@@ -168,6 +165,15 @@ export class NavbarComponent {
       data: {
         navigation: this.navigation,
       },
+    });
+  }
+
+  openCart() {
+    this.dialog.open(SideCartComponent, {
+      ariaLabelledBy: 'Shopping cart',
+      ariaDescribedBy: 'Shopping cart',
+      backdropClass: ['backdrop-blur-sm', 'bg-black/5'],
+      disableClose: true
     });
   }
 }

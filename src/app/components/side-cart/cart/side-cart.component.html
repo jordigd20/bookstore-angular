@@ -1,0 +1,98 @@
+<div
+  #container
+  class="fixed bg-background py-6 pl-6 m-0 right-0 min-h-full w-full sm:max-w-lg inset-y-0 border-l flex flex-col gap-2 animate-slide-in-right"
+  (animationend)="onDialogAnimationEnd($event)"
+>
+  <div class="pr-6">
+    <h2 class="font-semibold text-lg mb-2">Cart (1)</h2>
+
+    <div
+      role="separator"
+      aria-orientation="horizontal"
+      class="-mx-1 my-1 h-px bg-border"
+    ></div>
+  </div>
+
+  <div class="w-full h-full overflow-hidden overflow-y-auto scrollbar">
+    <div class="pr-6 w-full h-full flex flex-col gap-4">
+      <app-cart-item />
+    </div>
+  </div>
+
+  <div class="pr-6">
+    <div
+      role="separator"
+      aria-orientation="horizontal"
+      class="-mx-1 my-1 h-px bg-border"
+    ></div>
+    <div class="mt-4 space-y-1.5 text-sm">
+      <div class="flex justify-between">
+        <span>Shipping</span>
+        <span>None</span>
+      </div>
+      <div class="flex justify-between">
+        <span>Taxes</span>
+        <span>Calculated at checkout</span>
+      </div>
+      <div class="flex justify-between">
+        <span>Total</span>
+        <span>25.99€</span>
+      </div>
+      <a
+        routerLink="/cart"
+        class="w-full flex justify-center items-center gap-2 border rounded-md text-xs font-medium bg-primary text-primary-foreground px-4 py-2 transition-colors hover:bg-primary/90 disabled:opacity-50"
+      >
+        Continue to checkout
+      </a>
+    </div>
+  </div>
+
+  <ng-template #emptyCart>
+    <div class="h-full flex flex-col justify-center items-center gap-1">
+      <svg
+        xmlns="http://www.w3.org/2000/svg"
+        width="24"
+        height="24"
+        fill="none"
+        viewBox="0 0 24 24"
+        class="w-16 h-16 text-muted-foreground"
+      >
+        <path
+          fill="currentColor"
+          d="M21.822 7.431A1 1 0 0 0 21 7H7.333L6.179 4.23A1.994 1.994 0 0 0 4.333 3H2v2h2.333l4.744 11.385A1 1 0 0 0 10 17h8c.417 0 .79-.259.937-.648l3-8a.999.999 0 0 0-.115-.921ZM17.307 15h-6.64l-2.5-6h11.39l-2.25 6ZM10.5 21a1.5 1.5 0 1 0 0-3 1.5 1.5 0 0 0 0 3ZM17.5 21a1.5 1.5 0 1 0 0-3 1.5 1.5 0 0 0 0 3Z"
+        ></path>
+      </svg>
+      <p class="text-lg font-medium text-muted-foreground">
+        Your cart is empty
+      </p>
+      <a
+        class="font-medium text-sm text-muted-foreground hover:underline"
+        routerLink="/shop"
+      >
+        Add items to your cart to checkout
+      </a>
+    </div>
+  </ng-template>
+
+  <button
+    class="absolute right-4 top-4 rounded-md transition-opacity opacity-70 ring-offset-background focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 hover:opacity-100"
+    (click)="closeModal()"
+  >
+    <svg
+      width="15"
+      height="15"
+      viewBox="0 0 15 15"
+      fill="none"
+      xmlns="http://www.w3.org/2000/svg"
+      class="h-4 w-4"
+    >
+      <path
+        d="M11.7816 4.03157C12.0062 3.80702 12.0062 3.44295 11.7816 3.2184C11.5571 2.99385 11.193 2.99385 10.9685 3.2184L7.50005 6.68682L4.03164 3.2184C3.80708 2.99385 3.44301 2.99385 3.21846 3.2184C2.99391 3.44295 2.99391 3.80702 3.21846 4.03157L6.68688 7.49999L3.21846 10.9684C2.99391 11.193 2.99391 11.557 3.21846 11.7816C3.44301 12.0061 3.80708 12.0061 4.03164 11.7816L7.50005 8.31316L10.9685 11.7816C11.193 12.0061 11.5571 12.0061 11.7816 11.7816C12.0062 11.557 12.0062 11.193 11.7816 10.9684L8.31322 7.49999L11.7816 4.03157Z"
+        fill="currentColor"
+        fill-rule="evenodd"
+        clip-rule="evenodd"
+      ></path>
+    </svg>
+    <span class="sr-only">Close</span>
+  </button>
+</div>
