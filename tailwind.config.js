@@ -47,6 +47,8 @@ module.exports = {
         'slide-out-right': 'slide-out-right 0.3s cubic-bezier(0.6, 0.6, 0, 1)',
         'zoom-in': 'zoom-in 0.3s cubic-bezier(0.6, 0.6, 0, 1)',
         'zoom-out': 'zoom-out 0.2s cubic-bezier(0.6, 0.6, 0, 1)',
+        'scale-in': 'scale-in 0.3s cubic-bezier(0.6, 0.6, 0, 1)',
+        'scale-out': 'scale-out 0.2s cubic-bezier(0.6, 0.6, 0, 1)',
         'accordion-down': 'accordion-down 0.3s cubic-bezier(0.6, 0.6, 0, 1)',
         'accordion-up': 'accordion-up 0.3s cubic-bezier(0.6, 0.6, 0, 1)',
         'fade-in': 'fade-in 0.3s cubic-bezier(0.6, 0.6, 0, 1)',
@@ -100,6 +102,26 @@ module.exports = {
           },
           to: {
             transform: 'scale(0.95)',
+            opacity: 0,
+          }
+        },
+        'scale-in': {
+          from: {
+            transform: 'scale(0.85)',
+            opacity: 0,
+          },
+          to: {
+            transform: 'scale(1)',
+            opacity: 1,
+          }
+        },
+        'scale-out': {
+          from: {
+            transform: 'scale(1)',
+            opacity: 1,
+          },
+          to: {
+            transform: 'scale(0.85)',
             opacity: 0,
           }
         },

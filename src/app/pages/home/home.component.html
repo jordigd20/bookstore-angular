@@ -6,7 +6,9 @@
     <section
       class="py-12 sm:py-16 xl:py-24 flex gap-4 md:gap-2 flex-col-reverse md:flex-row"
     >
-      <div class="flex flex-col gap-4 justify-center items-start max-w-[38.5rem]">
+      <div
+        class="flex flex-col gap-4 justify-center items-start max-w-[38.5rem]"
+      >
         <h1 class="font-bold text-4xl md:text-5xl lg:text-6xl xl:text-7xl">
           Find Your Next Book
         </h1>
@@ -65,16 +67,16 @@
       <div
         class="py-2 grid grid-cols-1 xxs:grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 xl:grid-cols-6"
       >
-        <ng-container *ngFor="let i of [1, 2, 3, 4, 5, 6]; even as isEven">
-          <app-vertical-card [isEven]="isEven" />
+        <ng-container *ngFor="let book of bestRatedBooks()">
+          <app-vertical-card [book]="book" />
         </ng-container>
       </div>
     </app-home-section>
 
     <app-home-section title="Bestsellers" link="/" buttonText="See more">
       <div class="py-2 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3">
-        <ng-container *ngFor="let i of [1, 2, 3, 4, 5, 6]; even as isEven">
-          <app-horizontal-card [isEven]="isEven" />
+        <ng-container *ngFor="let book of bestsellerBooks()">
+          <app-horizontal-card [book]="book" />
         </ng-container>
       </div>
     </app-home-section>
@@ -83,8 +85,8 @@
       <div
         class="py-2 grid grid-cols-1 xxs:grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 xl:grid-cols-6"
       >
-        <ng-container *ngFor="let i of [1, 2, 3, 4, 5, 6]; even as isEven">
-          <app-vertical-card [isEven]="isEven" />
+        <ng-container *ngFor="let book of onSaleBooks()">
+          <app-vertical-card [book]="book" />
         </ng-container>
       </div>
     </app-home-section>

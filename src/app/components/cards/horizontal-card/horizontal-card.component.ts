@@ -1,6 +1,7 @@
 import { Component, Input } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterLink } from '@angular/router';
+import { Book } from '../../../interfaces/book.interface';
 
 @Component({
   selector: 'app-horizontal-card',
@@ -9,5 +10,5 @@ import { RouterLink } from '@angular/router';
   templateUrl: './horizontal-card.component.html',
 })
 export class HorizontalCardComponent {
-  @Input() isEven: boolean = false;
+  @Input({ required: true }) book!: Book;
 }
