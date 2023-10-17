@@ -7,10 +7,11 @@ import { provideHttpClient } from '@angular/common/http';
 import { provideToastr } from 'ngx-toastr';
 import { provideAnimations } from '@angular/platform-browser/animations';
 import { ToastComponent } from './app/components/toast/toast.component';
+import { DialogModule } from '@angular/cdk/dialog';
 
 bootstrapApplication(AppComponent, {
   providers: [
-    importProvidersFrom(BrowserModule),
+    importProvidersFrom(BrowserModule, DialogModule),
     provideRouter(routes),
     provideHttpClient(),
     provideAnimations(),

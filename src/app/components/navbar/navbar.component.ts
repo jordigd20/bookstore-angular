@@ -17,6 +17,7 @@ import { NavbarMobileComponent } from '../navbar-mobile/navbar-mobile.component'
 import { AuthService } from '../../services/auth.service';
 import { AccountMenuComponent } from '../account-menu/account-menu.component';
 import { SideCartComponent } from '../side-cart/cart/side-cart.component';
+import { CartService } from '../../services/cart.service';
 
 export interface NavigationBar {
   id: string;
@@ -37,7 +38,6 @@ export interface NavigationBar {
     CdkMenuItem,
     HoverDropdownMenuComponent,
     NavbarMobileComponent,
-    DialogModule,
     AccountMenuComponent,
   ],
   templateUrl: './navbar.component.html',
@@ -53,6 +53,7 @@ export class NavbarComponent {
 
   dialog = inject(Dialog);
   authService = inject(AuthService);
+  cartService = inject(CartService);
 
   navigation: NavigationBar[] = [
     { id: 'home', label: 'Home', link: '/' },
@@ -173,7 +174,7 @@ export class NavbarComponent {
       ariaLabelledBy: 'Shopping cart',
       ariaDescribedBy: 'Shopping cart',
       backdropClass: ['backdrop-blur-sm', 'bg-black/5'],
-      disableClose: true
+      disableClose: true,
     });
   }
 }

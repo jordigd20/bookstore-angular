@@ -3,73 +3,95 @@
   class="fixed bg-background py-6 pl-6 m-0 right-0 min-h-full w-full sm:max-w-lg inset-y-0 border-l flex flex-col gap-2 animate-slide-in-right"
   (animationend)="onDialogAnimationEnd($event)"
 >
-  <div class="pr-6">
-    <h2 class="font-semibold text-lg mb-2">Cart (1)</h2>
+  <ng-container *ngIf="cartService.cartId(); else signIn">
+    <ng-container *ngIf="cartService.cart().length > 0; else emptyCart">
+      <div class="pr-6">
+        <h2 class="font-semibold text-lg mb-2">
+          Cart ({{ cartService.cart().length }})
+        </h2>
 
-    <div
-      role="separator"
-      aria-orientation="horizontal"
-      class="-mx-1 my-1 h-px bg-border"
-    ></div>
-  </div>
-
-  <div class="w-full h-full overflow-hidden overflow-y-auto scrollbar">
-    <div class="pr-6 w-full h-full flex flex-col gap-4">
-      <app-cart-item />
-    </div>
-  </div>
-
-  <div class="pr-6">
-    <div
-      role="separator"
-      aria-orientation="horizontal"
-      class="-mx-1 my-1 h-px bg-border"
-    ></div>
-    <div class="mt-4 space-y-1.5 text-sm">
-      <div class="flex justify-between">
-        <span>Shipping</span>
-        <span>None</span>
+        <div
+          role="separator"
+          aria-orientation="horizontal"
+          class="-mx-1 my-1 h-px bg-border"
+        ></div>
       </div>
-      <div class="flex justify-between">
-        <span>Taxes</span>
-        <span>Calculated at checkout</span>
-      </div>
-      <div class="flex justify-between">
-        <span>Total</span>
-        <span>25.99€</span>
-      </div>
-      <a
-        routerLink="/cart"
-        class="w-full flex justify-center items-center gap-2 border rounded-md text-xs font-medium bg-primary text-primary-foreground px-4 py-2 transition-colors hover:bg-primary/90 disabled:opacity-50"
-      >
-        Continue to checkout
-      </a>
-    </div>
-  </div>
 
-  <ng-template #emptyCart>
-    <div class="h-full flex flex-col justify-center items-center gap-1">
-      <svg
-        xmlns="http://www.w3.org/2000/svg"
-        width="24"
-        height="24"
-        fill="none"
-        viewBox="0 0 24 24"
-        class="w-16 h-16 text-muted-foreground"
-      >
-        <path
-          fill="currentColor"
-          d="M21.822 7.431A1 1 0 0 0 21 7H7.333L6.179 4.23A1.994 1.994 0 0 0 4.333 3H2v2h2.333l4.744 11.385A1 1 0 0 0 10 17h8c.417 0 .79-.259.937-.648l3-8a.999.999 0 0 0-.115-.921ZM17.307 15h-6.64l-2.5-6h11.39l-2.25 6ZM10.5 21a1.5 1.5 0 1 0 0-3 1.5 1.5 0 0 0 0 3ZM17.5 21a1.5 1.5 0 1 0 0-3 1.5 1.5 0 0 0 0 3Z"
-        ></path>
-      </svg>
-      <p class="text-lg font-medium text-muted-foreground">
-        Your cart is empty
+      <div class="w-full h-full overflow-hidden overflow-y-auto scrollbar">
+        <div class="pr-6 w-full h-full flex flex-col gap-4">
+          <ng-container *ngFor="let cartBook of cartService.cart()">
+            <app-cart-item [cartBook]="cartBook" />
+          </ng-container>
+        </div>
+      </div>
+
+      <div class="pr-6">
+        <div
+          role="separator"
+          aria-orientation="horizontal"
+          class="-mx-1 my-1 h-px bg-border"
+        ></div>
+        <div class="mt-4 space-y-1.5 text-sm">
+          <div class="flex justify-between">
+            <span>Shipping</span>
+            <span>None</span>
+          </div>
+          <div class="flex justify-between">
+            <span>Taxes</span>
+            <span>Calculated at checkout</span>
+          </div>
+          <div class="flex justify-between">
+            <span>Total</span>
+            <span>{{ cartService.total() | number : "1.2-2" }}€</span>
+          </div>
+          <a
+            routerLink="/cart"
+            class="w-full flex justify-center items-center gap-2 border rounded-md text-xs font-medium bg-primary text-primary-foreground px-4 py-2 transition-colors hover:bg-primary/90 disabled:opacity-50"
+          >
+            Continue to checkout
+          </a>
+        </div>
+      </div>
+    </ng-container>
+
+    <ng-template #emptyCart>
+      <div class="h-full flex flex-col justify-center items-center gap-2">
+        <img
+          src="../../../../assets/cart-image.svg"
+          alt="Image of a person holding a paper next to an empty shopping cart"
+          width="300"
+          height="400"
+        />
+        <p class="text-lg font-medium mt-2">
+          Your cart is empty
+        </p>
+        <a
+          class="font-medium text-sm underline"
+          routerLink="/shop"
+        >
+          Add items to your cart to checkout
+        </a>
+      </div>
+    </ng-template>
+  </ng-container>
+
+  <ng-template #signIn>
+    <div class="h-full flex flex-col justify-center items-center gap-2 pr-6">
+      <img
+        src="../../../../assets/auth-image.svg"
+        alt="Image of a person holding a circle with an authentication symbol"
+        width="300"
+        height="400"
+      />
+      <p>
+        You need to sign in before adding books to your cart.
       </p>
       <a
-        class="font-medium text-sm text-muted-foreground hover:underline"
-        routerLink="/shop"
+        routerLink="/signin"
+        class="py-2 px-4 border-[1px] rounded-md shadow-sm bg-primary text-sm text-primary-foreground transition-colors hover:bg-primary/90"
+        (click)="dialogRef.close()"
       >
-        Add items to your cart to checkout
+        Sign in
       </a>
     </div>
   </ng-template>

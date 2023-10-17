@@ -1,7 +1,15 @@
-import { Component, ElementRef, Input, ViewChild, signal } from '@angular/core';
+import {
+  Component,
+  ElementRef,
+  Input,
+  ViewChild,
+  inject,
+  signal,
+} from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterLink } from '@angular/router';
 import { Book } from '../../../interfaces/book.interface';
+import { CartService } from '../../../services/cart.service';
 
 @Component({
   selector: 'app-vertical-card',
@@ -11,7 +19,11 @@ import { Book } from '../../../interfaces/book.interface';
 })
 export class VerticalCardComponent {
   @ViewChild('categoryTag') categoryTag!: ElementRef<HTMLDivElement>;
+
   @Input({ required: true }) book!: Book;
+
+  cartService = inject(CartService);
+  isLoading = signal(false);
 
   animateHover(type: string) {
     if (type === 'enter') {
@@ -21,5 +33,11 @@ export class VerticalCardComponent {
     if (type === 'leave') {
       this.categoryTag.nativeElement.setAttribute('data-state', 'inactive');
     }
+  }
+
+  async addToCart(idBook: number) {
+    this.isLoading.set(true);
+    await this.cartService.addToCart(idBook);
+    this.isLoading.set(false);
   }
 }

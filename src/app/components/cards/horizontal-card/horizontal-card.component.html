@@ -46,8 +46,24 @@
       <span>({{ book.averageRating }})</span>
     </div>
     <button
-      class="mt-2 py-2 px-3 border-[1px] rounded-md shadow-sm bg-primary text-sm text-primary-foreground transition-colors hover:bg-primary/90"
+      class="flex items-center justify-center gap-2 mt-2 py-2 px-3 border-[1px] rounded-md shadow-sm bg-primary text-sm text-primary-foreground transition-colors hover:bg-primary/90 disabled:opacity-50"
+      [disabled]="isLoading()"
+      (click)="addToCart(book.id)"
     >
+      <svg
+        *ngIf="isLoading()"
+        xmlns="http://www.w3.org/2000/svg"
+        width="20"
+        height="20"
+        viewBox="0 0 24 24"
+        class="animate-spin"
+      >
+        <path
+          fill="currentColor"
+          fill-opacity=".9"
+          d="M12 2.25c-5.384 0-9.75 4.366-9.75 9.75s4.366 9.75 9.75 9.75v-2.438A7.312 7.312 0 1 1 19.313 12h2.437c0-5.384-4.366-9.75-9.75-9.75Z"
+        />
+      </svg>
       Add to cart
     </button>
   </div>
