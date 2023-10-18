@@ -68,7 +68,6 @@ import {
 })
 export class ToastComponent extends Toast {
   action(event: Event) {
-    console.log('ToastComponent.action', event);
     event.stopPropagation();
     this.toastPackage.triggerAction();
     return false;

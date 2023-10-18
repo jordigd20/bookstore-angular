@@ -244,9 +244,9 @@ export class AuthService {
   }
 
   showErrorToast(message: string) {
-    this.toast.warning(message, '', {
+    this.toast.error(message, '', {
       toastClass:
-        'relative overflow-hidden w-80 bg-background text-foreground text-sm font-medium border rounded-md shadow p-4 pl-12 m-3 bg-no-repeat bg-[length:24px] bg-[15px_center] pointer-events-auto',
+        'relative overflow-hidden w-80 bg-background text-foreground text-sm font-medium border border-border rounded-md shadow p-4 pl-12 m-3 bg-no-repeat bg-[length:24px] bg-[15px_center] pointer-events-auto',
       positionClass: 'toast-bottom-right',
       tapToDismiss: false,
     });
@@ -255,7 +255,7 @@ export class AuthService {
   showSuccessToast(message: string) {
     this.toast.success(message, '', {
       toastClass:
-        'relative overflow-hidden w-80 bg-background text-foreground text-sm font-medium border rounded-md shadow p-4 pl-12 m-3 bg-no-repeat bg-[length:24px] bg-[15px_center] pointer-events-auto',
+        'relative overflow-hidden w-80 bg-background text-foreground text-sm font-medium border border-border rounded-md shadow p-4 pl-12 m-3 bg-no-repeat bg-[length:24px] bg-[15px_center] pointer-events-auto',
       positionClass: 'toast-bottom-right',
       tapToDismiss: false,
     });
