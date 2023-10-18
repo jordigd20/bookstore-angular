@@ -1,7 +1,7 @@
 <app-navbar
   class="block sticky top-0 z-50 w-full border-b border-border bg-background"
 />
-<main>
+<main class="text-primary">
   <div class="container py-8">
     <section
       class="py-12 sm:py-16 xl:py-24 flex gap-4 md:gap-2 flex-col-reverse md:flex-row"
@@ -19,7 +19,7 @@
           something special waiting just for you.
         </p>
         <button
-          class="py-2 px-3 border-[1px] rounded-md shadow-sm bg-primary text-primary-foreground transition-colors hover:bg-primary/90"
+          class="py-2 px-3 rounded-md shadow-sm bg-primary text-primary-foreground transition-colors hover:bg-primary/90"
         >
           Explore now
         </button>
@@ -43,7 +43,7 @@
       >
         <a
           *ngFor="let item of categories"
-          class="group relative w-full rounded-md h-48 overflow-hidden border shadow"
+          class="group relative w-full rounded-md h-48 overflow-hidden border border-border shadow"
           [routerLink]="item.link"
         >
           <div

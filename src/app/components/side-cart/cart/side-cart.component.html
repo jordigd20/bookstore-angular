@@ -1,6 +1,6 @@
 <div
   #container
-  class="fixed bg-background py-6 pl-6 m-0 right-0 min-h-full w-full sm:max-w-lg inset-y-0 border-l flex flex-col gap-2 animate-slide-in-right"
+  class="fixed bg-background text-primary py-6 pl-6 m-0 right-0 min-h-full w-full sm:max-w-lg inset-y-0 border-l border-border flex flex-col gap-2 animate-slide-in-right"
   (animationend)="onDialogAnimationEnd($event)"
 >
   <ng-container *ngIf="cartService.cartId(); else signIn">

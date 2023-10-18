@@ -2,6 +2,7 @@ import {
   Component,
   ElementRef,
   HostListener,
+  OnInit,
   QueryList,
   ViewChild,
   ViewChildren,
@@ -19,7 +20,7 @@ import { NavigationBar } from '../navbar/navbar.component';
   imports: [CommonModule, NgFor, NgIf, RouterLink, CdkAccordionModule],
   templateUrl: './navbar-mobile.component.html',
 })
-export class NavbarMobileComponent {
+export class NavbarMobileComponent implements OnInit {
   @ViewChild('container') container!: ElementRef<HTMLDivElement>;
   @ViewChildren('accordionContent') accordionsContent!: QueryList<
     ElementRef<HTMLDivElement>
@@ -31,6 +32,14 @@ export class NavbarMobileComponent {
   accordionContentHeights: { [key: string]: string } = {
     categories: '316px',
   };
+
+  ngOnInit() {
+    this.dialogRef.outsidePointerEvents.subscribe((event: MouseEvent) => {
+      if (event.type === 'click') {
+        this.container.nativeElement.classList.add('animate-slide-out');
+      }
+    });
+  }
 
   @HostListener('window:keyup.esc') onKeyUp() {
     this.container.nativeElement.classList.add('animate-slide-out');

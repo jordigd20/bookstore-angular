@@ -1,88 +1,88 @@
 <ng-template #template>
   <div
-  #accountDropdownMenu
-  class="border shadow-sm rounded-md bg-background text-sm p-1 mt-1 flex flex-col xxs:w-[15rem] animate-zoom-in group-aria-[expanded=false]:animate-zoom-out"
->
-  <div class="px-2 py-1.5">
-    <p class="text-sm leading-none text-muted-foreground truncate">
-      {{ fullName }}
-    </p>
-  </div>
-
-  <div
-    role="separator"
-    aria-orientation="horizontal"
-    class="-mx-1 my-1 h-px bg-muted"
-  ></div>
-
-  <div role="group">
-    <a
-      class="px-2 py-1.5 rounded-sm flex items-center hover:bg-accent"
-      routerLink="/"
-      cdkMenuItem
-    >
-      <svg
-        xmlns="http://www.w3.org/2000/svg"
-        width="24"
-        height="24"
-        viewBox="0 0 24 24"
-        class="mr-2 h-5 w-5"
-        aria-hidden="true"
-      >
-        <path
-          fill="currentColor"
-          d="M5.85 17.1q1.275-.975 2.85-1.538T12 15q1.725 0 3.3.563t2.85 1.537q.875-1.025 1.363-2.325T20 12q0-3.325-2.337-5.663T12 4Q8.675 4 6.337 6.337T4 12q0 1.475.488 2.775T5.85 17.1ZM12 13q-1.475 0-2.488-1.012T8.5 9.5q0-1.475 1.012-2.488T12 6q1.475 0 2.488 1.012T15.5 9.5q0 1.475-1.012 2.488T12 13Zm0 9q-2.075 0-3.9-.788t-3.175-2.137q-1.35-1.35-2.137-3.175T2 12q0-2.075.788-3.9t2.137-3.175q1.35-1.35 3.175-2.137T12 2q2.075 0 3.9.788t3.175 2.137q1.35 1.35 2.138 3.175T22 12q0 2.075-.788 3.9t-2.137 3.175q-1.35 1.35-3.175 2.138T12 22Zm0-2q1.325 0 2.5-.388t2.15-1.112q-.975-.725-2.15-1.113T12 17q-1.325 0-2.5.388T7.35 18.5q.975.725 2.15 1.113T12 20Zm0-9q.65 0 1.075-.425T13.5 9.5q0-.65-.425-1.075T12 8q-.65 0-1.075.425T10.5 9.5q0 .65.425 1.075T12 11Zm0-1.5Zm0 9Z"
-        />
-      </svg>
-      Account
-    </a>
-    <a
-      class="px-2 py-1.5 rounded-sm flex items-center hover:bg-accent"
-      routerLink="/"
-      cdkMenuItem
-    >
-      <svg
-        xmlns="http://www.w3.org/2000/svg"
-        width="24"
-        height="24"
-        viewBox="0 0 24 24"
-        class="mr-2 h-5 w-5"
-        aria-hidden="true"
-      >
-        <path
-          fill="currentColor"
-          d="M5 21V5q0-.825.588-1.413T7 3h10q.825 0 1.413.588T19 5v16l-7-3l-7 3Zm2-3.05l5-2.15l5 2.15V5H7v12.95ZM7 5h10H7Z"
-        />
-      </svg>
-      Wishlist
-    </a>
-  </div>
-
-  <div
-    role="separator"
-    aria-orientation="horizontal"
-    class="-mx-1 my-1 h-px bg-muted"
-  ></div>
-
-  <button
-    class="px-2 py-1.5 rounded-sm text-start flex items-center hover:bg-accent"
-    cdkMenuItem
-    (click)="logout.emit()"
+    #accountDropdownMenu
+    class="border border-border shadow-sm rounded-md bg-background text-primary text-sm p-1 mt-1 flex flex-col xxs:w-[15rem] animate-zoom-in group-aria-[expanded=false]:animate-zoom-out"
   >
-    <svg
-      xmlns="http://www.w3.org/2000/svg"
-      width="24"
-      height="24"
-      viewBox="0 0 24 24"
-      class="mr-2 h-5 w-5"
-      aria-hidden="true"
+    <div class="px-2 py-1.5">
+      <p class="text-sm leading-none text-muted-foreground truncate">
+        {{ fullName }}
+      </p>
+    </div>
+
+    <div
+      role="separator"
+      aria-orientation="horizontal"
+      class="-mx-1 my-1 h-px bg-muted"
+    ></div>
+
+    <div role="group">
+      <a
+        class="px-2 py-1.5 rounded-sm flex items-center hover:bg-accent"
+        routerLink="/"
+        cdkMenuItem
+      >
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          width="24"
+          height="24"
+          viewBox="0 0 24 24"
+          class="mr-2 h-5 w-5"
+          aria-hidden="true"
+        >
+          <path
+            fill="currentColor"
+            d="M5.85 17.1q1.275-.975 2.85-1.538T12 15q1.725 0 3.3.563t2.85 1.537q.875-1.025 1.363-2.325T20 12q0-3.325-2.337-5.663T12 4Q8.675 4 6.337 6.337T4 12q0 1.475.488 2.775T5.85 17.1ZM12 13q-1.475 0-2.488-1.012T8.5 9.5q0-1.475 1.012-2.488T12 6q1.475 0 2.488 1.012T15.5 9.5q0 1.475-1.012 2.488T12 13Zm0 9q-2.075 0-3.9-.788t-3.175-2.137q-1.35-1.35-2.137-3.175T2 12q0-2.075.788-3.9t2.137-3.175q1.35-1.35 3.175-2.137T12 2q2.075 0 3.9.788t3.175 2.137q1.35 1.35 2.138 3.175T22 12q0 2.075-.788 3.9t-2.137 3.175q-1.35 1.35-3.175 2.138T12 22Zm0-2q1.325 0 2.5-.388t2.15-1.112q-.975-.725-2.15-1.113T12 17q-1.325 0-2.5.388T7.35 18.5q.975.725 2.15 1.113T12 20Zm0-9q.65 0 1.075-.425T13.5 9.5q0-.65-.425-1.075T12 8q-.65 0-1.075.425T10.5 9.5q0 .65.425 1.075T12 11Zm0-1.5Zm0 9Z"
+          />
+        </svg>
+        Account
+      </a>
+      <a
+        class="px-2 py-1.5 rounded-sm flex items-center hover:bg-accent"
+        routerLink="/"
+        cdkMenuItem
+      >
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          width="24"
+          height="24"
+          viewBox="0 0 24 24"
+          class="mr-2 h-5 w-5"
+          aria-hidden="true"
+        >
+          <path
+            fill="currentColor"
+            d="M5 21V5q0-.825.588-1.413T7 3h10q.825 0 1.413.588T19 5v16l-7-3l-7 3Zm2-3.05l5-2.15l5 2.15V5H7v12.95ZM7 5h10H7Z"
+          />
+        </svg>
+        Wishlist
+      </a>
+    </div>
+
+    <div
+      role="separator"
+      aria-orientation="horizontal"
+      class="-mx-1 my-1 h-px bg-muted"
+    ></div>
+
+    <button
+      class="px-2 py-1.5 rounded-sm text-start flex items-center hover:bg-accent"
+      cdkMenuItem
+      (click)="logout.emit()"
     >
-      <path
-        fill="currentColor"
-        d="m17 8l-1.4 1.4l1.6 1.6H9v2h8.2l-1.6 1.6L17 16l4-4l-4-4M5 5h7V3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h7v-2H5V5Z"
-      />
-    </svg>
-    Log out
-  </button>
-</div>
+      <svg
+        xmlns="http://www.w3.org/2000/svg"
+        width="24"
+        height="24"
+        viewBox="0 0 24 24"
+        class="mr-2 h-5 w-5"
+        aria-hidden="true"
+      >
+        <path
+          fill="currentColor"
+          d="m17 8l-1.4 1.4l1.6 1.6H9v2h8.2l-1.6 1.6L17 16l4-4l-4-4M5 5h7V3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h7v-2H5V5Z"
+        />
+      </svg>
+      Log out
+    </button>
+  </div>
 </ng-template>

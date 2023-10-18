@@ -1,4 +1,4 @@
-<div class="rounded-xl border bg-background text-foreground shadow">
+<div class="rounded-xl border border-border bg-background text-foreground shadow">
   <header class="p-6 pb-4">
     <h3 class="font-semibold text-2xl">
       {{ formType === "signin" ? "Sign in" : "Sign up" }}
@@ -19,7 +19,7 @@
 
     <div class="relative my-4 py-2">
       <div class="absolute inset-0 flex items-center">
-        <span class="border-t w-full"></span>
+        <span class="border-t border-border w-full"></span>
       </div>
       <div class="absolute inset-0 flex justify-center">
         <span class="px-3 bg-background text-sm text-muted-foreground">
@@ -45,7 +45,7 @@
         </label>
         <input
           #formInput
-          class="w-full h-9 border rounded-md px-3 py-1 shadow-sm bg-background focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:cursor-not-allowed placeholder:text-muted-foreground"
+          class="w-full h-9 border border-border rounded-md px-3 py-1 shadow-sm bg-background focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:cursor-not-allowed placeholder:text-muted-foreground"
           type="text"
           placeholder="John"
           id="firstName"
@@ -72,7 +72,7 @@
         </label>
         <input
           #formInput
-          class="w-full h-9 border rounded-md px-3 py-1 shadow-sm bg-background focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:cursor-not-allowed placeholder:text-muted-foreground"
+          class="w-full h-9 border border-border rounded-md px-3 py-1 shadow-sm bg-background focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:cursor-not-allowed placeholder:text-muted-foreground"
           type="text"
           placeholder="Doe"
           id="lastName"
@@ -97,7 +97,7 @@
         </label>
         <input
           #formInput
-          class="w-full h-9 border rounded-md px-3 py-1 shadow-sm bg-background focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:cursor-not-allowed placeholder:text-muted-foreground"
+          class="w-full h-9 border border-border rounded-md px-3 py-1 shadow-sm bg-background focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:cursor-not-allowed placeholder:text-muted-foreground"
           type="email"
           placeholder="johndoe@email.com"
           id="email"
@@ -124,7 +124,7 @@
         </label>
         <input
           #formInput
-          class="w-full h-9 border rounded-md px-3 py-1 shadow-sm bg-background focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:cursor-not-allowed placeholder:text-muted-foreground"
+          class="w-full h-9 border border-border rounded-md px-3 py-1 shadow-sm bg-background focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:cursor-not-allowed placeholder:text-muted-foreground"
           type="password"
           placeholder="***********"
           id="password"
@@ -141,7 +141,7 @@
       </div>
 
       <button
-        class="w-full flex justify-center items-center gap-2 border rounded-md text-sm font-medium bg-primary text-primary-foreground px-4 py-2 transition-colors hover:bg-primary/90 disabled:opacity-50"
+        class="w-full flex justify-center items-center gap-2 rounded-md text-sm font-medium bg-primary text-primary-foreground px-4 py-2 transition-colors hover:bg-primary/90 disabled:opacity-50"
         type="submit"
         [disabled]="isLoading"
       >

@@ -3,6 +3,7 @@ import {
   Component,
   ElementRef,
   HostListener,
+  OnInit,
   ViewChild,
   inject,
 } from '@angular/core';
@@ -19,7 +20,7 @@ import { CartService } from '../../../services/cart.service';
   templateUrl: './side-cart.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class SideCartComponent {
+export class SideCartComponent implements OnInit {
   @ViewChild('container') container!: ElementRef<HTMLDivElement>;
   dialogRef = inject(DialogRef);
   cartService = inject(CartService);
