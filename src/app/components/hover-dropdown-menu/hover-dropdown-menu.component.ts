@@ -24,11 +24,12 @@ import {
   takeUntil,
 } from 'rxjs';
 import { NavigationBar } from '../navbar/navbar.component';
+import { CdkMenu, CdkMenuItem } from '@angular/cdk/menu';
 
 @Component({
   selector: 'hover-dropdown-menu',
   standalone: true,
-  imports: [NgFor, RouterLink],
+  imports: [NgFor, RouterLink, CdkMenu, CdkMenuItem],
   templateUrl: './hover-dropdown-menu.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })

@@ -1,0 +1,44 @@
+<ng-template #template>
+  <div
+    cdkMenu
+    class="border border-border shadow-sm rounded-md bg-background text-primary text-sm p-1 mt-1 flex flex-col xxs:w-[12rem] animate-zoom-in group-aria-[expanded=false]:animate-zoom-out"
+  >
+    <button
+      class="text-start px-2 py-1.5 text-sm rounded-sm hover:bg-accent aria-[checked=true]:font-semibold"
+      cdkMenuItemRadio
+    >
+      Date: Old to new
+    </button>
+    <button
+      class="text-start px-2 py-1.5 text-sm rounded-sm hover:bg-accent aria-[checked=true]:font-semibold"
+      cdkMenuItemRadio
+    >
+      Date: New to old
+    </button>
+    <button
+      class="text-start px-2 py-1.5 text-sm rounded-sm hover:bg-accent aria-[checked=true]:font-semibold"
+      cdkMenuItemRadio
+    >
+      Price: Low to high
+    </button>
+    <button
+      class="text-start px-2 py-1.5 text-sm rounded-sm hover:bg-accent aria-[checked=true]:font-semibold"
+      cdkMenuItemRadio
+    >
+      Price: High to low
+    </button>
+    <button
+      class="text-start px-2 py-1.5 text-sm rounded-sm hover:bg-accent aria-[checked=true]:font-semibold"
+      cdkMenuItemRadio
+      [cdkMenuItemChecked]="true"
+    >
+      Alphabetical: A to Z
+    </button>
+    <button
+      class="text-start px-2 py-1.5 text-sm rounded-sm hover:bg-accent aria-[checked=true]:font-semibold"
+      cdkMenuItemRadio
+    >
+      Alphabetical: Z to A
+    </button>
+  </div>
+</ng-template>

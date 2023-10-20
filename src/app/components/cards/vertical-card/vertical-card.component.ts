@@ -1,4 +1,5 @@
 import {
+  ChangeDetectionStrategy,
   Component,
   ElementRef,
   Input,
@@ -16,6 +17,7 @@ import { CartService } from '../../../services/cart.service';
   standalone: true,
   imports: [CommonModule, RouterLink],
   templateUrl: './vertical-card.component.html',
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class VerticalCardComponent {
   @ViewChild('categoryTag') categoryTag!: ElementRef<HTMLDivElement>;

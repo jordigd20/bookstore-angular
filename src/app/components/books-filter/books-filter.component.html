@@ -1,0 +1,134 @@
+<div class="p-4 text-primary bg-background">
+  <h2 class="font-semibold">Filters</h2>
+
+  <div
+    data-orientation="horizontal"
+    role="none"
+    class="bg-border h-[1px] w-full my-2"
+  ></div>
+
+  <div class="relative py-2">
+    <input
+      class="w-full text-sm h-8 border border-border rounded-md pl-[34px] pr-2 py-1 shadow-sm bg-background focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:cursor-not-allowed placeholder:text-muted-foreground"
+      type="search"
+      placeholder="Search books..."
+    />
+    <svg
+      xmlns="http://www.w3.org/2000/svg"
+      width="16"
+      height="16"
+      viewBox="0 0 16 16"
+      fill="none"
+      class="absolute left-2.5 top-4 text-primary"
+    >
+      <path
+        d="M15.3737 14.75L11.9874 11.4928M11.9874 11.4928C12.5667 10.9356 13.0261 10.2741 13.3396 9.54616C13.6531 8.81819 13.8144 8.03795 13.8144 7.25C13.8144 6.46205 13.6531 5.68181 13.3396 4.95384C13.0261 4.22587 12.5667 3.56442 11.9874 3.00725C11.4082 2.45009 10.7206 2.00812 9.96375 1.70658C9.20695 1.40505 8.39581 1.24985 7.57665 1.24985C6.75749 1.24985 5.94636 1.40505 5.18955 1.70658C4.43275 2.00812 3.7451 2.45009 3.16587 3.00725C1.99606 4.1325 1.33887 5.65866 1.33887 7.25C1.33887 8.84134 1.99606 10.3675 3.16587 11.4928C4.33568 12.618 5.92229 13.2502 7.57665 13.2502C9.23101 13.2502 10.8176 12.618 11.9874 11.4928Z"
+        stroke="currentColor"
+        stroke-width="2"
+        stroke-linecap="round"
+        stroke-linejoin="round"
+      />
+    </svg>
+  </div>
+
+  <div class="py-2">
+    <h3 class="text-sm font-medium tracking-wide">Price range (€)</h3>
+    <div class="flex items-center justify-between gap-2 mt-2">
+      <input
+        class="flex border border-border bg-transparent shadow-sm px-3 py-1 text-sm rounded-md w-full h-8 focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:opacity-50"
+        type="number"
+        min="0"
+        max="500"
+        value="0"
+      />
+      <div class="text-muted-foreground">-</div>
+      <input
+        class="flex border border-border bg-transparent shadow-sm px-3 py-1 text-sm rounded-md w-full h-8 focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:opacity-50"
+        type="number"
+        min="0"
+        max="500"
+        value="500"
+      />
+    </div>
+  </div>
+
+  <div class="py-2 space-y-2">
+    <h3 class="text-sm font-medium tracking-wide">Filter by</h3>
+
+    <div class="flex items-center gap-2">
+      <button
+        class="group w-4 h-4 shrink-0 rounded-sm border border-primary shadow-sm focus-visible:ring-1 focus-visible:ring-ring disabled:opacity-50 data-[state=checked]:bg-primary data-[state=checked]:text-primary-foreground"
+        role="checkbox"
+        aria-checked="false"
+        data-state="unchecked"
+        value="on"
+      >
+        <span
+          class="hidden group-data-[state=checked]:flex items-center justify-center text-current"
+          data-state="checked"
+        >
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            width="24"
+            height="24"
+            viewBox="0 0 24 24"
+            class="w-4 h-4"
+          >
+            <path
+              fill="currentColor"
+              d="M21 7L9 19l-5.5-5.5l1.41-1.41L9 16.17L19.59 5.59L21 7Z"
+            />
+          </svg>
+        </span>
+      </button>
+      <label class="text-sm font-medium leading-none" for="bestseller">
+        Bestsellers
+      </label>
+    </div>
+
+    <div class="flex items-center gap-2">
+      <button
+        class="group w-4 h-4 shrink-0 rounded-sm border border-primary shadow-sm focus-visible:ring-1 focus-visible:ring-ring disabled:opacity-50 data-[state=checked]:bg-primary data-[state=checked]:text-primary-foreground"
+        role="checkbox"
+        aria-checked="false"
+        data-state="unchecked"
+        value="on"
+      >
+        <span
+          class="hidden group-data-[state=checked]:flex items-center justify-center text-current"
+          data-state="checked"
+        >
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            width="24"
+            height="24"
+            viewBox="0 0 24 24"
+            class="w-4 h-4"
+          >
+            <path
+              fill="currentColor"
+              d="M21 7L9 19l-5.5-5.5l1.41-1.41L9 16.17L19.59 5.59L21 7Z"
+            />
+          </svg>
+        </span>
+      </button>
+      <label class="text-sm font-medium leading-none" for="bestseller">
+        On sale
+      </label>
+    </div>
+  </div>
+
+  <div class="pt-2">
+    <h3 class="text-sm font-medium tracking-wide">Categories</h3>
+
+    <div class="pt-2 space-y-1">
+      <button
+        *ngFor="let category of categories"
+        class="text-primary px-2 py-2 text-sm rounded-md text-start w-full transition-colors disabled:opacity-50 hover:bg-accent"
+        [ngClass]="{ 'bg-accent': category.active }"
+      >
+        {{ category.label }}
+      </button>
+    </div>
+  </div>
+</div>

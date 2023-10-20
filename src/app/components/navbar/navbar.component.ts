@@ -9,8 +9,8 @@ import {
 } from '@angular/core';
 import { NgFor, NgIf } from '@angular/common';
 import { RouterLink } from '@angular/router';
-import { CdkMenuTrigger, CdkMenu, CdkMenuItem } from '@angular/cdk/menu';
-import { Dialog, DialogModule } from '@angular/cdk/dialog';
+import { CdkMenuTrigger } from '@angular/cdk/menu';
+import { Dialog } from '@angular/cdk/dialog';
 import { ConnectionPositionPair } from '@angular/cdk/overlay';
 import { HoverDropdownMenuComponent } from '../hover-dropdown-menu/hover-dropdown-menu.component';
 import { NavbarMobileComponent } from '../navbar-mobile/navbar-mobile.component';
@@ -34,8 +34,6 @@ export interface NavigationBar {
     NgIf,
     RouterLink,
     CdkMenuTrigger,
-    CdkMenu,
-    CdkMenuItem,
     HoverDropdownMenuComponent,
     NavbarMobileComponent,
     AccountMenuComponent,
@@ -57,7 +55,7 @@ export class NavbarComponent {
 
   navigation: NavigationBar[] = [
     { id: 'home', label: 'Home', link: '/' },
-    { id: 'shop', label: 'Shop', link: '/' },
+    { id: 'shop', label: 'Shop', link: '/shop' },
     {
       id: 'categories',
       label: 'Categories',

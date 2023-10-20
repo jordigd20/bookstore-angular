@@ -9,11 +9,12 @@ import {
 } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterLink } from '@angular/router';
+import { CdkMenu, CdkMenuItem } from '@angular/cdk/menu';
 
 @Component({
   selector: 'app-account-menu',
   standalone: true,
-  imports: [CommonModule, RouterLink],
+  imports: [CommonModule, RouterLink, CdkMenu, CdkMenuItem],
   templateUrl: './account-menu.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })

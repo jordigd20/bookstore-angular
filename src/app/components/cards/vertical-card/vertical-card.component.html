@@ -1,6 +1,5 @@
-<a
+<div
   class="relative w-full h-full rounded-md flex flex-col text-sm transition-colors hover:bg-accent"
-  routerLink="/"
   (mouseenter)="animateHover('enter')"
   (mouseleave)="animateHover('leave')"
 >
@@ -13,18 +12,32 @@
     {{ book.categories[0].name }}
   </div>
 
-  <img
-    class="object-cover shadow-lg rounded-md m-4 transition-colors"
-    [src]="book.imageLink"
-    [alt]="book.title + ' book cover'"
-    loading="lazy"
-  />
+  <a class="p-4" routerLink="/">
+    <img
+      class="object-cover shadow-lg rounded-md transition-colors"
+      [src]="book.imageLink"
+      [alt]="book.title + ' book cover'"
+      loading="lazy"
+    />
+  </a>
 
-  <div class="px-4 flex gap-2 justify-between">
-    <h3 class="font-semibold">
-      {{ book.title }}
-    </h3>
-    <div class="hidden xs:flex flex-col">
+  <a class="h-full" routerLink="/" tabindex="-1">
+    <div class="px-4 flex gap-2 justify-between">
+      <h3 class="font-semibold">
+        {{ book.title }}
+      </h3>
+      <div class="hidden xs:flex flex-col">
+        <span class="font-semibold">{{ book.currentPrice }}€</span>
+        <span
+          *ngIf="book.discount !== 0"
+          class="line-through text-muted-foreground"
+        >
+          {{ book.originalPrice }}€
+        </span>
+      </div>
+    </div>
+
+    <div class="flex xs:hidden gap-2 px-4">
       <span class="font-semibold">{{ book.currentPrice }}€</span>
       <span
         *ngIf="book.discount !== 0"
@@ -33,40 +46,33 @@
         {{ book.originalPrice }}€
       </span>
     </div>
-  </div>
-  <div class="flex xs:hidden gap-2 px-4">
-    <span class="font-semibold">{{ book.currentPrice }}€</span>
-    <span
-      *ngIf="book.discount !== 0"
-      class="line-through text-muted-foreground"
-    >
-      {{ book.originalPrice }}€
-    </span>
-  </div>
-  <span class="px-4 text-muted-foreground">{{ book.author }}</span>
-  <div class="px-4 flex flex-wrap items-center leading-[initial]">
-    <div *ngIf="book.averageRating" class="flex items-center">
-      <svg
-        *ngFor="let number of [1, 2, 3, 4, 5]"
-        width="20"
-        height="20"
-        viewBox="0 0 24 24"
-        fill="none"
-        xmlns="http://www.w3.org/2000/svg"
-        class=""
-        [ngClass]="{
-          'text-[#e9c867]': number <= +book.averageRating,
-          'text-gray-400': number > +book.averageRating
-        }"
-      >
-        <path
-          d="M5.825 22L7.45 14.975L2 10.25L9.2 9.625L12 3L14.8 9.625L22 10.25L16.55 14.975L18.175 22L12 18.275L5.825 22Z"
-          fill="currentColor"
-        />
-      </svg>
+
+    <span class="px-4 text-muted-foreground">{{ book.author }}</span>
+    <div class="px-4 flex flex-wrap items-center leading-[initial]">
+      <div *ngIf="book.averageRating" class="flex items-center">
+        <svg
+          *ngFor="let number of [1, 2, 3, 4, 5]"
+          width="20"
+          height="20"
+          viewBox="0 0 24 24"
+          fill="none"
+          xmlns="http://www.w3.org/2000/svg"
+          class=""
+          [ngClass]="{
+            'text-[#e9c867]': number <= +book.averageRating,
+            'text-gray-400': number > +book.averageRating
+          }"
+        >
+          <path
+            d="M5.825 22L7.45 14.975L2 10.25L9.2 9.625L12 3L14.8 9.625L22 10.25L16.55 14.975L18.175 22L12 18.275L5.825 22Z"
+            fill="currentColor"
+          />
+        </svg>
+      </div>
+      <span class="text-sm">({{ book.averageRating }})</span>
     </div>
-    <span class="text-sm">({{ book.averageRating }})</span>
-  </div>
+  </a>
+
   <div class="p-4 mt-auto">
     <button
       class="flex items-center justify-center gap-2 w-full py-2 px-3 rounded-md shadow-sm bg-primary text-sm text-primary-foreground transition-colors hover:bg-primary/90 disabled:opacity-50"
@@ -90,4 +96,4 @@
       Add to cart
     </button>
   </div>
-</a>
+</div>
