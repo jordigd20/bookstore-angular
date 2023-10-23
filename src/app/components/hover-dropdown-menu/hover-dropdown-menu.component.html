@@ -9,6 +9,7 @@
     <li *ngFor="let item of data" cdkMenuItem>
       <a
         [routerLink]="item.link"
+        [queryParams]="{ category: item.id }"
         class="block p-2 text-sm rounded-md font-medium text-foreground hover:bg-accent"
       >
         {{ item.label }}

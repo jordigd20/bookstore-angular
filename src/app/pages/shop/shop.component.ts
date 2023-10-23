@@ -1,14 +1,14 @@
 import {
   ChangeDetectionStrategy,
-  ChangeDetectorRef,
   Component,
+  ElementRef,
+  ViewChild,
   inject,
   signal,
 } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { NavbarComponent } from '../../components/navbar/navbar.component';
 import { VerticalCardComponent } from '../../components/cards/vertical-card/vertical-card.component';
-import { Book } from '../../interfaces/book.interface';
 import { BooksService } from '../../services/books.service';
 import { FooterComponent } from '../../components/footer/footer.component';
 import { PaginationComponent } from '../../components/pagination/pagination.component';
@@ -19,6 +19,11 @@ import { ConnectionPositionPair } from '@angular/cdk/overlay';
 import { OrderByMenuComponent } from '../../components/order-by-menu/order-by-menu.component';
 import { CdkMenuTrigger } from '@angular/cdk/menu';
 import { BreakpointObserver } from '@angular/cdk/layout';
+import { VerticalCardSkeletonComponent } from '../../components/cards/vertical-card-skeleton/vertical-card-skeleton.component';
+import { ActivatedRoute, Router } from '@angular/router';
+import { NgxPaginationModule } from 'ngx-pagination';
+
+const BOOKS_PER_PAGE = 10;
 
 @Component({
   selector: 'app-shop',
@@ -28,25 +33,49 @@ import { BreakpointObserver } from '@angular/cdk/layout';
     NavbarComponent,
     FooterComponent,
     VerticalCardComponent,
+    VerticalCardSkeletonComponent,
     PaginationComponent,
     BooksFilterComponent,
     OrderByMenuComponent,
     CdkMenuTrigger,
+    NgxPaginationModule,
   ],
   templateUrl: './shop.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ShopComponent {
-  homeService = inject(BooksService);
+  @ViewChild('scrollToTopElement') scrollToTopElement!: ElementRef<HTMLElement>;
+
+  bookService = inject(BooksService);
   breakpointObserver = inject(BreakpointObserver);
   dialog = inject(Dialog);
+  activatedRoute = inject(ActivatedRoute);
+  router = inject(Router);
 
-  books = signal<Book[]>([]);
   orderByMenuPosition = signal<ConnectionPositionPair[]>([]);
+  booksPerPage = BOOKS_PER_PAGE;
 
   ngOnInit() {
-    this.homeService.getBooks().subscribe((books) => {
-      this.books.set(books);
+    if (Object.keys(this.activatedRoute.snapshot.queryParams).length === 0) {
+      this.bookService.resetFilters();
+    }
+
+    this.activatedRoute.queryParams.subscribe((params) => {
+      const newParams = { ...params };
+
+      if (params.hasOwnProperty('page')) {
+        const page = Number(params['page']);
+
+        if (page < 1) {
+          newParams['page'] = 1;
+          newParams['skip'] = 0;
+        } else {
+          newParams['skip'] =
+            Number(params['page']) * this.booksPerPage - this.booksPerPage;
+        }
+      }
+
+      this.bookService.fetchBooks(newParams);
     });
 
     const isMobileScreen =
@@ -75,6 +104,21 @@ export class ShopComponent {
       ariaDescribedBy: 'Filter books by title, price, category, etc.',
       backdropClass: ['backdrop-blur-sm', 'bg-black/5'],
       disableClose: true,
+    });
+  }
+
+  changePage(page: number) {
+    this.scrollToTopElement.nativeElement.scrollIntoView({
+      behavior: 'instant',
+      block: 'end',
+    });
+
+    this.router.navigate([], {
+      relativeTo: this.activatedRoute,
+      queryParams: {
+        page,
+      },
+      queryParamsHandling: 'merge',
     });
   }
 }

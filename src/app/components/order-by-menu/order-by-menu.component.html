@@ -1,43 +1,169 @@
 <ng-template #template>
   <div
     cdkMenu
-    class="border border-border shadow-sm rounded-md bg-background text-primary text-sm p-1 mt-1 flex flex-col xxs:w-[12rem] animate-zoom-in group-aria-[expanded=false]:animate-zoom-out"
+    class="border border-border shadow-sm rounded-md bg-background text-primary text-sm p-1 mt-1 flex flex-col xxs:w-[13rem] animate-zoom-in group-aria-[expanded=false]:animate-zoom-out"
   >
     <button
-      class="text-start px-2 py-1.5 text-sm rounded-sm hover:bg-accent aria-[checked=true]:font-semibold"
+      class="flex items-center gap-2 text-start px-2 py-1.5 text-sm rounded-sm hover:bg-accent aria-[checked=true]:font-semibold aria-[checked=true]:bg-accent"
       cdkMenuItemRadio
+      [cdkMenuItemChecked]="
+        bookService.orderBy() === 'rating.desc' || bookService.orderBy() === ''
+      "
+      (cdkMenuItemTriggered)="updateOrderBy('rating.desc')"
     >
-      Date: Old to new
+      <svg
+        xmlns="http://www.w3.org/2000/svg"
+        width="24"
+        height="24"
+        viewBox="0 0 24 24"
+        class="w-4 h-4"
+      >
+        <path
+          fill="currentColor"
+          d="m12 15.39l-3.76 2.27l.99-4.28l-3.32-2.88l4.38-.37L12 6.09l1.71 4.04l4.38.37l-3.32 2.88l.99 4.28M22 9.24l-7.19-.61L12 2L9.19 8.63L2 9.24l5.45 4.73L5.82 21L12 17.27L18.18 21l-1.64-7.03L22 9.24Z"
+        />
+      </svg>
+      Rating: High to low
     </button>
     <button
-      class="text-start px-2 py-1.5 text-sm rounded-sm hover:bg-accent aria-[checked=true]:font-semibold"
+      class="flex items-center gap-2 text-start px-2 py-1.5 text-sm rounded-sm hover:bg-accent aria-[checked=true]:font-semibold aria-[checked=true]:bg-accent"
       cdkMenuItemRadio
+      [cdkMenuItemChecked]="bookService.orderBy() === 'rating.asc'"
+      (cdkMenuItemTriggered)="updateOrderBy('rating.asc')"
     >
-      Date: New to old
+      <svg
+        xmlns="http://www.w3.org/2000/svg"
+        width="24"
+        height="24"
+        viewBox="0 0 24 24"
+        class="w-4 h-4"
+      >
+        <path
+          fill="currentColor"
+          d="m12 15.39l-3.76 2.27l.99-4.28l-3.32-2.88l4.38-.37L12 6.09l1.71 4.04l4.38.37l-3.32 2.88l.99 4.28M22 9.24l-7.19-.61L12 2L9.19 8.63L2 9.24l5.45 4.73L5.82 21L12 17.27L18.18 21l-1.64-7.03L22 9.24Z"
+        />
+      </svg>
+      Rating: Low to high
     </button>
+
     <button
-      class="text-start px-2 py-1.5 text-sm rounded-sm hover:bg-accent aria-[checked=true]:font-semibold"
+      class="flex items-center gap-2 text-start px-2 py-1.5 text-sm rounded-sm hover:bg-accent aria-[checked=true]:font-semibold aria-[checked=true]:bg-accent"
       cdkMenuItemRadio
+      [cdkMenuItemChecked]="bookService.orderBy() === 'price.desc'"
+      (cdkMenuItemTriggered)="updateOrderBy('price.desc')"
     >
-      Price: Low to high
-    </button>
-    <button
-      class="text-start px-2 py-1.5 text-sm rounded-sm hover:bg-accent aria-[checked=true]:font-semibold"
-      cdkMenuItemRadio
-    >
+      <svg
+        xmlns="http://www.w3.org/2000/svg"
+        width="24"
+        height="24"
+        viewBox="0 0 24 24"
+        class="w-4 h-4"
+      >
+        <path
+          fill="currentColor"
+          d="M14.25 21.4q-.575.575-1.425.575T11.4 21.4l-8.8-8.8q-.275-.275-.438-.65T2 11.15V4q0-.825.588-1.413T4 2h7.15q.425 0 .8.163t.65.437l8.8 8.825q.575.575.575 1.413T21.4 14.25l-7.15 7.15ZM12.825 20l7.15-7.15L11.15 4H4v7.15L12.825 20ZM6.5 8q.625 0 1.063-.438T8 6.5q0-.625-.438-1.063T6.5 5q-.625 0-1.063.438T5 6.5q0 .625.438 1.063T6.5 8ZM4 4Z"
+        />
+      </svg>
       Price: High to low
     </button>
     <button
-      class="text-start px-2 py-1.5 text-sm rounded-sm hover:bg-accent aria-[checked=true]:font-semibold"
+      class="flex items-center gap-2 text-start px-2 py-1.5 text-sm rounded-sm hover:bg-accent aria-[checked=true]:font-semibold aria-[checked=true]:bg-accent"
       cdkMenuItemRadio
-      [cdkMenuItemChecked]="true"
+      [cdkMenuItemChecked]="bookService.orderBy() === 'price.asc'"
+      (cdkMenuItemTriggered)="updateOrderBy('price.asc')"
     >
+      <svg
+        xmlns="http://www.w3.org/2000/svg"
+        width="24"
+        height="24"
+        viewBox="0 0 24 24"
+        class="w-4 h-4"
+      >
+        <path
+          fill="currentColor"
+          d="M14.25 21.4q-.575.575-1.425.575T11.4 21.4l-8.8-8.8q-.275-.275-.438-.65T2 11.15V4q0-.825.588-1.413T4 2h7.15q.425 0 .8.163t.65.437l8.8 8.825q.575.575.575 1.413T21.4 14.25l-7.15 7.15ZM12.825 20l7.15-7.15L11.15 4H4v7.15L12.825 20ZM6.5 8q.625 0 1.063-.438T8 6.5q0-.625-.438-1.063T6.5 5q-.625 0-1.063.438T5 6.5q0 .625.438 1.063T6.5 8ZM4 4Z"
+        />
+      </svg>
+      Price: Low to high
+    </button>
+    <button
+      class="flex items-center gap-2 text-start px-2 py-1.5 text-sm rounded-sm hover:bg-accent aria-[checked=true]:font-semibold aria-[checked=true]:bg-accent"
+      cdkMenuItemRadio
+      [cdkMenuItemChecked]="bookService.orderBy() === 'publishedDate.asc'"
+      (cdkMenuItemTriggered)="updateOrderBy('publishedDate.asc')"
+    >
+      <svg
+        xmlns="http://www.w3.org/2000/svg"
+        width="24"
+        height="24"
+        viewBox="0 0 24 24"
+        class="w-4 h-4"
+      >
+        <path
+          fill="currentColor"
+          d="M8 14q-.425 0-.713-.288T7 13q0-.425.288-.713T8 12q.425 0 .713.288T9 13q0 .425-.288.713T8 14Zm4 0q-.425 0-.713-.288T11 13q0-.425.288-.713T12 12q.425 0 .713.288T13 13q0 .425-.288.713T12 14Zm4 0q-.425 0-.713-.288T15 13q0-.425.288-.713T16 12q.425 0 .713.288T17 13q0 .425-.288.713T16 14ZM5 22q-.825 0-1.413-.588T3 20V6q0-.825.588-1.413T5 4h1V2h2v2h8V2h2v2h1q.825 0 1.413.588T21 6v14q0 .825-.588 1.413T19 22H5Zm0-2h14V10H5v10ZM5 8h14V6H5v2Zm0 0V6v2Z"
+        />
+      </svg>
+      Date: Old to new
+    </button>
+    <button
+      class="flex items-center gap-2 text-start px-2 py-1.5 text-sm rounded-sm hover:bg-accent aria-[checked=true]:font-semibold aria-[checked=true]:bg-accent"
+      cdkMenuItemRadio
+      [cdkMenuItemChecked]="bookService.orderBy() === 'publishedDate.desc'"
+      (cdkMenuItemTriggered)="updateOrderBy('publishedDate.desc')"
+    >
+      <svg
+        xmlns="http://www.w3.org/2000/svg"
+        width="24"
+        height="24"
+        viewBox="0 0 24 24"
+        class="w-4 h-4"
+      >
+        <path
+          fill="currentColor"
+          d="M8 14q-.425 0-.713-.288T7 13q0-.425.288-.713T8 12q.425 0 .713.288T9 13q0 .425-.288.713T8 14Zm4 0q-.425 0-.713-.288T11 13q0-.425.288-.713T12 12q.425 0 .713.288T13 13q0 .425-.288.713T12 14Zm4 0q-.425 0-.713-.288T15 13q0-.425.288-.713T16 12q.425 0 .713.288T17 13q0 .425-.288.713T16 14ZM5 22q-.825 0-1.413-.588T3 20V6q0-.825.588-1.413T5 4h1V2h2v2h8V2h2v2h1q.825 0 1.413.588T21 6v14q0 .825-.588 1.413T19 22H5Zm0-2h14V10H5v10ZM5 8h14V6H5v2Zm0 0V6v2Z"
+        />
+      </svg>
+      Date: New to old
+    </button>
+    <button
+      class="flex items-center gap-2 text-start px-2 py-1.5 text-sm rounded-sm hover:bg-accent aria-[checked=true]:font-semibold aria-[checked=true]:bg-accent"
+      cdkMenuItemRadio
+      [cdkMenuItemChecked]="bookService.orderBy() === 'title.asc'"
+      (cdkMenuItemTriggered)="updateOrderBy('title.asc')"
+    >
+      <svg
+        xmlns="http://www.w3.org/2000/svg"
+        width="32"
+        height="32"
+        viewBox="0 0 32 32"
+        class="w-4 h-4"
+      >
+        <path
+          fill="currentColor"
+          d="m8.188 5l-.22.656L6.032 11H6v.063l-.938 2.593l-.062.156V15h2v-.844L7.406 13h3.188L11 14.156V15h2v-1.188l-.063-.156L12 11.062V11h-.03l-1.94-5.344L9.814 5H8.185zM22 5v18.688l-2.594-2.594L18 22.5l4.28 4.313l.72.687l.72-.688L28 22.5l-1.406-1.406L24 23.687V5h-2zM9 8.656L9.844 11H8.156L9 8.656zM5 17v2h5.563L5.28 24.28l-.28.314V27h8v-2H7.437l5.282-5.28l.28-.314V17H5z"
+        />
+      </svg>
       Alphabetical: A to Z
     </button>
     <button
-      class="text-start px-2 py-1.5 text-sm rounded-sm hover:bg-accent aria-[checked=true]:font-semibold"
+      class="flex items-center gap-2 text-start px-2 py-1.5 text-sm rounded-sm hover:bg-accent aria-[checked=true]:font-semibold aria-[checked=true]:bg-accent"
       cdkMenuItemRadio
+      [cdkMenuItemChecked]="bookService.orderBy() === 'title.desc'"
+      (cdkMenuItemTriggered)="updateOrderBy('title.desc')"
     >
+      <svg
+        xmlns="http://www.w3.org/2000/svg"
+        width="32"
+        height="32"
+        viewBox="0 0 32 32"
+        class="w-4 h-4"
+      >
+        <path
+          fill="currentColor"
+          d="M5 5v2h5.563L5.28 12.28l-.28.314V15h8v-2H7.437l5.282-5.28l.28-.314V5H5zm17 0v18.688l-2.594-2.594L18 22.5l4.28 4.313l.72.687l.72-.688L28 22.5l-1.406-1.406L24 23.687V5h-2zM8.187 17l-.218.656L6.03 23H6v.063l-.938 2.593l-.062.157V27h2v-.844L7.406 25h3.188L11 26.156V27h2v-1.188l-.063-.156L12 23.063V23h-.03l-1.94-5.344L9.814 17H8.185zM9 20.656L9.844 23H8.156L9 20.656z"
+        />
+      </svg>
       Alphabetical: Z to A
     </button>
   </div>

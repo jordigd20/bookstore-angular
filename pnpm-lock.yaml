@@ -35,6 +35,9 @@ dependencies:
   '@fontsource/poppins':
     specifier: ^5.0.8
     version: 5.0.8
+  ngx-pagination:
+    specifier: ^6.0.3
+    version: 6.0.3(@angular/common@16.2.5)(@angular/core@16.2.5)
   ngx-toastr:
     specifier: ^17.0.2
     version: 17.0.2(@angular/common@16.2.5)(@angular/core@16.2.5)(@angular/platform-browser@16.2.5)
@@ -5277,6 +5280,17 @@ packages:
   /neo-async@2.6.2:
     resolution: {integrity: sha512-Yd3UES5mWCSqR+qNT93S3UoYUkqAZ9lLg8a7g9rimsWmYGK8cVToA4/sF3RrshdyV3sAGMXVUmpMYOw+dLpOuw==}
     dev: true
+
+  /ngx-pagination@6.0.3(@angular/common@16.2.5)(@angular/core@16.2.5):
+    resolution: {integrity: sha512-lONjTQ7hFPh1SyhwDrRd5ZwM4NMGQ7bNR6vLrs6mrU0Z8Q1zCcWbf/pvyp4DOlGyd9uyZxRy2wUsSZLeIPjbAw==}
+    peerDependencies:
+      '@angular/common': '>=13.0.0'
+      '@angular/core': '>=13.0.0'
+    dependencies:
+      '@angular/common': 16.2.5(@angular/core@16.2.5)(rxjs@7.5.7)
+      '@angular/core': 16.2.5(rxjs@7.5.7)(zone.js@0.13.3)
+      tslib: 2.6.2
+    dev: false
 
   /ngx-toastr@17.0.2(@angular/common@16.2.5)(@angular/core@16.2.5)(@angular/platform-browser@16.2.5):
     resolution: {integrity: sha512-KehiPx6bkbiUyJbabf0ZA04+ASumS8r/y4wPsUOMI9OrBvBcfq27UQmWuQKoVR8E+9y4Pq7eZkSg2kvxNvpxTA==}

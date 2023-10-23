@@ -1,5 +1,14 @@
 <div class="p-4 text-primary bg-background">
-  <h2 class="font-semibold">Filters</h2>
+  <div class="flex items-center justify-between">
+    <h2 class="font-semibold">Filters</h2>
+
+    <button
+      class="text-xs text-foreground/70 transition-colors hover:text-foreground"
+      (click)="resetFilters()"
+    >
+      Reset
+    </button>
+  </div>
 
   <div
     data-orientation="horizontal"
@@ -9,10 +18,14 @@
 
   <div class="relative py-2">
     <input
+      #search
       class="w-full text-sm h-8 border border-border rounded-md pl-[34px] pr-2 py-1 shadow-sm bg-background focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:cursor-not-allowed placeholder:text-muted-foreground"
       type="search"
       placeholder="Search books..."
+      [value]="bookService.search()"
+      (input)="handleSearch(search)"
     />
+
     <svg
       xmlns="http://www.w3.org/2000/svg"
       width="16"
@@ -35,19 +48,25 @@
     <h3 class="text-sm font-medium tracking-wide">Price range (€)</h3>
     <div class="flex items-center justify-between gap-2 mt-2">
       <input
+        #minPrice
         class="flex border border-border bg-transparent shadow-sm px-3 py-1 text-sm rounded-md w-full h-8 focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:opacity-50"
         type="number"
         min="0"
         max="500"
-        value="0"
+        [value]="bookService.price().split('-')[0]"
+        (keypress)="validatePriceQuantity($event)"
+        (input)="handlePrice(minPrice, maxPrice)"
       />
       <div class="text-muted-foreground">-</div>
       <input
+        #maxPrice
         class="flex border border-border bg-transparent shadow-sm px-3 py-1 text-sm rounded-md w-full h-8 focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:opacity-50"
         type="number"
         min="0"
         max="500"
-        value="500"
+        [value]="bookService.price().split('-')[1]"
+        (keypress)="validatePriceQuantity($event)"
+        (input)="handlePrice(minPrice, maxPrice)"
       />
     </div>
   </div>
@@ -57,15 +76,18 @@
 
     <div class="flex items-center gap-2">
       <button
-        class="group w-4 h-4 shrink-0 rounded-sm border border-primary shadow-sm focus-visible:ring-1 focus-visible:ring-ring disabled:opacity-50 data-[state=checked]:bg-primary data-[state=checked]:text-primary-foreground"
+        #bestsellerCheckbox
+        class="group w-4 h-4 shrink-0 rounded-sm border border-primary shadow-sm focus-visible:ring-1 focus-visible:ring-ring disabled:opacity-50 aria-[checked=true]:bg-primary aria-[checked=true]:text-primary-foreground"
+        id="bestseller-label"
+        name="bestseller"
+        tabindex="0"
         role="checkbox"
-        aria-checked="false"
-        data-state="unchecked"
-        value="on"
+        [attr.aria-checked]="bookService.filterBy().includes('bestseller')"
+        aria-labelledby="bestseller-label"
+        (click)="toggleCheckbox(bestsellerCheckbox)"
       >
         <span
-          class="hidden group-data-[state=checked]:flex items-center justify-center text-current"
-          data-state="checked"
+          class="hidden group-aria-[checked=true]:flex items-center justify-center text-current"
         >
           <svg
             xmlns="http://www.w3.org/2000/svg"
@@ -81,22 +103,25 @@
           </svg>
         </span>
       </button>
-      <label class="text-sm font-medium leading-none" for="bestseller">
+      <label class="text-sm font-medium leading-none cursor-pointer" for="bestseller-label">
         Bestsellers
       </label>
     </div>
 
     <div class="flex items-center gap-2">
       <button
-        class="group w-4 h-4 shrink-0 rounded-sm border border-primary shadow-sm focus-visible:ring-1 focus-visible:ring-ring disabled:opacity-50 data-[state=checked]:bg-primary data-[state=checked]:text-primary-foreground"
+        #onSaleCheckbox
+        class="group w-4 h-4 shrink-0 rounded-sm border border-primary shadow-sm focus-visible:ring-1 focus-visible:ring-ring disabled:opacity-50 aria-[checked=true]:bg-primary aria-[checked=true]:text-primary-foreground"
+        id="onsale-label"
+        name="discounted"
         role="checkbox"
-        aria-checked="false"
-        data-state="unchecked"
-        value="on"
+        tabindex="0"
+        [attr.aria-checked]="bookService.filterBy().includes('discounted')"
+        aria-labelledby="onsale-label"
+        (click)="toggleCheckbox(onSaleCheckbox)"
       >
         <span
-          class="hidden group-data-[state=checked]:flex items-center justify-center text-current"
-          data-state="checked"
+          class="hidden group-aria-[checked=true]:flex items-center justify-center text-current"
         >
           <svg
             xmlns="http://www.w3.org/2000/svg"
@@ -112,7 +137,7 @@
           </svg>
         </span>
       </button>
-      <label class="text-sm font-medium leading-none" for="bestseller">
+      <label class="text-sm font-medium leading-none cursor-pointer" for="onsale-label">
         On sale
       </label>
     </div>
@@ -124,8 +149,9 @@
     <div class="pt-2 space-y-1">
       <button
         *ngFor="let category of categories"
-        class="text-primary px-2 py-2 text-sm rounded-md text-start w-full transition-colors disabled:opacity-50 hover:bg-accent"
-        [ngClass]="{ 'bg-accent': category.active }"
+        class="text-primary px-2 py-2 text-sm rounded-md text-start w-full disabled:opacity-50 hover:bg-accent"
+        [ngClass]="{ 'bg-accent': bookService.category() === category.slug }"
+        (click)="setCategory(category.slug)"
       >
         {{ category.label }}
       </button>
