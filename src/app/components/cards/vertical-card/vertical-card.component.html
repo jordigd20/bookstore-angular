@@ -12,7 +12,7 @@
     {{ book.categories[0].name }}
   </div>
 
-  <a class="p-4" routerLink="/">
+  <a class="p-4" [routerLink]="['/book', book.id + '-' + book.slug]">
     <img
       class="object-cover shadow-lg rounded-md transition-colors"
       [src]="book.imageLink"
@@ -21,7 +21,11 @@
     />
   </a>
 
-  <a class="h-full" routerLink="/" tabindex="-1">
+  <a
+    class="h-full"
+    [routerLink]="['/book', book.id + '-' + book.slug]"
+    tabindex="-1"
+  >
     <div class="px-4 flex gap-2 justify-between">
       <h3 class="font-semibold">
         {{ book.title }}

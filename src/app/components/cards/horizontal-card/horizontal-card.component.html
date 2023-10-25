@@ -1,52 +1,62 @@
-<a
-  class="p-2 flex w-full h-36 xxs:h-48 rounded-md text-sm transition-colors hover:bg-accent"
-  routerLink="/"
+<div
+  class="p-2 flex w-full h-44 xxs:h-48 rounded-md transition-colors hover:bg-accent text-sm"
 >
-  <img
-    class="object-cover rounded-md"
-    [src]="book.imageLink"
-    [alt]="book.title + ' book cover'"
-    loading="lazy"
-  />
+  <a
+    class="h-full basis-[160px]"
+    [routerLink]="['/book', book.id + '-' + book.slug]"
+  >
+    <img
+      class="object-cover rounded-md h-full w-full"
+      [src]="book.imageLink"
+      [alt]="book.title + ' book cover'"
+      loading="lazy"
+    />
+  </a>
 
-  <div class="w-full px-2 flex flex-col items-start">
-    <h3 class="font-semibold max-h-[60px] line-clamp-2">
-      {{ book.title }}
-    </h3>
-    <div class="flex gap-2">
-      <span class="font-semibold">{{ book.currentPrice }}€</span>
-      <span
-        *ngIf="book.discount !== 0"
-        class="line-through text-muted-foreground"
-      >
-        {{ book.originalPrice }}€
-      </span>
-    </div>
-    <span class="text-muted-foreground">{{ book.author }}</span>
-    <div class="flex flex-wrap items-center leading-[initial]">
-      <div *ngIf="book.averageRating" class="flex items-center">
-        <svg
-          *ngFor="let number of [1, 2, 3, 4, 5]"
-          width="20"
-          height="20"
-          viewBox="0 0 24 24"
-          fill="none"
-          xmlns="http://www.w3.org/2000/svg"
-          [ngClass]="{
-            'text-[#e9c867]': number <= +book.averageRating,
-            'text-gray-400': number > +book.averageRating
-          }"
+  <div class="basis-[100%] w-full px-2">
+    <a
+      class="flex flex-col items-start"
+      [routerLink]="['/book', book.id + '-' + book.slug]"
+    >
+      <h3 class="font-semibold max-h-[60px] line-clamp-1 sm:line-clamp-2">
+        {{ book.title }}
+      </h3>
+      <div class="flex gap-2">
+        <span class="font-semibold">{{ book.currentPrice }}€</span>
+        <span
+          *ngIf="book.discount !== 0"
+          class="line-through text-muted-foreground"
         >
-          <path
-            d="M5.825 22L7.45 14.975L2 10.25L9.2 9.625L12 3L14.8 9.625L22 10.25L16.55 14.975L18.175 22L12 18.275L5.825 22Z"
-            fill="currentColor"
-          />
-        </svg>
+          {{ book.originalPrice }}€
+        </span>
       </div>
-      <span>({{ book.averageRating }})</span>
-    </div>
+      <span class="text-muted-foreground">{{ book.author }}</span>
+      <div class="flex flex-wrap items-center leading-[initial]">
+        <div *ngIf="book.averageRating" class="flex items-center">
+          <svg
+            *ngFor="let number of [1, 2, 3, 4, 5]"
+            width="20"
+            height="20"
+            viewBox="0 0 24 24"
+            fill="none"
+            xmlns="http://www.w3.org/2000/svg"
+            [ngClass]="{
+              'text-[#e9c867]': number <= +book.averageRating,
+              'text-gray-400': number > +book.averageRating
+            }"
+          >
+            <path
+              d="M5.825 22L7.45 14.975L2 10.25L9.2 9.625L12 3L14.8 9.625L22 10.25L16.55 14.975L18.175 22L12 18.275L5.825 22Z"
+              fill="currentColor"
+            />
+          </svg>
+        </div>
+        <span>({{ book.averageRating }})</span>
+      </div>
+    </a>
+
     <button
-      class="flex items-center justify-center gap-2 mt-2 py-2 px-3 rounded-md shadow-sm bg-primary text-sm text-primary-foreground transition-colors hover:bg-primary/90 disabled:opacity-50"
+      class="flex items-center justify-center gap-2 mt-2 py-2 px-3 xxs:px-6 rounded-md shadow-sm bg-primary text-sm text-primary-foreground transition-colors hover:bg-primary/90 disabled:opacity-50"
       [disabled]="isLoading()"
       (click)="addToCart(book.id)"
     >
@@ -67,4 +77,4 @@
       Add to cart
     </button>
   </div>
-</a>
+</div>

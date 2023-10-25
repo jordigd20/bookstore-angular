@@ -18,6 +18,7 @@ import {
   ReactiveFormsModule,
   Validators,
 } from '@angular/forms';
+import { DialogRef } from '@angular/cdk/dialog';
 
 @Component({
   selector: 'app-cart-item',
@@ -32,6 +33,7 @@ export class CartItemComponent implements OnInit {
   @Input({ required: true }) cartBook!: CartBook;
 
   cartService = inject(CartService);
+  dialogRef = inject(DialogRef);
 
   quantityControl = new FormControl(1, [
     Validators.required,

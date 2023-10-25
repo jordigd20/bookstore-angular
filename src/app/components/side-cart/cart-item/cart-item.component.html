@@ -13,8 +13,9 @@
     </div>
     <div class="flex flex-col space-y-1 self-start">
       <a
-        routerLink="/"
+        [routerLink]="['/book', cartBook.book.id + '-' + cartBook.book.slug]"
         class="line-clamp-1 text-sm font-medium hover:underline"
+        (click)="dialogRef.close()"
       >
         {{ cartBook.book.title }}
       </a>
