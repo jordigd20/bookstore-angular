@@ -214,14 +214,11 @@
                                   let category of book()!.categories;
                                   let last = last
                                 "
-                                class="font-medium"
+                                class="font-medium hover:underline"
                                 [routerLink]="['/shop']"
                                 [queryParams]="{ category: category.slug }"
                               >
-                                <span class="hover:underline">
-                                  {{ category.name }}
-                                </span>
-                                {{ last ? "" : ", " }}
+                                {{ category.name }}{{ last ? "" : ", " }}
                               </a>
                             </dd>
                           </div>
