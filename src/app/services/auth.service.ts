@@ -233,6 +233,20 @@ export class AuthService {
     });
   }
 
+  updateUser(user: User) {
+    this.authState.update((state) => ({
+      ...state,
+      user,
+    }));
+  }
+
+  signOut() {
+    this.logOut();
+    this.ngZone.run(() => {
+      this.router.navigateByUrl('/');
+    });
+  }
+
   logOut() {
     this.storageService.removeToken();
     this.authState.update((state) => ({

@@ -3,6 +3,7 @@ import { HomeComponent } from './pages/home/home.component';
 import { NoAuthGuard } from './guards/noauth.guard';
 import { ResetPasswordGuard } from './guards/reset-password.guard';
 import { NotFoundComponent } from './pages/not-found/not-found.component';
+import { AuthGuard } from './guards/auth.guard';
 
 export const routes: Routes = [
   {
@@ -51,6 +52,14 @@ export const routes: Routes = [
     path: 'book/:id',
     loadComponent: () =>
       import('./pages/book/book.component').then((m) => m.BookComponent),
+  },
+  {
+    path: 'dashboard/account',
+    canActivate: [AuthGuard],
+    loadComponent: () =>
+      import('./pages/dashboard/account/account.component').then(
+        (m) => m.AccountComponent
+      ),
   },
   {
     path: '**',

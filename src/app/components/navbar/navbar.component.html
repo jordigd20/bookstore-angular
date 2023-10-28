@@ -142,7 +142,7 @@
         <app-account-menu
           #accountMenu
           [fullName]="authService.userFullName()"
-          (logout)="authService.logOut()"
+          (logout)="authService.signOut()"
         />
       </button>
     </ng-template>
