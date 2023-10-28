@@ -14,6 +14,7 @@ import { AuthService } from 'src/app/services/auth.service';
 import { PasswordFormComponent } from '../../../components/auth/password-form/password-form.component';
 import { Subject } from 'rxjs';
 import { EmailSentComponent } from '../../../components/auth/email-sent/email-sent.component';
+import { ToastService } from '../../../services/toast.service';
 
 @Component({
   selector: 'app-forgot-password',
@@ -33,6 +34,7 @@ export class ForgotPasswordComponent {
 
   fb = inject(FormBuilder);
   authService = inject(AuthService);
+  toastService = inject(ToastService);
 
   forgotPasswordForm = this.fb.group({
     email: ['', [Validators.required, Validators.email]],
@@ -66,7 +68,9 @@ export class ForgotPasswordComponent {
 
   async resendEmail() {
     if (this.email?.invalid) {
-      this.authService.showErrorToast('Something went wrong. Please try again.');
+      this.toastService.showErrorToast(
+        'Something went wrong. Please try again.'
+      );
       return;
     }
 

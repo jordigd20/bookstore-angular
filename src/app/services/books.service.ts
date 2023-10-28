@@ -3,8 +3,8 @@ import { HttpService } from './http.service';
 import { Book, BookPaginatedResponse } from '../interfaces/book.interface';
 import { OptionalFilterState } from '../interfaces/book-filters.interface';
 import { FilterState } from '../interfaces/book-filters.interface';
-import { ToastrService } from 'ngx-toastr';
 import { AuthService } from './auth.service';
+import { ToastService } from './toast.service';
 
 const BOOKS_PER_PAGE = 10;
 
@@ -14,7 +14,7 @@ const BOOKS_PER_PAGE = 10;
 export class BooksService {
   private httpService = inject(HttpService);
   private authService = inject(AuthService);
-  private toast = inject(ToastrService);
+  private toastService = inject(ToastService);
 
   filterState = signal<FilterState>({
     search: '',
@@ -98,7 +98,7 @@ export class BooksService {
     const token = this.authService.token();
 
     if (user === null || token === null) {
-      this.showWarningToast(
+      this.toastService.showWarningToast(
         'You must be logged in to add a book to your wishlist.'
       );
       return;
@@ -115,30 +115,14 @@ export class BooksService {
       .subscribe({
         next: (response) => {
           console.log(response);
-          this.showSuccessToast('Book added to your wishlist');
+          this.toastService.showSuccessToast('Book added to your wishlist');
         },
         error: (err) => {
           console.error(err);
-          this.showWarningToast('You already have this book in your wishlist');
+          this.toastService.showWarningToast(
+            'You already have this book in your wishlist'
+          );
         },
       });
-  }
-
-  showSuccessToast(message: string) {
-    this.toast.success(message, '', {
-      toastClass:
-        'relative overflow-hidden w-80 bg-background text-foreground text-sm font-medium border border-border rounded-md shadow p-4 pl-12 m-3 bg-no-repeat bg-[length:24px] bg-[15px_center] pointer-events-auto',
-      positionClass: 'toast-bottom-right',
-      tapToDismiss: false,
-    });
-  }
-
-  showWarningToast(message: string) {
-    this.toast.warning(message, '', {
-      toastClass:
-        'relative overflow-hidden w-80 bg-background text-foreground text-sm font-medium border border-border rounded-md shadow p-4 pl-12 m-3 bg-no-repeat bg-[length:24px] bg-[15px_center] pointer-events-auto',
-      positionClass: 'toast-bottom-right',
-      tapToDismiss: false,
-    });
   }
 }
