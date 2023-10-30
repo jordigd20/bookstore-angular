@@ -54,4 +54,8 @@ export class HttpService {
       },
     });
   }
+
+  getCountries<T>(url: string) {
+    return this.http.get<T>(url);
+  }
 }

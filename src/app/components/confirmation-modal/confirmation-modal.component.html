@@ -1,0 +1,49 @@
+<div
+  class="fixed left-[50%] top-[50%] z-40 w-full max-w-lg translate-x-[-50%] translate-y-[-50%] px-4"
+>
+  <div
+    #container
+    class="relative border border-border bg-background text-primary p-8 shadow-sm rounded-md animate-zoom-in"
+    (animationend)="onDialogAnimationEnd($event)"
+  >
+    <h3 class="font-semibold text-xl">{{ data.title }}</h3>
+    <p class="text-muted-foreground">{{ data.message }}</p>
+
+    <div class="flex gap-4 flex-wrap justify-center mt-4">
+      <button
+        class="py-1.5 px-5 border border-border rounded-md bg-background shadow-sm transition-colors hover:bg-accent disabled:opacity-50"
+        [disabled]="isLoading()"
+        (click)="closeModal()"
+      >
+        Cancel
+      </button>
+
+      <button
+        class="flex items-center gap-2 rounded-md px-5 py-1.5 transition-color shadow-sm disabled:opacity-50"
+        [ngClass]="
+          data.isDestructive
+            ? 'bg-destructive text-white hover:bg-destructive/90'
+            : 'bg-primary text-primary-foreground hover:bg-primary/90'
+        "
+        [disabled]="isLoading()"
+        (click)="confirmAction()"
+      >
+        <svg
+          *ngIf="isLoading()"
+          xmlns="http://www.w3.org/2000/svg"
+          width="20"
+          height="20"
+          viewBox="0 0 24 24"
+          class="animate-spin"
+        >
+          <path
+            fill="currentColor"
+            fill-opacity=".9"
+            d="M12 2.25c-5.384 0-9.75 4.366-9.75 9.75s4.366 9.75 9.75 9.75v-2.438A7.312 7.312 0 1 1 19.313 12h2.437c0-5.384-4.366-9.75-9.75-9.75Z"
+          />
+        </svg>
+        {{ data.confirmText }}
+      </button>
+    </div>
+  </div>
+</div>

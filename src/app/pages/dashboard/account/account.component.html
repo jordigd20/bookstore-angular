@@ -105,6 +105,7 @@
       <p class="text-muted-foreground">Manage your addresses settings</p>
 
       <div
+        *ngFor="let address of userService.userAddresses()"
         class="my-4 p-4 text-sm flex flex-col xxs:flex-row flex-wrap gap-2 items-center justify-between border border-border rounded-md"
       >
         <dl
@@ -112,48 +113,49 @@
         >
           <div>
             <dt class="font-medium">First name</dt>
-            <dd class="text-muted-foreground">Jordi</dd>
+            <dd class="text-muted-foreground">{{ address.firstName }}</dd>
           </div>
 
           <div>
             <dt class="font-medium">Last name</dt>
-            <dd class="text-muted-foreground">Gómez Devesa</dd>
+            <dd class="text-muted-foreground">{{ address.lastName }}</dd>
           </div>
 
           <div>
             <dt class="font-medium">Phone number</dt>
-            <dd class="text-muted-foreground">(+34) 605188741</dd>
+            <dd class="text-muted-foreground">{{ address.phone }}</dd>
           </div>
 
           <div>
             <dt class="font-medium">Country</dt>
-            <dd class="text-muted-foreground">Spain</dd>
+            <dd class="text-muted-foreground">{{ address.country }}</dd>
           </div>
 
           <div>
             <dt class="font-medium">State/Province</dt>
-            <dd class="text-muted-foreground">Alicante</dd>
+            <dd class="text-muted-foreground">{{ address.province }}</dd>
           </div>
 
           <div>
             <dt class="font-medium">City</dt>
-            <dd class="text-muted-foreground">L'Alfàs del Pi</dd>
+            <dd class="text-muted-foreground">{{ address.city }}</dd>
           </div>
 
           <div>
             <dt class="font-medium">Postal code</dt>
-            <dd class="text-muted-foreground">03580</dd>
+            <dd class="text-muted-foreground">{{ address.postalCode }}</dd>
           </div>
 
           <div>
             <dt class="font-medium">Address</dt>
-            <dd class="text-muted-foreground">C/Aragó, 1 Portal 3 3ºZ</dd>
+            <dd class="text-muted-foreground">{{ address.address }}</dd>
           </div>
         </dl>
 
         <div class="flex items-center flex-col gap-2">
           <button
             class="flex items-center py-1.5 px-3 font-medium border border-border rounded-md bg-background shadow-sm hover:bg-accent"
+            (click)="modifyAddress(address)"
           >
             <svg
               xmlns="http://www.w3.org/2000/svg"
@@ -171,6 +173,7 @@
           </button>
           <button
             class="flex items-center py-1.5 px-3 font-medium border border-border rounded-md bg-background shadow-sm hover:bg-accent"
+            (click)="openDeleteConfirmationModal(address.id)"
           >
             <svg
               xmlns="http://www.w3.org/2000/svg"
@@ -191,6 +194,7 @@
 
       <button
         class="text-sm flex items-center py-1.5 px-3 font-medium border border-border rounded-md bg-background shadow-sm hover:bg-accent"
+        (click)="createAddress()"
       >
         <svg
           xmlns="http://www.w3.org/2000/svg"

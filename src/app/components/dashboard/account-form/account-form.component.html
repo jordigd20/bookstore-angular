@@ -6,63 +6,61 @@
     class="relative border border-border bg-background text-primary text-sm p-8 shadow-sm rounded-md animate-zoom-in"
     (animationend)="onDialogAnimationEnd($event)"
   >
-    <form
-      class="flex flex-col gap-4"
-      [formGroup]="accountForm"
-      (ngSubmit)="onSubmit()"
-    >
-      <div class="space-y-2">
-        <label
-          class="font-medium"
-          [ngClass]="{
-            'text-destructive': firstName.invalid && submitted
-          }"
-          for="firstName"
-        >
-          First name
-        </label>
-        <input
-          #formInput
-          class="w-full h-9 border border-border rounded-md px-3 py-1 shadow-sm bg-background focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:cursor-not-allowed placeholder:text-muted-foreground"
-          type="text"
-          placeholder="John"
-          id="firstName"
-          name="firstName"
-          formControlName="firstName"
-        />
-        <p
-          *ngIf="firstName?.invalid && submitted"
-          class="text-[0.8rem] font-medium text-destructive"
-        >
-          Please enter a first name between 2 and 25 characters
-        </p>
-      </div>
+    <form class="space-y-8" [formGroup]="accountForm" (ngSubmit)="onSubmit()">
+      <div class="space-y-4">
+        <div class="space-y-2">
+          <label
+            class="font-medium"
+            [ngClass]="{
+              'text-destructive': firstName.invalid && submitted
+            }"
+            for="firstName"
+          >
+            First name
+          </label>
+          <input
+            #formInput
+            class="w-full h-9 border border-border rounded-md px-3 py-1 shadow-sm bg-background focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:cursor-not-allowed placeholder:text-muted-foreground"
+            type="text"
+            placeholder="John"
+            id="firstName"
+            name="firstName"
+            formControlName="firstName"
+          />
+          <p
+            *ngIf="firstName?.invalid && submitted"
+            class="text-[0.8rem] font-medium text-destructive"
+          >
+            Please enter a first name between 2 and 25 characters
+          </p>
+        </div>
 
-      <div class="space-y-2">
-        <label
-          class="font-medium"
-          [ngClass]="{
-            'text-destructive': lastName.invalid && submitted
-          }"
-          for="lastName"
-        >
-          Last name
-        </label>
-        <input
-          #formInput
-          class="w-full h-9 border border-border rounded-md px-3 py-1 shadow-sm bg-background focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:cursor-not-allowed placeholder:text-muted-foreground"
-          type="text"
-          placeholder="Doe"
-          id="lastName"
-          name="lastName"
-          formControlName="lastName"
-        />
-        <p
-          *ngIf="lastName?.invalid && submitted"
-          class="text-[0.8rem] font-medium text-destructive"
-        >
-          Please enter a last name between 2 and 50 characters
-        </p>
+        <div class="space-y-2">
+          <label
+            class="font-medium"
+            [ngClass]="{
+              'text-destructive': lastName.invalid && submitted
+            }"
+            for="lastName"
+          >
+            Last name
+          </label>
+          <input
+            #formInput
+            class="w-full h-9 border border-border rounded-md px-3 py-1 shadow-sm bg-background focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:cursor-not-allowed placeholder:text-muted-foreground"
+            type="text"
+            placeholder="Doe"
+            id="lastName"
+            name="lastName"
+            formControlName="lastName"
+          />
+          <p
+            *ngIf="lastName?.invalid && submitted"
+            class="text-[0.8rem] font-medium text-destructive"
+          >
+            Please enter a last name between 2 and 50 characters
+          </p>
+        </div>
       </div>
 
       <button

@@ -1,0 +1,343 @@
+<div
+  class="fixed left-[50%] top-[50%] z-40 w-full max-w-lg translate-x-[-50%] translate-y-[-50%] px-4"
+>
+  <div
+    #container
+    class="relative border border-border bg-background text-primary text-sm p-8 shadow-sm rounded-md animate-zoom-in"
+    (animationend)="onDialogAnimationEnd($event)"
+  >
+    <form class="space-y-8" [formGroup]="addressForm" (ngSubmit)="onSubmit()">
+      <div class="space-y-4">
+        <div class="flex flex-col xs:flex-row gap-4">
+          <div class="space-y-2">
+            <label
+              class="font-medium"
+              [ngClass]="{
+                'text-destructive': firstName.invalid && submitted
+              }"
+              for="firstName"
+            >
+              <span class="text-destructive mr-0.5">*</span>First name
+            </label>
+            <input
+              #formInput
+              class="w-full h-9 border border-border rounded-md px-3 py-1 shadow-sm bg-background focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:cursor-not-allowed placeholder:text-muted-foreground"
+              type="text"
+              placeholder="John"
+              id="firstName"
+              name="firstName"
+              formControlName="firstName"
+            />
+            <p
+              *ngIf="firstName?.invalid && submitted"
+              class="text-[0.8rem] font-medium text-destructive"
+            >
+              Please enter a first name between 2 and 25 characters
+            </p>
+          </div>
+
+          <div class="space-y-2">
+            <label
+              class="font-medium"
+              [ngClass]="{
+                'text-destructive': lastName.invalid && submitted
+              }"
+              for="lastName"
+            >
+              <span class="text-destructive mr-0.5">*</span>Last name
+            </label>
+            <input
+              #formInput
+              class="w-full h-9 border border-border rounded-md px-3 py-1 shadow-sm bg-background focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:cursor-not-allowed placeholder:text-muted-foreground"
+              type="text"
+              placeholder="Doe"
+              id="lastName"
+              name="lastName"
+              formControlName="lastName"
+            />
+            <p
+              *ngIf="lastName?.invalid && submitted"
+              class="text-[0.8rem] font-medium text-destructive"
+            >
+              Please enter a last name between 2 and 50 characters
+            </p>
+          </div>
+        </div>
+
+        <div class="space-y-2">
+          <label
+            class="font-medium"
+            [ngClass]="{
+              'text-destructive': country.invalid && submitted
+            }"
+            for="country"
+          >
+            <span class="text-destructive mr-0.5">*</span>Country
+          </label>
+
+          <button
+            #countryButton
+            [cdkMenuTriggerFor]="countriesDropdown"
+            [cdkMenuPosition]="dropdownPosition"
+            class="flex items-center justify-between w-full px-3 py-2 text-sm rounded-md border border-border shadow-sm transition-colors group data-[state=opened]:bg-accent focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring"
+            data-state="closed"
+          >
+            <span class="pointer-events-none">
+              {{ country.value || "-" }}
+            </span>
+            <svg
+              width="15"
+              height="15"
+              viewBox="0 0 15 15"
+              fill="none"
+              xmlns="http://www.w3.org/2000/svg"
+              class="h-4 w-4 opacity-50"
+              aria-hidden="true"
+            >
+              <path
+                d="M4.93179 5.43179C4.75605 5.60753 4.75605 5.89245 4.93179 6.06819C5.10753 6.24392 5.39245 6.24392 5.56819 6.06819L7.49999 4.13638L9.43179 6.06819C9.60753 6.24392 9.89245 6.24392 10.0682 6.06819C10.2439 5.89245 10.2439 5.60753 10.0682 5.43179L7.81819 3.18179C7.73379 3.0974 7.61933 3.04999 7.49999 3.04999C7.38064 3.04999 7.26618 3.0974 7.18179 3.18179L4.93179 5.43179ZM10.0682 9.56819C10.2439 9.39245 10.2439 9.10753 10.0682 8.93179C9.89245 8.75606 9.60753 8.75606 9.43179 8.93179L7.49999 10.8636L5.56819 8.93179C5.39245 8.75606 5.10753 8.75606 4.93179 8.93179C4.75605 9.10753 4.75605 9.39245 4.93179 9.56819L7.18179 11.8182C7.35753 11.9939 7.64245 11.9939 7.81819 11.8182L10.0682 9.56819Z"
+                fill="currentColor"
+                fill-rule="evenodd"
+                clip-rule="evenodd"
+              ></path>
+            </svg>
+            <ng-template #countriesDropdown>
+              <div
+                class="mx-12 sm:mx-0 w-[414px] max-h-48 overflow-y-scroll my-[2px] p-2 bg-background text-primary shadow-sm border border-border rounded-md animate-zoom-in group-aria-[expanded=false]:animate-zoom-out"
+                cdkMenu
+              >
+                <div class="w-full flex flex-col">
+                  <button
+                    *ngFor="let countryItem of countries()"
+                    cdkMenuItemRadio
+                    [cdkMenuItemChecked]="
+                      countryCode.value === countryItem.code
+                    "
+                    (cdkMenuItemTriggered)="onCountrySelected(countryItem)"
+                    class="text-start text-sm px-3 py-1.5 rounded-sm hover:bg-accent/70 focus-visible:outline-none focus-visible:bg-accent/70 aria-[checked=true]:bg-accent"
+                  >
+                    {{ countryItem.name }}
+                  </button>
+                </div>
+              </div>
+            </ng-template>
+          </button>
+
+          <select
+            aria-hidden="true"
+            tabindex="-1"
+            name="country"
+            id="country"
+            class="sr-only"
+          >
+            <option *ngFor="let country of countries()" [value]="country.code">
+              {{ country.name }}
+            </option>
+            <option disabled selected value="">-</option>
+          </select>
+
+          <p
+            *ngIf="country?.invalid && submitted"
+            class="text-[0.8rem] font-medium text-destructive"
+          >
+            You must select a country from the list
+          </p>
+        </div>
+
+        <div class="space-y-2">
+          <label
+            class="font-medium"
+            [ngClass]="{
+              'text-destructive': phone.invalid && submitted
+            }"
+            for="phone"
+          >
+            <span class="text-destructive mr-0.5">*</span>Phone number
+          </label>
+          <div class="relative">
+            <span class="absolute left-3 top-[7px] pointer-events-none">
+              {{ dialCode.value }}
+            </span>
+            <input
+              #formInput
+              class="w-full h-9 border border-border rounded-md pr-3 py-1 shadow-sm bg-background focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:cursor-not-allowed placeholder:text-muted-foreground"
+              [ngClass]="{
+                'pl-4': dialCode.value?.length === 0,
+                'pl-10': dialCode.value?.length === 2,
+                'pl-12': dialCode.value?.length === 3,
+                'pl-14': dialCode.value?.length === 4,
+                'pl-16': dialCode.value?.length === 5,
+              }"
+              type="tel"
+              inputmode="tel"
+              placeholder="123456789"
+              id="phone"
+              name="phone"
+              formControlName="phone"
+              (keypress)="onlyAllowNumbers($event)"
+            />
+          </div>
+          <p
+            *ngIf="phone?.invalid && submitted"
+            class="text-[0.8rem] font-medium text-destructive"
+          >
+            Please enter a valid phone number
+          </p>
+        </div>
+
+        <div class="space-y-2">
+          <label
+            class="font-medium"
+            [ngClass]="{
+              'text-destructive': province.invalid && submitted
+            }"
+            for="province"
+          >
+            Province/State
+          </label>
+          <input
+            #formInput
+            class="w-full h-9 border border-border rounded-md px-3 py-1 shadow-sm bg-background focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:cursor-not-allowed placeholder:text-muted-foreground"
+            type="text"
+            placeholder="Barcelona"
+            id="province"
+            name="province"
+            formControlName="province"
+          />
+        </div>
+
+        <div class="flex flex-col xs:flex-row gap-4">
+          <div class="space-y-2">
+            <label
+              class="font-medium"
+              [ngClass]="{
+                'text-destructive': city.invalid && submitted
+              }"
+              for="city"
+            >
+              <span class="text-destructive mr-0.5">*</span>City
+            </label>
+            <input
+              #formInput
+              class="w-full h-9 border border-border rounded-md px-3 py-1 shadow-sm bg-background focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:cursor-not-allowed placeholder:text-muted-foreground"
+              type="text"
+              placeholder="Madrid"
+              id="city"
+              name="city"
+              formControlName="city"
+            />
+            <p
+              *ngIf="city?.invalid && submitted"
+              class="text-[0.8rem] font-medium text-destructive"
+            >
+              You must provide a city
+            </p>
+          </div>
+
+          <div class="space-y-2">
+            <label
+              class="font-medium"
+              [ngClass]="{
+                'text-destructive': postalCode.invalid && submitted
+              }"
+              for="postalCode"
+            >
+              <span class="text-destructive mr-0.5">*</span>Postal code
+            </label>
+            <input
+              #formInput
+              class="w-full h-9 border border-border rounded-md px-3 py-1 shadow-sm bg-background focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:cursor-not-allowed placeholder:text-muted-foreground"
+              type="text"
+              placeholder="03690"
+              id="postalCode"
+              name="postalCode"
+              formControlName="postalCode"
+            />
+            <p
+              *ngIf="postalCode?.invalid && submitted"
+              class="text-[0.8rem] font-medium text-destructive"
+            >
+              You must provide a valid postal code
+            </p>
+          </div>
+        </div>
+
+        <div class="space-y-2">
+          <label
+            class="font-medium"
+            [ngClass]="{
+              'text-destructive': address.invalid && submitted
+            }"
+            for="address"
+          >
+            <span class="text-destructive mr-0.5">*</span>Address
+          </label>
+          <input
+            #formInput
+            class="w-full h-9 border border-border rounded-md px-3 py-1 shadow-sm bg-background focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:cursor-not-allowed placeholder:text-muted-foreground"
+            type="text"
+            placeholder="Street address"
+            id="address"
+            name="address"
+            formControlName="address"
+          />
+          <p
+            *ngIf="address?.invalid && submitted"
+            class="text-[0.8rem] font-medium text-destructive"
+          >
+            You must provide an address
+          </p>
+        </div>
+
+        <p class="text-xs">
+          Fields marked with an (<span class="text-destructive">*</span>) are
+          mandatory.
+        </p>
+      </div>
+
+      <button
+        class="w-full flex justify-center items-center gap-2 rounded-md text-sm font-medium bg-primary text-primary-foreground px-4 py-2 transition-colors hover:bg-primary/90 disabled:opacity-50"
+        type="submit"
+        [disabled]="isLoading()"
+      >
+        <svg
+          *ngIf="isLoading()"
+          xmlns="http://www.w3.org/2000/svg"
+          width="20"
+          height="20"
+          viewBox="0 0 24 24"
+          class="animate-spin"
+        >
+          <path
+            fill="currentColor"
+            fill-opacity=".9"
+            d="M12 2.25c-5.384 0-9.75 4.366-9.75 9.75s4.366 9.75 9.75 9.75v-2.438A7.312 7.312 0 1 1 19.313 12h2.437c0-5.384-4.366-9.75-9.75-9.75Z"
+          />
+        </svg>
+        {{ data.type === "create" ? "Create" : "Update" }}
+      </button>
+    </form>
+
+    <button
+      class="absolute right-4 top-4 rounded-md transition-opacity opacity-70 ring-offset-background focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 hover:opacity-100"
+      (click)="closeModal()"
+    >
+      <svg
+        width="15"
+        height="15"
+        viewBox="0 0 15 15"
+        fill="none"
+        xmlns="http://www.w3.org/2000/svg"
+        class="h-4 w-4"
+      >
+        <path
+          d="M11.7816 4.03157C12.0062 3.80702 12.0062 3.44295 11.7816 3.2184C11.5571 2.99385 11.193 2.99385 10.9685 3.2184L7.50005 6.68682L4.03164 3.2184C3.80708 2.99385 3.44301 2.99385 3.21846 3.2184C2.99391 3.44295 2.99391 3.80702 3.21846 4.03157L6.68688 7.49999L3.21846 10.9684C2.99391 11.193 2.99391 11.557 3.21846 11.7816C3.44301 12.0061 3.80708 12.0061 4.03164 11.7816L7.50005 8.31316L10.9685 11.7816C11.193 12.0061 11.5571 12.0061 11.7816 11.7816C12.0062 11.557 12.0062 11.193 11.7816 10.9684L8.31322 7.49999L11.7816 4.03157Z"
+          fill="currentColor"
+          fill-rule="evenodd"
+          clip-rule="evenodd"
+        ></path>
+      </svg>
+      <span class="sr-only">Close</span>
+    </button>
+  </div>
+</div>

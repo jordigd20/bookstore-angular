@@ -18,7 +18,7 @@
   --muted-foreground: 102 103 110;
   --accent: 244 244 245;
   --accent-foreground: 12 18 32;
-  --destructive: 239, 68, 68;
+  --destructive: 239 68 68;
   --border: 228 228 231;
   --ring: 12 18 32;
   --scrollbar: rgb(228, 228, 231);
@@ -34,7 +34,7 @@
   --muted-foreground: 161 161 170;
   --accent: 39 39 42;
   --accent-foreground: 250 250 250;
-  --destructive: 239, 68, 68;
+  --destructive: 239 68 68;
   --border: 39 39 42;
   --ring: 212 212 216;
   --scrollbar: rgb(39, 39, 42);
