@@ -16,7 +16,7 @@ export class BooksService {
   private authService = inject(AuthService);
   private toastService = inject(ToastService);
 
-  filterState = signal<FilterState>({
+  private filterState = signal<FilterState>({
     search: '',
     price: '0-500',
     filterBy: '',
@@ -26,7 +26,7 @@ export class BooksService {
     skip: 0,
   });
 
-  bookResponse = signal<{
+  private bookResponse = signal<{
     response: BookPaginatedResponse | undefined;
     isLoading: boolean;
   }>({
@@ -106,7 +106,7 @@ export class BooksService {
 
     this.httpService
       .executeAuthPost(
-        `/users/${user.wishlist}/wishlist`,
+        `/users/${user.id}/wishlist`,
         {
           bookIds: [bookId],
         },

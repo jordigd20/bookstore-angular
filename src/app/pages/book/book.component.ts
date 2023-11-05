@@ -17,6 +17,7 @@ import { Book } from '../../interfaces/book.interface';
 import { CartService } from '../../services/cart.service';
 import { AuthService } from '../../services/auth.service';
 import { BookSkeletonComponent } from '../../components/book-skeleton/book-skeleton.component';
+import { UserService } from '../../services/user.service';
 
 @Component({
   selector: 'app-book',
@@ -40,6 +41,7 @@ export class BookComponent {
   bookService = inject(BooksService);
   cartService = inject(CartService);
   authService = inject(AuthService);
+  userService = inject(UserService);
   activatedRoute = inject(ActivatedRoute);
   router = inject(Router);
 

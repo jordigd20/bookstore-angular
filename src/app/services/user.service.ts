@@ -1,9 +1,11 @@
-import { Injectable, inject, signal } from '@angular/core';
+import { Injectable, computed, inject, signal } from '@angular/core';
 import { AuthService } from './auth.service';
 import { HttpService } from './http.service';
 import { Address, CreateAddress, User } from '../interfaces/user.interface';
 import { ToastService } from './toast.service';
 import { map } from 'rxjs';
+import { BookPaginatedResponse } from '../interfaces/book.interface';
+import { Params } from '@angular/router';
 
 @Injectable({
   providedIn: 'root',
@@ -13,7 +15,18 @@ export class UserService {
   private httpService = inject(HttpService);
   private toastService = inject(ToastService);
 
+  private userWishlist = signal<{
+    response: BookPaginatedResponse | undefined;
+    isLoading: boolean;
+  }>({
+    response: undefined,
+    isLoading: false,
+  });
   userAddresses = signal<Address[]>([]);
+
+  wishlistedBooks = computed(() => this.userWishlist().response?.data);
+  pagination = computed(() => this.userWishlist().response?.pagination);
+  isLoading = computed(() => this.userWishlist().isLoading);
 
   constructor() {}
 
@@ -211,7 +224,7 @@ export class UserService {
       }
 
       this.httpService
-        .executeAuthDelete(`/addresses/${idAddress}`, token)
+        .executeAuthDelete(`/addresses/${idAddress}`, {}, token)
         .subscribe({
           next: (response) => {
             this.userAddresses.update((addresses) =>
@@ -228,6 +241,101 @@ export class UserService {
           },
         });
     });
+  }
+
+  getUserWishlist(pageParams: Params) {
+    const user = this.authService.user();
+    const token = this.authService.token();
+
+    if (!user || !token) {
+      return;
+    }
+
+    this.userWishlist.update((state) => ({ ...state, isLoading: true }));
+
+    this.httpService
+      .executeAuthGet<BookPaginatedResponse>(
+        `/users/${user.id}/wishlist/`,
+        pageParams,
+        token
+      )
+      .subscribe({
+        next: (response) => {
+          console.log(response);
+          this.userWishlist.set({ response, isLoading: false });
+        },
+        error: (error) => {
+          console.error(error);
+        },
+      });
+  }
+
+  addBookToWishlist(bookId: number) {
+    const user = this.authService.user();
+    const token = this.authService.token();
+
+    if (user === null || token === null) {
+      this.toastService.showWarningToast(
+        'You must be logged in to add a book to your wishlist.'
+      );
+      return;
+    }
+
+    this.httpService
+      .executeAuthPost(
+        `/users/${user.id}/wishlist`,
+        {
+          bookIds: [bookId],
+        },
+        token
+      )
+      .subscribe({
+        next: (response) => {
+          console.log(response);
+          this.toastService.showSuccessToast('Book added to your wishlist');
+        },
+        error: (err) => {
+          console.error(err);
+          this.toastService.showWarningToast(
+            'You already have this book in your wishlist'
+          );
+        },
+      });
+  }
+
+  removeBookFromWishlist(bookId: number) {
+    const user = this.authService.user();
+    const token = this.authService.token();
+
+    if (!user || !token) {
+      return;
+    }
+
+    this.httpService
+      .executeAuthDelete<BookPaginatedResponse>(
+        `/users/${user.id}/wishlist/`,
+        {
+          bookIds: [bookId],
+          skip: this.pagination()!.skip,
+          take: this.pagination()!.take,
+        },
+        token
+      )
+      .subscribe({
+        next: (response) => {
+          console.log(response);
+          this.userWishlist.update((state) => ({
+            ...state,
+            response,
+          }));
+        },
+        error: (error) => {
+          this.toastService.showErrorToast(
+            'An error ocurred while removing the book from your wishlist'
+          );
+          console.error(error);
+        },
+      });
   }
 
   getCountries() {

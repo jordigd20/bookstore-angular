@@ -62,6 +62,14 @@ export const routes: Routes = [
       ),
   },
   {
+    path: 'dashboard/wishlist',
+    canActivate: [AuthGuard],
+    loadComponent: () =>
+      import('./pages/dashboard/wishlist/wishlist.component').then(
+        (m) => m.WishlistComponent
+      ),
+  },
+  {
     path: '**',
     pathMatch: 'full',
     component: NotFoundComponent,

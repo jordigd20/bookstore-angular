@@ -98,13 +98,13 @@ export class CartService {
                 })),
               }));
 
-              this.toastService.showSuccessToast('Book added to cart');
+              this.toastService.showSuccessToast('Book added to your cart');
 
               resolve(true);
             },
             error: (error) => {
               console.error(error);
-              this.toastService.showErrorToast(
+              this.toastService.showWarningToast(
                 'You already have this book in your cart'
               );
               resolve(false);
@@ -168,6 +168,7 @@ export class CartService {
         this.httpService
           .executeAuthDelete<CartResponse>(
             `/carts/${user.cart}/books/${idBook}`,
+            {},
             token
           )
           .subscribe({

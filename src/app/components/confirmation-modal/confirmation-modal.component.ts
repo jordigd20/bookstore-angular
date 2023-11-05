@@ -1,4 +1,5 @@
 import {
+  ChangeDetectionStrategy,
   Component,
   ElementRef,
   HostListener,
@@ -14,6 +15,7 @@ import { DIALOG_DATA, DialogRef } from '@angular/cdk/dialog';
   standalone: true,
   imports: [CommonModule],
   templateUrl: './confirmation-modal.component.html',
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ConfirmationModalComponent {
   @ViewChild('container') container!: ElementRef<HTMLDivElement>;

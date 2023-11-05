@@ -1,0 +1,96 @@
+<app-navbar
+  class="block sticky top-0 z-50 w-full border-b border-border bg-background"
+/>
+<div #scrollToTopElement></div>
+<div
+  class="container text-primary md:grid md:grid-cols-[180px_minmax(0,1fr)] md:gap-6 lg:grid-cols-[240px_minmax(0,1fr)] lg:gap-10"
+>
+  <aside class="md:border-r border-border">
+    <app-dashboard-nav active="wishlist" />
+  </aside>
+
+  <div
+    role="separator"
+    aria-orientation="horizontal"
+    class="block md:hidden -mx-1 my-1 h-px bg-border"
+  ></div>
+
+  <main class="pb-4 pt-2 md:py-8 space-y-8">
+    <section>
+      <h2 class="font-semibold text-3xl">Wishlist</h2>
+      <p class="text-muted-foreground">Manage your wishlist books</p>
+
+      <ng-container *ngIf="userService.isLoading(); else wishlistedBooks">
+        <div
+          class="pt-1 pb-2 grid grid-cols-1 xxs:grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5"
+        >
+          <ng-container *ngFor="let _ of [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]">
+            <app-vertical-card-skeleton />
+          </ng-container>
+        </div>
+      </ng-container>
+
+      <ng-template #wishlistedBooks>
+        <ng-container *ngIf="userService.wishlistedBooks(); else error">
+          <ng-container
+            *ngIf="userService.wishlistedBooks()!.length > 0; else noBooksFound"
+          >
+            <div
+              class="pt-1 pb-2 grid grid-cols-1 xxs:grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5"
+            >
+              <app-vertical-card
+                *ngFor="
+                  let book of userService.wishlistedBooks()!
+                    | paginate
+                      : {
+                          itemsPerPage: booksPerPage,
+                          currentPage: currentPage(),
+                          totalItems: userService.pagination()!.total
+                        }
+                "
+                [book]="book"
+                [isWishlisted]="true"
+              />
+            </div>
+
+            <app-pagination (pageChange)="changePage($event)"></app-pagination>
+          </ng-container>
+
+          <ng-template #noBooksFound>
+            <div class="my-2 space-y-2">
+              <img
+                src="../../../assets/not-found.svg"
+                alt="A person holding a reload search symbol, with an empty note in the back"
+                width="350"
+                loading="lazy"
+                class="m-auto"
+              />
+
+              <h3 class="text-center text-lg font-semibold">
+                No wishlisted books found
+              </h3>
+            </div>
+          </ng-template>
+        </ng-container>
+
+        <ng-template #error>
+          <div class="my-2 space-y-4">
+            <img
+              src="../../../assets/error-happened.svg"
+              alt="A person next to a warning symbol"
+              width="350"
+              loading="lazy"
+              class="m-auto"
+            />
+
+            <h3 class="text-center text-lg font-medium">
+              Something bad happened...
+            </h3>
+          </div>
+        </ng-template>
+      </ng-template>
+    </section>
+  </main>
+</div>
+
+<app-footer />

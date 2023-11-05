@@ -52,8 +52,11 @@
     </div>
 
     <span class="px-4 text-muted-foreground">{{ book.author }}</span>
-    <div class="px-4 flex flex-wrap items-center leading-[initial]">
-      <div *ngIf="book.averageRating" class="flex items-center">
+    <div
+      *ngIf="book.averageRating"
+      class="px-4 flex flex-wrap items-center leading-[initial]"
+    >
+      <div class="flex items-center">
         <svg
           *ngFor="let number of [1, 2, 3, 4, 5]"
           width="20"
@@ -76,14 +79,35 @@
     </div>
   </a>
 
-  <div class="p-4 mt-auto">
+  <div class="p-4 mt-auto flex items-center gap-2">
     <button
-      class="flex items-center justify-center gap-2 w-full py-2 px-3 rounded-md shadow-sm bg-primary text-sm text-primary-foreground transition-colors hover:bg-primary/90 disabled:opacity-50"
-      (click)="addToCart(book.id)"
-      [disabled]="isLoading()"
+      *ngIf="isWishlisted"
+      class="inline-flex items-center justify-center w-12 h-9 rounded-md shadow-sm bg-background text-sm text-primary border border-border transition-colors hover:bg-primary hover:text-primary-foreground disabled:opacity-50"
+      [disabled]="isLoadingWishlist()"
+      (click)="removeFromWishlist(book.id)"
     >
       <svg
-        *ngIf="isLoading()"
+        xmlns="http://www.w3.org/2000/svg"
+        width="24"
+        height="24"
+        viewBox="0 0 24 24"
+        class="w-5 h-5"
+      >
+        <path
+          fill="currentColor"
+          d="M21 7h-6V5h6v2ZM5 21V5q0-.825.588-1.413T7 3h6v2H7v12.95l5-2.15l5 2.15V11h2v10l-7-3l-7 3ZM7 5h6h-6Z"
+        />
+      </svg>
+      <span class="sr-only">Remove from wishlist</span>
+    </button>
+
+    <button
+      class="flex items-center justify-center gap-2 w-full py-2 px-1 rounded-md shadow-sm bg-primary text-sm text-primary-foreground transition-colors hover:bg-primary/90 disabled:opacity-50"
+      (click)="addToCart(book.id)"
+      [disabled]="isLoadingCart()"
+    >
+      <svg
+        *ngIf="isLoadingCart()"
         xmlns="http://www.w3.org/2000/svg"
         width="20"
         height="20"

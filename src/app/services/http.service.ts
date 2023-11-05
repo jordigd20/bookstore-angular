@@ -47,11 +47,12 @@ export class HttpService {
     });
   }
 
-  executeAuthDelete<T>(endpoint: string, token: string) {
+  executeAuthDelete<T>(endpoint: string, body: any, token: string) {
     return this.http.delete<T>(`${API_URL}${endpoint}`, {
       headers: {
         Authorization: `Bearer ${token}`,
       },
+      body,
     });
   }
 
