@@ -81,46 +81,56 @@
 
   <div class="p-4 mt-auto flex items-center gap-2">
     <button
-      *ngIf="type === 'wishlist'"
-      class="inline-flex items-center justify-center w-12 h-9 rounded-md shadow-sm bg-background text-sm text-primary border border-border transition-colors hover:bg-primary hover:text-primary-foreground disabled:opacity-50"
-      [disabled]="isLoadingWishlist()"
-      (click)="removeFromWishlist(book.id)"
+      *ngIf="type === 'not-rated'"
+      class="flex items-center justify-center gap-2 w-full py-2 px-1 rounded-md shadow-sm bg-primary text-sm text-primary-foreground transition-colors hover:bg-primary/90 disabled:opacity-50"
+      (click)="openRateBookModal(book.id)"
     >
-      <svg
-        xmlns="http://www.w3.org/2000/svg"
-        width="24"
-        height="24"
-        viewBox="0 0 24 24"
-        class="w-5 h-5"
-      >
-        <path
-          fill="currentColor"
-          d="M21 7h-6V5h6v2ZM5 21V5q0-.825.588-1.413T7 3h6v2H7v12.95l5-2.15l5 2.15V11h2v10l-7-3l-7 3ZM7 5h6h-6Z"
-        />
-      </svg>
-      <span class="sr-only">Remove from wishlist</span>
+      Rate book
     </button>
 
-    <button
-      class="flex items-center justify-center gap-2 w-full py-2 px-1 rounded-md shadow-sm bg-primary text-sm text-primary-foreground transition-colors hover:bg-primary/90 disabled:opacity-50"
-      (click)="addToCart(book.id)"
-      [disabled]="isLoadingCart()"
+    <div
+      *ngIf="type === 'rated' && rating"
+      class="w-full flex flex-wrap items-center leading-[initial] gap-2 justify-center"
     >
-      <svg
-        *ngIf="isLoadingCart()"
-        xmlns="http://www.w3.org/2000/svg"
-        width="20"
-        height="20"
-        viewBox="0 0 24 24"
-        class="animate-spin"
+      <div class="mb-1 flex flex-wrap xxs:flex-nowrap items-center">
+        <svg
+          *ngFor="let number of [1, 2, 3, 4, 5]"
+          width="20"
+          height="20"
+          viewBox="0 0 24 24"
+          fill="none"
+          xmlns="http://www.w3.org/2000/svg"
+          class="w-6 h-6"
+          [ngClass]="{
+            'text-[#e9c867]': number <= +rating,
+            'text-gray-400': number > +rating
+          }"
+        >
+          <path
+            d="M5.825 22L7.45 14.975L2 10.25L9.2 9.625L12 3L14.8 9.625L22 10.25L16.55 14.975L18.175 22L12 18.275L5.825 22Z"
+            fill="currentColor"
+          />
+        </svg>
+        <span class="sr-only">({{ rating }})</span>
+      </div>
+      <button
+        class="inline-flex items-center justify-center w-8 h-8 rounded-md shadow-sm bg-background text-sm text-primary border border-border transition-colors hover:bg-primary hover:text-primary-foreground disabled:opacity-50"
+        (click)="openUpdateRateModal(book.id)"
       >
-        <path
-          fill="currentColor"
-          fill-opacity=".9"
-          d="M12 2.25c-5.384 0-9.75 4.366-9.75 9.75s4.366 9.75 9.75 9.75v-2.438A7.312 7.312 0 1 1 19.313 12h2.437c0-5.384-4.366-9.75-9.75-9.75Z"
-        />
-      </svg>
-      Add to cart
-    </button>
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          width="24"
+          height="24"
+          viewBox="0 0 24 24"
+          class="h-5 w-5"
+        >
+          <path
+            fill="currentColor"
+            d="m14.06 9l.94.94L5.92 19H5v-.92L14.06 9m3.6-6c-.25 0-.51.1-.7.29l-1.83 1.83l3.75 3.75l1.83-1.83c.39-.39.39-1.04 0-1.41l-2.34-2.34c-.2-.2-.45-.29-.71-.29m-3.6 3.19L3 17.25V21h3.75L17.81 9.94l-3.75-3.75Z"
+          />
+        </svg>
+        <span class="sr-only">Remove from wishlist</span>
+      </button>
+    </div>
   </div>
 </div>

@@ -24,7 +24,7 @@ export class VerticalCardComponent {
   @ViewChild('categoryTag') categoryTag!: ElementRef<HTMLDivElement>;
 
   @Input({ required: true }) book!: Book;
-  @Input({ required: true }) isWishlisted!: boolean;
+  @Input({ required: true }) type!: 'wishlist' | 'shop';
 
   cartService = inject(CartService);
   userService = inject(UserService);

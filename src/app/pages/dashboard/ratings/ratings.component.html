@@ -1,0 +1,232 @@
+<app-navbar
+  class="block sticky top-0 z-50 w-full border-b border-border bg-background"
+/>
+<div #scrollToTopElement></div>
+<div
+  class="container text-primary md:grid md:grid-cols-[180px_minmax(0,1fr)] md:gap-6 lg:grid-cols-[240px_minmax(0,1fr)] lg:gap-10"
+>
+  <aside class="md:border-r border-border">
+    <app-dashboard-nav active="ratings" />
+  </aside>
+
+  <div
+    role="separator"
+    aria-orientation="horizontal"
+    class="block md:hidden -mx-1 my-1 h-px bg-border"
+  ></div>
+
+  <main class="pb-4 pt-2 md:py-8 space-y-8">
+    <section>
+      <h2 class="font-semibold text-3xl">Ratings</h2>
+      <p class="text-muted-foreground">Rate the books you have purchased</p>
+
+      <div
+        role="tablist"
+        aria-orientation="horizontal"
+        class="my-4 inline-flex h-9 items-center justify-center rounded-lg bg-muted p-1 text-muted-foreground"
+      >
+        <button
+          role="tab"
+          id="not-rated-books"
+          aria-selected="true"
+          class="inline-flex gap-2 items-center justify-center whitespace-nowrap rounded-md px-3 py-1 text-sm font-medium ring-offset-background transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 aria-[selected=true]:bg-background aria-[selected=true]:text-foreground aria-[selected=true]:shadow"
+          [attr.aria-selected]="tabSelected() === 'not-rated'"
+          (click)="onTabSelected('not-rated')"
+        >
+          Not rated
+          <span
+            *ngIf="
+              ratingsService.noRatedPagination() &&
+              ratingsService.noRatedPagination()!.total > 0
+            "
+            class="px-[5px] py-0.5 rounded-md text-xs bg-primary text-primary-foreground"
+          >
+            {{ ratingsService.noRatedPagination()?.total }}
+          </span>
+        </button>
+        <button
+          role="tab"
+          id="rated-books"
+          class="inline-flex gap-2 items-center justify-center whitespace-nowrap rounded-md px-3 py-1 text-sm font-medium ring-offset-background transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 aria-[selected=true]:bg-background aria-[selected=true]:text-foreground aria-[selected=true]:shadow group"
+          [attr.aria-selected]="tabSelected() === 'rated'"
+          (click)="onTabSelected('rated')"
+        >
+          Rated
+        </button>
+      </div>
+
+      <div
+        role="tabpanel"
+        aria-labelledby="not-rated-books"
+        class=""
+        [ngClass]="{ hidden: tabSelected() !== 'not-rated' }"
+      >
+        <ng-container
+          *ngIf="ratingsService.isNoRatedLoading(); else noRatedBooksTemplate"
+        >
+          <div
+            class="pt-1 pb-2 grid grid-cols-1 xxs:grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5"
+          >
+            <ng-container *ngFor="let _ of [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]">
+              <app-vertical-card-skeleton />
+            </ng-container>
+          </div>
+        </ng-container>
+
+        <ng-template #noRatedBooksTemplate>
+          <ng-container *ngIf="ratingsService.noRatedBooks(); else error">
+            <ng-container
+              *ngIf="
+                ratingsService.noRatedBooks()!.length > 0;
+                else noBooksFound
+              "
+            >
+              <div
+                class="pt-1 pb-2 grid grid-cols-1 xxs:grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5"
+              >
+                <app-rating-card
+                  *ngFor="
+                    let book of ratingsService.noRatedBooks()!
+                      | paginate
+                        : {
+                            id: 'not-rated-page-pagination',
+                            itemsPerPage: booksPerPage,
+                            currentPage: ratingsService.noRatedCurrentPage(),
+                            totalItems:
+                              ratingsService.noRatedPagination()!.total
+                          }
+                  "
+                  [book]="book"
+                  type="not-rated"
+                />
+              </div>
+
+              <app-pagination
+                id="not-rated-page-pagination"
+                (pageChange)="changePage($event, 'not-rated-page')"
+              ></app-pagination>
+            </ng-container>
+
+            <ng-template #noBooksFound>
+              <div class="my-2 space-y-2">
+                <img
+                  src="../../../assets/not-found.svg"
+                  alt="A person holding a reload search symbol, with an empty note in the back"
+                  width="350"
+                  loading="lazy"
+                  class="m-auto"
+                />
+
+                <h3 class="text-center text-lg font-semibold">
+                  No books found
+                </h3>
+              </div>
+            </ng-template>
+          </ng-container>
+
+          <ng-template #error>
+            <div class="my-2 space-y-4">
+              <img
+                src="../../../assets/error-happened.svg"
+                alt="A person next to a warning symbol"
+                width="350"
+                loading="lazy"
+                class="m-auto"
+              />
+
+              <h3 class="text-center text-lg font-medium">
+                Something bad happened...
+              </h3>
+            </div>
+          </ng-template>
+        </ng-template>
+      </div>
+
+      <div
+        role="tabpanel"
+        aria-labelledby="rated-books"
+        class=""
+        [ngClass]="{ hidden: tabSelected() !== 'rated' }"
+      >
+        <ng-container
+          *ngIf="ratingsService.isRatedLoading(); else ratedBooksTemplate"
+        >
+          <div
+            class="pt-1 pb-2 grid grid-cols-1 xxs:grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5"
+          >
+            <ng-container *ngFor="let _ of [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]">
+              <app-vertical-card-skeleton />
+            </ng-container>
+          </div>
+        </ng-container>
+
+        <ng-template #ratedBooksTemplate>
+          <ng-container *ngIf="ratingsService.ratedBooks(); else error">
+            <ng-container
+              *ngIf="ratingsService.ratedBooks()!.length > 0; else noBooksFound"
+            >
+              <div
+                class="pt-1 pb-2 grid grid-cols-1 xxs:grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5"
+              >
+                <app-rating-card
+                  *ngFor="
+                    let book of ratingsService.ratedBooks()!
+                      | paginate
+                        : {
+                            id: 'rated-page-pagination',
+                            itemsPerPage: booksPerPage,
+                            currentPage: ratingsService.ratedCurrentPage(),
+                            totalItems: ratingsService.ratedPagination()!.total
+                          }
+                  "
+                  [book]="book.book"
+                  type="rated"
+                  [rating]="book.rating"
+                />
+              </div>
+
+              <app-pagination
+                (pageChange)="changePage($event, 'rated-page')"
+                id="rated-page-pagination"
+              ></app-pagination>
+            </ng-container>
+
+            <ng-template #noBooksFound>
+              <div class="my-2 space-y-2">
+                <img
+                  src="../../../assets/not-found.svg"
+                  alt="A person holding a reload search symbol, with an empty note in the back"
+                  width="350"
+                  loading="lazy"
+                  class="m-auto"
+                />
+
+                <h3 class="text-center text-lg font-semibold">
+                  No books found
+                </h3>
+              </div>
+            </ng-template>
+          </ng-container>
+
+          <ng-template #error>
+            <div class="my-2 space-y-4">
+              <img
+                src="../../../assets/error-happened.svg"
+                alt="A person next to a warning symbol"
+                width="350"
+                loading="lazy"
+                class="m-auto"
+              />
+
+              <h3 class="text-center text-lg font-medium">
+                Something bad happened...
+              </h3>
+            </div>
+          </ng-template>
+        </ng-template>
+      </div>
+    </section>
+  </main>
+</div>
+
+<app-footer />

@@ -7,6 +7,15 @@ export interface BookPaginatedResponse {
   };
 }
 
+export interface BookRatedResponse {
+  data: RatedBook[];
+  pagination: {
+    skip: number;
+    take: number;
+    total: number;
+  };
+}
+
 export interface Book {
   id: number;
   ISBN: string;
@@ -37,4 +46,9 @@ export interface BookCategory {
   thumbnail?: string;
   createdAt: Date;
   updatedAt: Date;
+}
+
+export interface RatedBook {
+  book: Book;
+  rating: string;
 }

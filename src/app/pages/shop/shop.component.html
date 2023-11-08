@@ -71,17 +71,21 @@
                   let book of bookService.books()!
                     | paginate
                       : {
+                          id: 'shop-pagination',
                           itemsPerPage: booksPerPage,
                           currentPage: bookService.page(),
                           totalItems: bookService.pagination()!.total
                         }
                 "
                 [book]="book"
-                [isWishlisted]="false"
+                type="shop"
               />
             </div>
 
-            <app-pagination (pageChange)="changePage($event)"></app-pagination>
+            <app-pagination
+              id="shop-pagination"
+              (pageChange)="changePage($event)"
+            ></app-pagination>
           </ng-container>
 
           <ng-template #noBooksFound>

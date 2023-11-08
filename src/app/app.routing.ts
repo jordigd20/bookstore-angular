@@ -70,6 +70,14 @@ export const routes: Routes = [
       ),
   },
   {
+    path: 'dashboard/ratings',
+    canActivate: [AuthGuard],
+    loadComponent: () =>
+      import('./pages/dashboard/ratings/ratings.component').then(
+        (m) => m.RatingsComponent
+      ),
+  },
+  {
     path: '**',
     pathMatch: 'full',
     component: NotFoundComponent,

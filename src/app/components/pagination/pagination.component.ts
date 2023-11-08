@@ -24,7 +24,7 @@ function coerceToBoolean(input: string | boolean): boolean {
   encapsulation: ViewEncapsulation.None,
 })
 export class PaginationComponent {
-  @Input() id?: string;
+  @Input({ required: true }) id!: string;
   @Input() maxSize: number = 7;
 
   @Input()

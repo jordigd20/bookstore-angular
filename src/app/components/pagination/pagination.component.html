@@ -1,5 +1,6 @@
 <pagination-template
   #p="paginationApi"
+  [id]="id"
   [maxSize]="maxSize"
   (pageChange)="pageChange.emit($event)"
   (pageBoundsCorrection)="pageBoundsCorrection.emit($event)"

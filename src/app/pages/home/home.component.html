@@ -68,7 +68,7 @@
         class="py-2 grid grid-cols-1 xxs:grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 xl:grid-cols-6"
       >
         <ng-container *ngFor="let book of bestRatedBooks()">
-          <app-vertical-card [book]="book" [isWishlisted]="false" />
+          <app-vertical-card [book]="book" type="shop" />
         </ng-container>
       </div>
     </app-home-section>
@@ -86,7 +86,7 @@
         class="py-2 grid grid-cols-1 xxs:grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 xl:grid-cols-6"
       >
         <ng-container *ngFor="let book of onSaleBooks()">
-          <app-vertical-card [book]="book" [isWishlisted]="false" />
+          <app-vertical-card [book]="book" type="shop" />
         </ng-container>
       </div>
     </app-home-section>
