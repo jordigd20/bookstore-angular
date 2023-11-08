@@ -2,8 +2,10 @@ import {
   ChangeDetectionStrategy,
   Component,
   ElementRef,
+  EventEmitter,
   Input,
   OnInit,
+  Output,
   ViewChild,
   inject,
   signal,
@@ -18,7 +20,6 @@ import {
   ReactiveFormsModule,
   Validators,
 } from '@angular/forms';
-import { DialogRef } from '@angular/cdk/dialog';
 
 @Component({
   selector: 'app-cart-item',
@@ -31,9 +32,9 @@ export class CartItemComponent implements OnInit {
   @ViewChild('quantityInput') quantityInput!: ElementRef<HTMLInputElement>;
 
   @Input({ required: true }) cartBook!: CartBook;
+  @Output() closeSideCart = new EventEmitter();
 
   cartService = inject(CartService);
-  dialogRef = inject(DialogRef);
 
   quantityControl = new FormControl(1, [
     Validators.required,

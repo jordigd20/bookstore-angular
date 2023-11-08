@@ -20,7 +20,10 @@
       <div class="w-full h-full overflow-hidden overflow-y-auto scrollbar">
         <div class="pr-6 w-full h-full flex flex-col gap-4">
           <ng-container *ngFor="let cartBook of cartService.cart()">
-            <app-cart-item [cartBook]="cartBook" />
+            <app-cart-item
+              [cartBook]="cartBook"
+              (closeSideCart)="closeModal()"
+            />
           </ng-container>
         </div>
       </div>
@@ -45,8 +48,9 @@
             <span>{{ cartService.total() | number : "1.2-2" }}€</span>
           </div>
           <a
-            routerLink="/cart"
+            routerLink="/checkout/cart"
             class="w-full flex justify-center items-center gap-2 border rounded-md text-xs font-medium bg-primary text-primary-foreground px-4 py-2 transition-colors hover:bg-primary/90 disabled:opacity-50"
+            (click)="closeModal()"
           >
             Continue to checkout
           </a>
@@ -62,13 +66,8 @@
           width="300"
           height="400"
         />
-        <p class="text-lg font-medium mt-2">
-          Your cart is empty
-        </p>
-        <a
-          class="font-medium text-sm underline"
-          routerLink="/shop"
-        >
+        <p class="text-lg font-medium mt-2">Your cart is empty</p>
+        <a class="font-medium text-sm underline" routerLink="/shop">
           Add items to your cart to checkout
         </a>
       </div>
@@ -83,13 +82,11 @@
         width="300"
         height="400"
       />
-      <p>
-        You need to sign in before adding books to your cart.
-      </p>
+      <p>You need to sign in before adding books to your cart.</p>
       <a
         routerLink="/signin"
         class="py-2 px-4 border-[1px] rounded-md shadow-sm bg-primary text-sm text-primary-foreground transition-colors hover:bg-primary/90"
-        (click)="dialogRef.close()"
+        (click)="closeModal()"
       >
         Sign in
       </a>

@@ -15,7 +15,7 @@
       <a
         [routerLink]="['/book', cartBook.book.id + '-' + cartBook.book.slug]"
         class="line-clamp-1 text-sm font-medium hover:underline"
-        (click)="dialogRef.close()"
+        (click)="closeSideCart.emit()"
       >
         {{ cartBook.book.title }}
       </a>
