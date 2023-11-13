@@ -30,24 +30,29 @@ export class UserService {
 
   constructor() {}
 
-  getUserAddresses(idUser: number) {
-    const user = this.authService.user();
-    const token = this.authService.token();
+  getUserAddresses() {
+    return new Promise<boolean>((resolve) => {
+      const user = this.authService.user();
+      const token = this.authService.token();
 
-    if (!user || !token) {
-      return;
-    }
+      if (!user || !token) {
+        resolve(false);
+        return;
+      }
 
-    this.httpService
-      .executeAuthGet<Address[]>(`/addresses/${idUser}`, {}, token)
-      .subscribe({
-        next: (response) => {
-          this.userAddresses.set(response);
-        },
-        error: (error) => {
-          console.error(error);
-        },
-      });
+      this.httpService
+        .executeAuthGet<Address[]>(`/addresses/${user.id}`, {}, token)
+        .subscribe({
+          next: (response) => {
+            this.userAddresses.set(response);
+            resolve(true);
+          },
+          error: (error) => {
+            resolve(false);
+            console.error(error);
+          },
+        });
+    });
   }
 
   updateUser(firstName: string, lastName: string) {

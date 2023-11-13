@@ -29,8 +29,8 @@ export class AccountComponent {
   authService = inject(AuthService);
   userService = inject(UserService);
 
-  ngOnInit() {
-    this.userService.getUserAddresses(this.authService.user()!.id);
+  async ngOnInit() {
+    await this.userService.getUserAddresses();
   }
 
   openAccountDialog() {

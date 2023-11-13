@@ -49,6 +49,7 @@ export class AddressFormComponent {
   data: {
     address?: Address;
     type: 'create' | 'edit';
+    selectAddressInCheckout?: () => void;
   } = inject(DIALOG_DATA);
 
   isLoading = signal(false);
@@ -273,12 +274,36 @@ export class AddressFormComponent {
     };
 
     this.isLoading.set(true);
+
     if (this.data.type === 'create') {
-      await this.userService.createAddress(address);
-    } else {
-      await this.userService.updateAddress(this.data.address!.id, address);
+      const isCreated = await this.userService.createAddress(address);
+      this.isLoading.set(false);
+
+      if (isCreated && this.data.selectAddressInCheckout) {
+        this.closeModal();
+      } else {
+        this.closeModal();
+      }
+
+      if (isCreated) {
+        this.data.selectAddressInCheckout?.();
+        this.closeModal();
+      }
+
+      return;
     }
+
+    const isUpdated = await this.userService.updateAddress(
+      this.data.address!.id,
+      address
+    );
     this.isLoading.set(false);
+
+    if (isUpdated) {
+      this.closeModal();
+    }
+
+    return;
   }
 
   onlyAllowNumbers(event: KeyboardEvent) {

@@ -1,0 +1,79 @@
+<div
+  role="tabpanel"
+  aria-labelledby="step-1"
+  class="container py-4 md:py-8 flex flex-col lg:flex-row gap-4 text-primary"
+>
+  <ng-container *ngIf="cartService.cart().length > 0; else emptyCart">
+    <section class="flex-[1_1]">
+      <h2 class="text-3xl font-semibold">Checkout</h2>
+      <p class="text-muted-foreground">Checkout with your cart items</p>
+
+      <div
+        class="w-full flex flex-col gap-4 my-4 pt-3.5 border-t border-border"
+      >
+        <ng-container *ngFor="let cartBook of cartService.cart()">
+          <app-cart-item [cartBook]="cartBook" />
+        </ng-container>
+      </div>
+
+      <div class="flex items-center justify-end flex-wrap gap-2 text-sm">
+        <a
+          class="flex items-center py-1.5 px-4 border border-border rounded-md bg-background shadow-sm hover:bg-accent"
+          routerLink="/shop"
+        >
+          Continue shopping
+        </a>
+      </div>
+    </section>
+
+    <div
+      class="lg:flex-[0_0_350px] border border-border rounded-md h-full p-4 text-sm"
+    >
+      <div class="space-y-1.5">
+        <h3 class="text-base font-medium">Overview</h3>
+        <div class="text-muted-foreground flex justify-between">
+          <span>Shipping</span><span>None</span>
+        </div>
+        <div class="text-muted-foreground flex justify-between">
+          <span>Taxes</span><span>None</span>
+        </div>
+
+        <div
+          role="separator"
+          aria-orientation="horizontal"
+          class="my-1 h-px bg-muted"
+        ></div>
+
+        <div class="flex justify-between font-medium">
+          <span>Total</span>
+          <span>{{ cartService.total() | number : "1.2-2" }}€</span>
+        </div>
+      </div>
+
+      <button
+        cdkStepperNext
+        class="mt-4 w-full flex justify-center items-center gap-2 rounded-md text-sm font-medium bg-primary text-primary-foreground px-4 py-2 transition-colors hover:bg-primary/90 disabled:opacity-50"
+        type="button"
+      >
+        Checkout
+      </button>
+    </div>
+  </ng-container>
+
+  <ng-template #emptyCart>
+    <div
+      class="my-8 mx-auto h-full flex flex-col justify-center items-center gap-2 text-primary"
+    >
+      <img
+        src="../../../../assets/cart-image.svg"
+        alt="Image of a person holding a paper next to an empty shopping cart"
+        width="300"
+        height="400"
+      />
+      <p class="text-lg font-medium mt-2">Your cart is empty</p>
+      <a class="font-medium text-sm underline" routerLink="/shop">
+        Add items to your cart to checkout
+      </a>
+    </div>
+  </ng-template>
+</div>

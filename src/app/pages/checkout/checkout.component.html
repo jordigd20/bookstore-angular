@@ -1,0 +1,201 @@
+<form [formGroup]="stepperForm" (ngSubmit)="onSubmit()">
+  <app-stepper-checkout
+    #cdkStepper
+    formArrayName="steps"
+    [linear]="true"
+    (selectionChange)="selectionChange($event)"
+  >
+    <cdk-step
+      #step1
+      [editable]="true"
+      formGroupName="0"
+      [stepControl]="formArray!.get([0])!"
+    >
+      <ng-template cdkStepLabel>
+        <div
+          *ngIf="!step1.completed; else completedStep"
+          class="inline-flex items-center justify-center h-5 w-5 p-2.5 rounded-full bg-primary text-primary-foreground text-xs"
+        >
+          1
+        </div>
+
+        <ng-template #completedStep>
+          <div
+            class="inline-flex items-center justify-center h-5 w-5 rounded-full text-primary-foreground text-xs bg-green-500 text-white p-0.5 animate-scale-in"
+          >
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="24"
+              height="24"
+              viewBox="0 0 24 24"
+            >
+              <path
+                fill="currentColor"
+                d="M21 7L9 19l-5.5-5.5l1.41-1.41L9 16.17L19.59 5.59L21 7Z"
+              />
+            </svg>
+          </div>
+        </ng-template>
+
+        Cart
+      </ng-template>
+
+      <app-checkout-cart />
+    </cdk-step>
+
+    <cdk-step
+      #step2
+      [editable]="true"
+      formGroupName="1"
+      [stepControl]="formArray!.get([1])!"
+    >
+      <ng-template cdkStepLabel>
+        <div
+          *ngIf="!step2.completed; else completedStep"
+          class="inline-flex items-center justify-center h-5 w-5 p-2.5 rounded-full bg-primary text-primary-foreground text-xs"
+        >
+          2
+        </div>
+
+        <ng-template #completedStep>
+          <div
+            class="inline-flex items-center justify-center h-5 w-5 rounded-full text-primary-foreground text-xs bg-green-500 text-white p-0.5 animate-scale-in"
+          >
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="24"
+              height="24"
+              viewBox="0 0 24 24"
+            >
+              <path
+                fill="currentColor"
+                d="M21 7L9 19l-5.5-5.5l1.41-1.41L9 16.17L19.59 5.59L21 7Z"
+              />
+            </svg>
+          </div>
+        </ng-template>
+
+        Address
+      </ng-template>
+
+      <app-checkout-address
+        [isLoading]="isLoadingAddresses()"
+        [addressSelected]="this.formArray!.get([1])!.value.address"
+        (selectAddress)="onAddressSelected($event)"
+      />
+    </cdk-step>
+
+    <cdk-step
+      #step3
+      [editable]="true"
+      formGroupName="2"
+      [stepControl]="formArray!.get([2])!"
+    >
+      <ng-template cdkStepLabel>
+        <div
+          *ngIf="!step3.completed; else completedStep"
+          class="inline-flex items-center justify-center h-5 w-5 p-2.5 rounded-full bg-primary text-primary-foreground text-xs"
+        >
+          3
+        </div>
+
+        <ng-template #completedStep>
+          <div
+            class="inline-flex items-center justify-center h-5 w-5 rounded-full text-primary-foreground text-xs bg-green-500 text-white p-0.5 animate-scale-in"
+          >
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="24"
+              height="24"
+              viewBox="0 0 24 24"
+            >
+              <path
+                fill="currentColor"
+                d="M21 7L9 19l-5.5-5.5l1.41-1.41L9 16.17L19.59 5.59L21 7Z"
+              />
+            </svg>
+          </div>
+        </ng-template>
+
+        Payment
+      </ng-template>
+
+      <div
+        role="tabpanel"
+        aria-labelledby="step-3"
+        class="container py-4 md:py-8 flex flex-col lg:flex-row gap-4 text-primary"
+      >
+        <section
+          class="mx-auto border border-border rounded-md w-full max-w-sm p-4"
+        >
+          <h3 class="text-base font-medium">Payment</h3>
+          <p class="text-muted-foreground text-sm">
+            You can use this card to make the payment
+          </p>
+
+          <div class="my-4 relative">
+            <input
+              class="w-full h-9 border border-border rounded-md px-3 py-1 shadow-sm bg-background focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring placeholder:text-muted-foreground"
+              type="text"
+              value="4242 4242 4242 4242"
+              disabled
+            />
+
+            <div class="absolute right-0 top-0">
+              <button
+                type="button"
+                class="relative py-2 px-2 rounded-md shadow-sm hover:bg-accent"
+                [cdkCopyToClipboard]="testCard"
+                (click)="onCopyToClipboard(copied)"
+                (mouseleave)="toggleIsCopied(copied)"
+              >
+                <span
+                  #copied
+                  class="absolute bg-accent border border-border shadow-sm -top-8 -left-1/2 py-1.5 px-2 text-xs rounded-sm text-primary cursor-default"
+                  [class.hidden]="!isCopied()"
+                  (animationend)="onAnimationCopiedEnd($event)"
+                >
+                  Copied!
+                </span>
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  width="24"
+                  height="24"
+                  viewBox="0 0 24 24"
+                  class="w-5 h-5"
+                >
+                  <path
+                    fill="currentColor"
+                    d="M9 18q-.825 0-1.413-.588T7 16V4q0-.825.588-1.413T9 2h9q.825 0 1.413.588T20 4v12q0 .825-.588 1.413T18 18H9Zm0-2h9V4H9v12Zm-4 6q-.825 0-1.413-.588T3 20V6h2v14h11v2H5Zm4-6V4v12Z"
+                  />
+                </svg>
+              </button>
+            </div>
+          </div>
+
+          <button
+            type="submit"
+            class="w-full flex justify-center items-center gap-2 rounded-md text-sm font-medium bg-primary text-primary-foreground px-4 py-2 transition-colors hover:bg-primary/90 disabled:opacity-50"
+            [disabled]="isLoadingPayment()"
+          >
+            <svg
+              *ngIf="isLoadingPayment()"
+              xmlns="http://www.w3.org/2000/svg"
+              width="20"
+              height="20"
+              viewBox="0 0 24 24"
+              class="animate-spin"
+            >
+              <path
+                fill="currentColor"
+                fill-opacity=".9"
+                d="M12 2.25c-5.384 0-9.75 4.366-9.75 9.75s4.366 9.75 9.75 9.75v-2.438A7.312 7.312 0 1 1 19.313 12h2.437c0-5.384-4.366-9.75-9.75-9.75Z"
+              />
+            </svg>
+            Proceed to payment
+          </button>
+        </section>
+      </div>
+    </cdk-step>
+  </app-stepper-checkout>
+</form>

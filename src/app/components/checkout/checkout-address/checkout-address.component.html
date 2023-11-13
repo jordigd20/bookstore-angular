@@ -1,0 +1,225 @@
+<div
+  role="tabpanel"
+  aria-labelledby="step-2"
+  class="container py-4 md:py-8 flex flex-col lg:flex-row gap-4 text-primary"
+>
+  <section class="flex-[1_1]">
+    <h2 class="text-3xl font-semibold">Address</h2>
+    <p class="text-muted-foreground">Select your billing address</p>
+
+    <ng-container *ngIf="!isLoading; else loadingTemplate">
+      <div
+        *ngIf="userService.userAddresses().length > 0; else noAddressesFound"
+        class="my-4 space-y-4"
+      >
+        <div
+          role="radiogroup"
+          aria-labelledby="address-shipping"
+          *ngFor="
+            let address of userService.userAddresses();
+          "
+          class="flex flex-col sm:grid grid-cols-12 grid-rows-1 items-center text-sm border border-border rounded-md hover:bg-accent transition-colors"
+        >
+          <button
+            #radioAddresses
+            role="radio"
+            type="button"
+            [id]="'address-' + address.id"
+            [attr.aria-checked]="address.id === addressSelected"
+            tabindex="0"
+            class="mt-4 sm:mb-4 mx-auto col-span-1 aspect-square h-4 w-4 rounded-full border border-primary text-primary shadow focus:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:cursor-not-allowed disabled:opacity-50 relative group"
+            (click)="onAddressSelected(address.id)"
+          >
+            <span
+              class="hidden group-aria-[checked=true]:block absolute left-0.5 top-0.5 aspect-square h-2.5 w-2.5 rounded-full bg-primary animate-fade-in"
+            ></span>
+          </button>
+
+          <label
+            [for]="'address-' + address.id"
+            class="w-full px-4 sm:px-0 py-4 col-span-8 md:col-span-9 lg:col-span-8 xl:col-span-9 cursor-pointer"
+            (click)="onAddressSelected(address.id)"
+          >
+            <dl class="grid grid-cols-2 xs:grid-cols-3 md:grid-cols-4 gap-2">
+              <div>
+                <dt class="font-medium">First name</dt>
+                <dd class="text-muted-foreground">{{ address.firstName }}</dd>
+              </div>
+
+              <div>
+                <dt class="font-medium">Last name</dt>
+                <dd class="text-muted-foreground">{{ address.lastName }}</dd>
+              </div>
+
+              <div>
+                <dt class="font-medium">Phone number</dt>
+                <dd class="text-muted-foreground">{{ address.phone }}</dd>
+              </div>
+
+              <div>
+                <dt class="font-medium">Country</dt>
+                <dd class="text-muted-foreground">{{ address.country }}</dd>
+              </div>
+
+              <div>
+                <dt class="font-medium">State/Province</dt>
+                <dd class="text-muted-foreground">{{ address.province }}</dd>
+              </div>
+
+              <div>
+                <dt class="font-medium">City</dt>
+                <dd class="text-muted-foreground">{{ address.city }}</dd>
+              </div>
+
+              <div>
+                <dt class="font-medium">Postal code</dt>
+                <dd class="text-muted-foreground">
+                  {{ address.postalCode }}
+                </dd>
+              </div>
+
+              <div>
+                <dt class="font-medium">Address</dt>
+                <dd class="text-muted-foreground">{{ address.address }}</dd>
+              </div>
+            </dl>
+          </label>
+
+          <div
+            class="w-full xs:w-fit sm:w-full col-span-3 md:col-span-2 lg:col-span-3 xl:col-span-2 flex items-center flex-col gap-2 p-4"
+          >
+            <button
+              type="button"
+              class="w-full flex justify-center items-center py-1.5 px-3 font-medium border border-border rounded-md bg-background shadow-sm transition-colors hover:bg-primary hover:text-primary-foreground"
+              (click)="modifyAddress(address)"
+            >
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="24"
+                height="24"
+                viewBox="0 0 24 24"
+                class="mr-2 h-5 w-5"
+              >
+                <path
+                  fill="currentColor"
+                  d="m14.06 9l.94.94L5.92 19H5v-.92L14.06 9m3.6-6c-.25 0-.51.1-.7.29l-1.83 1.83l3.75 3.75l1.83-1.83c.39-.39.39-1.04 0-1.41l-2.34-2.34c-.2-.2-.45-.29-.71-.29m-3.6 3.19L3 17.25V21h3.75L17.81 9.94l-3.75-3.75Z"
+                />
+              </svg>
+              Modify
+            </button>
+            <button
+              type="button"
+              class="w-full flex justify-center items-center py-1.5 px-3 font-medium border border-border rounded-md bg-background shadow-sm transition-colors hover:bg-primary hover:text-primary-foreground"
+              (click)="openDeleteConfirmationModal(address.id)"
+            >
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="24"
+                height="24"
+                viewBox="0 0 24 24"
+                class="mr-2 h-5 w-5"
+              >
+                <path
+                  fill="currentColor"
+                  d="M7 21q-.825 0-1.413-.588T5 19V6H4V4h5V3h6v1h5v2h-1v13q0 .825-.588 1.413T17 21H7ZM17 6H7v13h10V6ZM9 17h2V8H9v9Zm4 0h2V8h-2v9ZM7 6v13V6Z"
+                />
+              </svg>
+              Delete
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <ng-template #noAddressesFound>
+        <div
+          class="my-4 p-4 text-sm flex flex-col xxs:flex-row gap-2 items-center justify-between border border-border rounded-md"
+        >
+          <dl>
+            <dt class="font-medium">No addresses found</dt>
+            <dd class="text-muted-foreground">
+              You don't have any addresses yet.
+            </dd>
+          </dl>
+        </div>
+      </ng-template>
+
+      <button
+        type="button"
+        class="text-sm flex items-center py-1.5 px-3 font-medium border border-border rounded-md bg-background shadow-sm hover:bg-accent"
+        (click)="createAddress()"
+      >
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          width="24"
+          height="24"
+          viewBox="0 0 24 24"
+          class="mr-2 h-5 w-5"
+        >
+          <path
+            fill="currentColor"
+            d="M18 13h-5v5c0 .55-.45 1-1 1s-1-.45-1-1v-5H6c-.55 0-1-.45-1-1s.45-1 1-1h5V6c0-.55.45-1 1-1s1 .45 1 1v5h5c.55 0 1 .45 1 1s-.45 1-1 1z"
+          />
+        </svg>
+        {{
+          userService.userAddresses().length > 0
+            ? "Add another address"
+            : "Create address"
+        }}
+      </button>
+    </ng-container>
+
+    <ng-template #loadingTemplate>
+      <div
+        class="my-4 p-4 text-sm flex gap-2 items-center border border-border rounded-md"
+      >
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          width="20"
+          height="20"
+          viewBox="0 0 24 24"
+          class="animate-spin"
+        >
+          <path
+            fill="currentColor"
+            fill-opacity=".9"
+            d="M12 2.25c-5.384 0-9.75 4.366-9.75 9.75s4.366 9.75 9.75 9.75v-2.438A7.312 7.312 0 1 1 19.313 12h2.437c0-5.384-4.366-9.75-9.75-9.75Z"
+          />
+        </svg>
+        <span>Loading addresses...</span>
+      </div>
+    </ng-template>
+  </section>
+
+  <div
+    class="lg:flex-[0_0_300px] xl:flex-[0_0_350px] border border-border rounded-md h-full p-4 text-sm"
+  >
+    <div class="space-y-1.5">
+      <h3 class="text-base font-medium">Overview</h3>
+      <div class="text-muted-foreground flex justify-between">
+        <span>Shipping</span><span>None</span>
+      </div>
+      <div class="text-muted-foreground flex justify-between">
+        <span>Taxes</span><span>None</span>
+      </div>
+
+      <div
+        role="separator"
+        aria-orientation="horizontal"
+        class="my-1 h-px bg-muted"
+      ></div>
+
+      <div class="flex justify-between font-medium">
+        <span>Total</span>
+        <span>{{ cartService.total() | number : "1.2-2" }}€</span>
+      </div>
+    </div>
+
+    <button
+      cdkStepperNext
+      class="mt-4 w-full flex justify-center items-center gap-2 rounded-md text-sm font-medium bg-primary text-primary-foreground px-4 py-2 transition-colors hover:bg-primary/90 disabled:opacity-50"
+      type="button"
+    >
+      Save and continue
+    </button>
+  </div>
+</div>

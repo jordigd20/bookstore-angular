@@ -78,6 +78,15 @@ export const routes: Routes = [
       ),
   },
   {
+    path: 'checkout',
+    canActivate: [AuthGuard],
+    loadComponent: () =>
+      import('./pages/checkout/checkout.component').then(
+        (m) => m.CheckoutComponent
+      ),
+  },
+
+  {
     path: '**',
     pathMatch: 'full',
     component: NotFoundComponent,

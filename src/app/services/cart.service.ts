@@ -198,6 +198,42 @@ export class CartService {
     });
   }
 
+  checkoutSession(addressId: number) {
+    return new Promise<boolean>((resolve) => {
+      const user = this.authService.user();
+      const token = this.authService.token();
+
+      if (!user || !token) {
+        resolve(false);
+        return;
+      }
+
+      this.httpService
+        .executeAuthPost<{
+          url: string;
+          success_url: string;
+          cancel_url: string;
+        }>(
+          `/orders/checkout-session/${user.id}`,
+          {
+            cartItems: this.cart(),
+            addressId,
+          },
+          token
+        )
+        .subscribe({
+          next: (response) => {
+            resolve(true);
+            window.location.href = response.url;
+          },
+          error: (error) => {
+            resolve(false);
+            console.error(error);
+          },
+        });
+    });
+  }
+
   openCart() {
     this.dialog.open(SideCartComponent, {
       ariaLabelledBy: 'Shopping cart',
