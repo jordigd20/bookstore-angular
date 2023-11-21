@@ -1,0 +1,124 @@
+<div class="mt-4 text-sm bg-accent p-4 border border-border rounded-t-md">
+  <dl class="flex items-center justify-between gap-4 flex-wrap">
+    <div class="flex flex-col sm:items-center sm:flex-row gap-4 md:gap-6">
+      <div>
+        <dt>Date</dt>
+        <dd class="text-muted-foreground">
+          {{ order.createdAt | date : "MMMM d, y" }}
+        </dd>
+      </div>
+
+      <div>
+        <dt>Items</dt>
+        <dd class="text-muted-foreground">
+          {{ order.books.length }}
+        </dd>
+      </div>
+
+      <div>
+        <dt>Status</dt>
+        <dd
+          class="py-0.5 px-3 bg-green-200 text-green-700 rounded-md text-center"
+        >
+          {{ order.status | titlecase }}
+        </dd>
+      </div>
+
+      <div>
+        <dt>Total amount</dt>
+        <dd class="text-muted-foreground">
+          {{ +order.total | number : "1.2-2" }}€
+        </dd>
+      </div>
+    </div>
+
+    <div>
+      <dl>Order #{{ order.id }}</dl>
+      <dd>
+        <a
+          [href]="order.receiptUrl"
+          target="_blank"
+          class="font-medium text-muted-foreground underline transition-colors hover:text-primary"
+        >
+          View order details
+        </a>
+      </dd>
+    </div>
+  </dl>
+</div>
+
+<div
+  class="border-x border-b border-border rounded-b-md overflow-x-auto scrollbar"
+>
+  <table class="text-sm w-full">
+    <thead class="border-b border-border">
+      <tr>
+        <th class="py-2 px-4 text-left font-medium" colspan="1">Book</th>
+        <th class="py-2 px-4 text-left font-medium" colspan="1">Quantity</th>
+        <th class="py-2 px-4 text-left font-medium" colspan="1">Unit price</th>
+        <th class="py-2 px-4 text-left font-medium" colspan="1">Total</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr
+        *ngFor="let orderBook of order.books; last as isLast"
+        class="border-border"
+        [class.border-b]="!isLast"
+      >
+        <td class="py-4 px-4 flex items-center gap-4">
+          <div
+            class="relative aspect-square h-20 w-20 min-w-fit overflow-hidden rounded"
+          >
+            <img
+              [src]="orderBook.book.imageLink"
+              [alt]="orderBook.book.title + ' book cover'"
+              class="absolute object-cover"
+            />
+          </div>
+          <div class="flex flex-col space-y-1 self-start">
+            <a
+              [routerLink]="[
+                '/book',
+                orderBook.book.id + '-' + orderBook.book.slug
+              ]"
+              class="line-clamp-1 text-sm font-medium hover:underline"
+            >
+              {{ orderBook.book.title }}
+            </a>
+            <span class="line-clamp-1 text-xs text-muted-foreground">
+              {{ orderBook.book.author }}
+            </span>
+          </div>
+        </td>
+
+        <td class="py-4 px-4">
+          <span>
+            {{ orderBook.quantity }}
+            {{ orderBook.quantity > 1 ? "units" : "unit" }}
+          </span>
+        </td>
+
+        <td class="py-4 px-4">
+          <div class="flex flex-col">
+            <span> {{ orderBook.book.currentPrice }}€ </span>
+            <span
+              *ngIf="orderBook.book.discount !== 0"
+              class="line-through text-muted-foreground text-xs"
+            >
+              {{ orderBook.book.originalPrice }}€
+            </span>
+          </div>
+        </td>
+
+        <td class="py-4 px-4">
+          <span>
+            {{
+              +orderBook.book.currentPrice * orderBook.quantity
+                | number : "1.2-2"
+            }}€
+          </span>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>

@@ -85,7 +85,14 @@ export const routes: Routes = [
         (m) => m.CheckoutComponent
       ),
   },
-
+  {
+    path: 'success-checkout/:id',
+    canActivate: [AuthGuard],
+    loadComponent: () =>
+      import('./pages/success-checkout/success-checkout.component').then(
+        (m) => m.SuccessCheckoutComponent
+      ),
+  },
   {
     path: '**',
     pathMatch: 'full',
