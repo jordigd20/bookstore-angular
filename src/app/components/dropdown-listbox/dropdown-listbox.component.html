@@ -1,0 +1,80 @@
+<div [style.min-width]="width + 'px'">
+  <button
+    tabindex="0"
+    aria-haspopup="listbox"
+    class="w-full py-1.5 pl-4 pr-2 border border-border rounded-md shadow-sm cursor-pointer flex gap-2 justify-between items-center transition-colors hover:bg-accent"
+    [attr.id]="title + '-label'"
+    (click)="toggleDropdown()"
+    (clickOutside)="isDropdownOpen.set(false)"
+  >
+    <span
+      *ngIf="
+        title === 'year' && ordersService.currentYearValue.length > 0;
+        else monthSpan
+      "
+    >
+      {{ ordersService.currentYearValue[0].name }}
+    </span>
+    <ng-template #monthSpan>
+      <span
+        *ngIf="title === 'month' && ordersService.currentMonthValue.length > 0"
+      >
+        {{ ordersService.currentMonthValue[0].name }}
+      </span>
+    </ng-template>
+
+    <svg
+      width="15"
+      height="15"
+      viewBox="0 0 15 15"
+      fill="none"
+      xmlns="http://www.w3.org/2000/svg"
+      aria-hidden="true"
+      class="h-4 w-4 opacity-50"
+    >
+      <path
+        d="M4.93179 5.43179C4.75605 5.60753 4.75605 5.89245 4.93179 6.06819C5.10753 6.24392 5.39245 6.24392 5.56819 6.06819L7.49999 4.13638L9.43179 6.06819C9.60753 6.24392 9.89245 6.24392 10.0682 6.06819C10.2439 5.89245 10.2439 5.60753 10.0682 5.43179L7.81819 3.18179C7.73379 3.0974 7.61933 3.04999 7.49999 3.04999C7.38064 3.04999 7.26618 3.0974 7.18179 3.18179L4.93179 5.43179ZM10.0682 9.56819C10.2439 9.39245 10.2439 9.10753 10.0682 8.93179C9.89245 8.75606 9.60753 8.75606 9.43179 8.93179L7.49999 10.8636L5.56819 8.93179C5.39245 8.75606 5.10753 8.75606 4.93179 8.93179C4.75605 9.10753 4.75605 9.39245 4.93179 9.56819L7.18179 11.8182C7.35753 11.9939 7.64245 11.9939 7.81819 11.8182L10.0682 9.56819Z"
+        fill="currentColor"
+        fill-rule="evenodd"
+        clip-rule="evenodd"
+      ></path>
+    </svg>
+  </button>
+
+  <ul
+    #listbox
+    cdkListbox
+    [attr.aria-labelledby]="title + '-label'"
+    [cdkListboxValue]="
+      title === 'year'
+        ? ordersService.currentYearValue
+        : ordersService.currentMonthValue
+    "
+    [cdkListboxCompareWith]="compareWith"
+    (cdkListboxValueChange)="onValueChange($event)"
+    class="absolute max-h-48 my-[2px] overflow-y-auto border border-border rounded-md shadow-sm bg-background p-1 z-10 animate-zoom-in"
+    (animationend)="onDropdownAnimationEnd($event, listbox)"
+    [class.hidden]="!isDropdownOpen()"
+    [style.min-width]="width + 'px'"
+  >
+    <ng-container *ngIf="title === 'year'; else monthItems">
+      <li
+        *ngFor="let item of ordersService.yearOptions()"
+        [cdkOption]="item"
+        class="aria-[selected=true]:bg-accent cursor-pointer py-1.5 px-4 hover:bg-accent/70 rounded-sm"
+      >
+        {{ item.name }}
+      </li>
+    </ng-container>
+
+    <ng-template #monthItems>
+      <li
+        *ngFor="let item of ordersService.monthOptions()"
+        [cdkOption]="item"
+        class="aria-[selected=true]:bg-accent cursor-pointer py-1.5 px-4 hover:bg-accent/70 rounded-sm"
+      >
+        {{ item.name }}
+      </li>
+    </ng-template>
+  </ul>
+</div>

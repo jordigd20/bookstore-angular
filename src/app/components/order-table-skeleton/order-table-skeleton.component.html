@@ -1,0 +1,80 @@
+<div class="mt-4 text-sm bg-accent p-4 border border-border rounded-t-md animate-fade-in">
+  <div class="flex items-center justify-between gap-4 flex-wrap">
+    <div class="flex flex-col sm:items-center sm:flex-row gap-4 md:gap-6">
+      <div class="py-1">
+        <p>Date</p>
+        <div
+          class="bg-muted-foreground w-28 h-4 rounded-sm animate-pulse"
+        ></div>
+      </div>
+
+      <div class="py-1">
+        <p>Items</p>
+        <div class="bg-muted-foreground w-8 h-4 rounded-sm animate-pulse"></div>
+      </div>
+
+      <div class="py-1">
+        <p>Status</p>
+        <div
+          class="bg-muted-foreground w-20 h-4 rounded-sm animate-pulse"
+        ></div>
+      </div>
+
+      <div class="py-1">
+        <p>Total amount</p>
+        <div
+          class="bg-muted-foreground w-16 h-4 rounded-sm animate-pulse"
+        ></div>
+      </div>
+    </div>
+
+    <div class="py-1">
+      <p>Order</p>
+      <div class="bg-muted-foreground w-32 h-4 rounded-sm animate-pulse"></div>
+    </div>
+  </div>
+</div>
+
+<div
+  class="border-x border-b border-border rounded-b-md overflow-x-auto scrollbar"
+>
+  <table class="text-sm w-full">
+    <thead class="border-b border-border">
+      <tr>
+        <th class="py-2 px-4 text-left font-medium" colspan="1">Book</th>
+        <th class="py-2 px-4 text-left font-medium" colspan="1">Quantity</th>
+        <th class="py-2 px-4 text-left font-medium" colspan="1">Unit price</th>
+        <th class="py-2 px-4 text-left font-medium" colspan="1">Total</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr
+        *ngFor="let row of [1, 2]; last as isLast"
+        class="border-border"
+        [class.border-b]="!isLast"
+      >
+        <td class="py-4 px-4 flex items-center gap-4">
+          <div
+            class="relative aspect-square h-20 w-20 min-w-fit overflow-hidden rounded bg-accent animate-pulse"
+          ></div>
+          <div class="flex flex-col space-y-1 self-start">
+            <div class="w-36 h-4 animate-pulse bg-muted-foreground rounded-sm"></div>
+            <div class="w-20 h-3 animate-pulse bg-accent rounded-sm"></div>
+          </div>
+        </td>
+
+        <td class="py-4 px-4">
+          <div class="w-16 h-4 animate-pulse rounded-sm bg-accent"></div>
+        </td>
+
+        <td class="py-4 px-4">
+          <div class="w-12 h-4 animate-pulse rounded-sm bg-accent"></div>
+        </td>
+
+        <td class="py-4 px-4">
+          <div class="w-12 h-4 animate-pulse rounded-sm bg-accent"></div>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>

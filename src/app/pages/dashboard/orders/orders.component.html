@@ -1,0 +1,138 @@
+<app-navbar
+  class="block sticky top-0 z-50 w-full border-b border-border bg-background"
+/>
+<div
+  class="container text-primary md:grid md:grid-cols-[180px_minmax(0,1fr)] md:gap-6 lg:grid-cols-[240px_minmax(0,1fr)] lg:gap-10"
+>
+  <aside class="md:border-r border-border">
+    <app-dashboard-nav active="orders" />
+  </aside>
+
+  <div
+    role="separator"
+    aria-orientation="horizontal"
+    class="block md:hidden -mx-1 my-1 h-px bg-border"
+  ></div>
+
+  <main class="pb-4 pt-2 md:py-8 space-y-8">
+    <section>
+      <h2 class="font-semibold text-3xl">Orders</h2>
+      <p class="text-muted-foreground mb-4">
+        You can see all of your orders here
+      </p>
+
+      <ng-container *ngIf="ordersService.responseError(); else orders">
+        <div class="my-2 space-y-4">
+          <img
+            src="../../../assets/error-happened.svg"
+            alt="A person next to a warning symbol"
+            width="350"
+            loading="lazy"
+            class="m-auto"
+          />
+
+          <div>
+            <h3 class="text-center text-lg font-medium">
+              Something bad happened...
+            </h3>
+            <p class="text-center text-sm text-muted-foreground">
+              Please try again later
+            </p>
+          </div>
+        </div>
+      </ng-container>
+
+      <ng-template #orders>
+        <ng-container
+          *ngIf="ordersService.isLastOrdersLoading(); else ordersTemplate"
+        >
+          <div class="my-2 flex items-center gap-4">
+            <div
+              class="inline-flex justify-end items-center pr-2 min-w-[100px] h-9 bg-background animate-pulse border border-border rounded-md shadow-sm"
+            >
+              <svg
+                width="15"
+                height="15"
+                viewBox="0 0 15 15"
+                fill="none"
+                xmlns="http://www.w3.org/2000/svg"
+                aria-hidden="true"
+                class="h-4 w-4 opacity-50"
+              >
+                <path
+                  d="M4.93179 5.43179C4.75605 5.60753 4.75605 5.89245 4.93179 6.06819C5.10753 6.24392 5.39245 6.24392 5.56819 6.06819L7.49999 4.13638L9.43179 6.06819C9.60753 6.24392 9.89245 6.24392 10.0682 6.06819C10.2439 5.89245 10.2439 5.60753 10.0682 5.43179L7.81819 3.18179C7.73379 3.0974 7.61933 3.04999 7.49999 3.04999C7.38064 3.04999 7.26618 3.0974 7.18179 3.18179L4.93179 5.43179ZM10.0682 9.56819C10.2439 9.39245 10.2439 9.10753 10.0682 8.93179C9.89245 8.75606 9.60753 8.75606 9.43179 8.93179L7.49999 10.8636L5.56819 8.93179C5.39245 8.75606 5.10753 8.75606 4.93179 8.93179C4.75605 9.10753 4.75605 9.39245 4.93179 9.56819L7.18179 11.8182C7.35753 11.9939 7.64245 11.9939 7.81819 11.8182L10.0682 9.56819Z"
+                  fill="currentColor"
+                  fill-rule="evenodd"
+                  clip-rule="evenodd"
+                ></path>
+              </svg>
+            </div>
+
+            <div
+              class="inline-flex justify-end items-center pr-2 min-w-[200px] h-9 bg-background animate-pulse border border-border rounded-md shadow-sm"
+            >
+              <svg
+                width="15"
+                height="15"
+                viewBox="0 0 15 15"
+                fill="none"
+                xmlns="http://www.w3.org/2000/svg"
+                aria-hidden="true"
+                class="h-4 w-4 opacity-50"
+              >
+                <path
+                  d="M4.93179 5.43179C4.75605 5.60753 4.75605 5.89245 4.93179 6.06819C5.10753 6.24392 5.39245 6.24392 5.56819 6.06819L7.49999 4.13638L9.43179 6.06819C9.60753 6.24392 9.89245 6.24392 10.0682 6.06819C10.2439 5.89245 10.2439 5.60753 10.0682 5.43179L7.81819 3.18179C7.73379 3.0974 7.61933 3.04999 7.49999 3.04999C7.38064 3.04999 7.26618 3.0974 7.18179 3.18179L4.93179 5.43179ZM10.0682 9.56819C10.2439 9.39245 10.2439 9.10753 10.0682 8.93179C9.89245 8.75606 9.60753 8.75606 9.43179 8.93179L7.49999 10.8636L5.56819 8.93179C5.39245 8.75606 5.10753 8.75606 4.93179 8.93179C4.75605 9.10753 4.75605 9.39245 4.93179 9.56819L7.18179 11.8182C7.35753 11.9939 7.64245 11.9939 7.81819 11.8182L10.0682 9.56819Z"
+                  fill="currentColor"
+                  fill-rule="evenodd"
+                  clip-rule="evenodd"
+                ></path>
+              </svg>
+            </div>
+          </div>
+
+          <app-order-table-skeleton />
+        </ng-container>
+
+        <ng-template #ordersTemplate>
+          <ng-container
+            *ngIf="ordersService.orders()!.length > 0; else noOrdersFound"
+          >
+            <div class="my-2 flex items-center gap-4">
+              <app-dropdown-listbox [width]="100" title="year" />
+              <app-dropdown-listbox [width]="200" title="month" />
+            </div>
+
+            <ng-container *ngIf="ordersService.isLoading(); else loadedOrders">
+              <app-order-table-skeleton />
+            </ng-container>
+
+            <ng-template #loadedOrders>
+              <div class="animate-fade-in">
+                <app-order-table
+                  *ngFor="let order of ordersService.orders()"
+                  [order]="order"
+                />
+              </div>
+            </ng-template>
+          </ng-container>
+
+          <ng-template #noOrdersFound>
+            <div class="my-2 space-y-2 animate-fade-in">
+              <img
+                src="../../../assets/not-found.svg"
+                alt="A person holding a reload search symbol, with an empty note in the back"
+                width="350"
+                loading="lazy"
+                class="m-auto"
+              />
+
+              <h3 class="text-center text-lg font-semibold">No orders found</h3>
+            </div>
+          </ng-template>
+        </ng-template>
+      </ng-template>
+    </section>
+  </main>
+</div>
+
+<app-footer />

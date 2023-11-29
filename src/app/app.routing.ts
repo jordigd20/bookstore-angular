@@ -78,6 +78,14 @@ export const routes: Routes = [
       ),
   },
   {
+    path: 'dashboard/orders',
+    canActivate: [AuthGuard],
+    loadComponent: () =>
+      import('./pages/dashboard/orders/orders.component').then(
+        (m) => m.OrdersComponent
+      ),
+  },
+  {
     path: 'checkout',
     canActivate: [AuthGuard],
     loadComponent: () =>

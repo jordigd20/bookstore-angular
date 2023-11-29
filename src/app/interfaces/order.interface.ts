@@ -1,5 +1,10 @@
 import { Book } from './book.interface';
 
+export interface LastOrders {
+  ordersByDate: { [key: string]: number[] };
+  orders: Order[];
+}
+
 export interface Order {
   id: number;
   status: 'COMPLETED' | 'PENDING' | 'CANCELED' | 'PROCESSING';
