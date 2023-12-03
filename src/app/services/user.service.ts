@@ -147,7 +147,6 @@ export class UserService {
             resolve(true);
           },
           error: (error) => {
-            console.log(error);
             if (error.error.statusCode === 400) {
               const errorMessage = error.error.message[0];
               const message =
@@ -198,7 +197,6 @@ export class UserService {
             resolve(true);
           },
           error: (error) => {
-            console.log(error);
             if (error.error.statusCode === 400) {
               const errorMessage = error.error.message[0];
               const message =
@@ -266,7 +264,6 @@ export class UserService {
       )
       .subscribe({
         next: (response) => {
-          console.log(response);
           this.userWishlist.set({ response, isLoading: false });
         },
         error: (error) => {
@@ -296,7 +293,6 @@ export class UserService {
       )
       .subscribe({
         next: (response) => {
-          console.log(response);
           this.toastService.showSuccessToast('Book added to your wishlist');
         },
         error: (err) => {
@@ -328,7 +324,6 @@ export class UserService {
       )
       .subscribe({
         next: (response) => {
-          console.log(response);
           this.userWishlist.update((state) => ({
             ...state,
             response,

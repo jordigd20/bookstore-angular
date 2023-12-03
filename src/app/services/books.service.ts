@@ -67,6 +67,11 @@ export class BooksService {
       params['category'] = this.category();
     }
 
+    this.bookResponse.update((state) => ({
+      ...state,
+      isLoading: true,
+    }));
+
     this.httpService
       .executeGet<BookPaginatedResponse>('/books', {
         ...params,
@@ -114,7 +119,6 @@ export class BooksService {
       )
       .subscribe({
         next: (response) => {
-          console.log(response);
           this.toastService.showSuccessToast('Book added to your wishlist');
         },
         error: (err) => {
