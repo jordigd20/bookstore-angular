@@ -1,7 +1,7 @@
 import { importProvidersFrom } from '@angular/core';
 import { AppComponent } from './app/app.component';
 import { BrowserModule, bootstrapApplication } from '@angular/platform-browser';
-import { provideRouter } from '@angular/router';
+import { provideRouter, withInMemoryScrolling } from '@angular/router';
 import { routes } from './app/app.routing';
 import { provideHttpClient } from '@angular/common/http';
 import { provideToastr } from 'ngx-toastr';
@@ -12,7 +12,12 @@ import { DialogModule } from '@angular/cdk/dialog';
 bootstrapApplication(AppComponent, {
   providers: [
     importProvidersFrom(BrowserModule, DialogModule),
-    provideRouter(routes),
+    provideRouter(
+      routes,
+      withInMemoryScrolling({
+        scrollPositionRestoration: 'enabled',
+      })
+    ),
     provideHttpClient(),
     provideAnimations(),
     provideToastr({

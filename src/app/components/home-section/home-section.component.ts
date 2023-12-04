@@ -12,4 +12,5 @@ export class HomeSectionComponent {
   @Input({ required: true }) title!: string;
   @Input({ required: true }) buttonText!: string;
   @Input({ required: true }) link!: string;
+  @Input() queryParams: { [key: string]: string } | undefined;
 }

@@ -18,11 +18,12 @@
           seasoned bookworm or just starting your reading journey, we have
           something special waiting just for you.
         </p>
-        <button
+        <a
+          routerLink="/shop"
           class="py-2 px-3 rounded-md shadow-sm bg-primary text-primary-foreground transition-colors hover:bg-primary/90"
         >
           Explore now
-        </button>
+        </a>
       </div>
       <img
         class="m-auto md:m-0 w-[500px] md:w-[400px] lg:w-[550px] xl:w-[715px]"
@@ -33,7 +34,7 @@
       />
     </section>
 
-    <app-home-section title="Categories" link="/" buttonText="See all">
+    <app-home-section title="Categories" link="/shop" buttonText="See all">
       <p class="text-muted-foreground">
         Explore a curated collection of books across all genres, from timeless
         classics to the latest bestsellers.
@@ -45,6 +46,7 @@
           *ngFor="let item of categories"
           class="group relative w-full rounded-md h-48 overflow-hidden border border-border shadow"
           [routerLink]="item.link"
+          [queryParams]="{ category: item.slug }"
         >
           <div
             class="absolute w-full h-full z-10 inset-0 bg-zinc-950/60 transition-colors group-hover:bg-zinc-950/70"
@@ -63,33 +65,84 @@
       </div>
     </app-home-section>
 
-    <app-home-section title="Best rated" link="/" buttonText="See more">
-      <div
-        class="py-2 grid grid-cols-1 xxs:grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 xl:grid-cols-6"
+    <ng-container *ngIf="!errorHappened(); else errorTemplate">
+      <app-home-section
+        title="Best rated"
+        link="/shop"
+        [queryParams]="{ orderBy: 'rating.desc' }"
+        buttonText="See more"
       >
-        <ng-container *ngFor="let book of bestRatedBooks()">
-          <app-vertical-card [book]="book" type="shop" />
+        <ng-container *ngIf="!isLoading(); else loadingBooks">
+          <div
+            class="py-2 grid grid-cols-1 xxs:grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 xl:grid-cols-6"
+          >
+            <ng-container *ngFor="let book of bestRatedBooks()">
+              <app-vertical-card [book]="book" type="shop" />
+            </ng-container>
+          </div>
         </ng-container>
-      </div>
-    </app-home-section>
 
-    <app-home-section title="Bestsellers" link="/" buttonText="See more">
-      <div class="py-2 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3">
-        <ng-container *ngFor="let book of bestsellerBooks()">
-          <app-horizontal-card [book]="book" />
-        </ng-container>
-      </div>
-    </app-home-section>
+        <ng-template #loadingBooks>
+          <div
+            class="py-2 grid grid-cols-1 xxs:grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 xl:grid-cols-6"
+          >
+            <app-vertical-card-skeleton *ngFor="let _ of [1, 2, 3, 4, 5, 6]" />
+          </div>
+        </ng-template>
+      </app-home-section>
 
-    <app-home-section title="On sale" link="/" buttonText="See more">
-      <div
-        class="py-2 grid grid-cols-1 xxs:grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 xl:grid-cols-6"
+      <app-home-section
+        title="Bestsellers"
+        link="/shop"
+        [queryParams]="{ filterBy: 'bestseller' }"
+        buttonText="See more"
       >
-        <ng-container *ngFor="let book of onSaleBooks()">
-          <app-vertical-card [book]="book" type="shop" />
+        <ng-container *ngIf="!isLoading(); else loadingBooks">
+          <div class="py-2 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3">
+            <ng-container *ngFor="let book of bestsellerBooks()">
+              <app-horizontal-card [book]="book" />
+            </ng-container>
+          </div>
         </ng-container>
-      </div>
-    </app-home-section>
+
+        <ng-template #loadingBooks>
+          <div
+            class="py-2 grid grid-cols-1 xxs:grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 xl:grid-cols-6"
+          >
+            <app-vertical-card-skeleton *ngFor="let _ of [1, 2, 3, 4, 5, 6]" />
+          </div>
+        </ng-template>
+      </app-home-section>
+
+      <app-home-section
+        title="On sale"
+        link="/shop"
+        [queryParams]="{ filterBy: 'discounted' }"
+        buttonText="See more"
+      >
+        <ng-container *ngIf="!isLoading(); else loadingBooks">
+          <div
+            class="py-2 grid grid-cols-1 xxs:grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 xl:grid-cols-6"
+          >
+            <ng-container *ngFor="let book of onSaleBooks()">
+              <app-vertical-card [book]="book" type="shop" />
+            </ng-container>
+          </div>
+        </ng-container>
+
+        <ng-template #loadingBooks>
+          <div
+            class="py-2 grid grid-cols-1 xxs:grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 xl:grid-cols-6"
+          >
+            <app-vertical-card-skeleton *ngFor="let _ of [1, 2, 3, 4, 5, 6]" />
+          </div>
+        </ng-template>
+      </app-home-section>
+    </ng-container>
+
+    <ng-template #errorTemplate>
+      <app-error-warning />
+    </ng-template>
   </div>
 </main>
 

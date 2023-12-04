@@ -1,4 +1,9 @@
-import { Component, inject, signal } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  inject,
+  signal,
+} from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { NavbarComponent } from '../../components/navbar/navbar.component';
 import { RouterLink } from '@angular/router';
@@ -7,8 +12,11 @@ import { VerticalCardComponent } from '../../components/cards/vertical-card/vert
 import { HorizontalCardComponent } from '../../components/cards/horizontal-card/horizontal-card.component';
 import { HomeSectionComponent } from '../../components/home-section/home-section.component';
 import { HomeService } from '../../services/home.service';
-import { forkJoin } from 'rxjs';
+import { Subject, forkJoin, of, retry, takeUntil, timer } from 'rxjs';
 import { Book } from '../../interfaces/book.interface';
+import { VerticalCardSkeletonComponent } from '../../components/cards/vertical-card-skeleton/vertical-card-skeleton.component';
+import { ErrorWarningComponent } from '../../components/error-warning/error-warning.component';
+
 
 @Component({
   selector: 'app-home',
@@ -20,9 +28,12 @@ import { Book } from '../../interfaces/book.interface';
     FooterComponent,
     HomeSectionComponent,
     VerticalCardComponent,
+    VerticalCardSkeletonComponent,
     HorizontalCardComponent,
+    ErrorWarningComponent
   ],
   templateUrl: './home.component.html',
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class HomeComponent {
   homeService = inject(HomeService);
@@ -30,39 +41,76 @@ export class HomeComponent {
   categories = [
     {
       name: 'Science Fiction',
+      slug: 'science-fiction',
       image: 'science-fiction.webp',
-      link: '/science-fiction',
+      link: '/shop',
     },
     {
       name: 'Mistery & Thrillers',
+      slug: 'mistery-thrillers',
       image: 'mistery-thrillers.webp',
-      link: '/mistery-thrillers',
+      link: '/shop',
     },
     {
       name: 'Romance',
+      slug: 'romance',
       image: 'romance.webp',
-      link: '/romance',
+      link: '/shop',
     },
     {
       name: 'Fantasy',
+      slug: 'fantasy',
       image: 'fantasy.webp',
-      link: '/fantasy',
+      link: '/shop',
     },
   ];
+
+  isLoading = signal(false);
+  errorHappened = signal(false);
+  destroy$ = new Subject<void>();
 
   bestRatedBooks = signal<Book[]>([]);
   bestsellerBooks = signal<Book[]>([]);
   onSaleBooks = signal<Book[]>([]);
 
   ngOnInit() {
+    this.isLoading.set(true);
+
     forkJoin([
       this.homeService.getBestRatedBooks(),
       this.homeService.getBestsellerBooks(),
       this.homeService.getOnSaleBooks(),
-    ]).subscribe(([bestRatedBooks, bestsellerBooks, onSaleBooks]) => {
-      this.bestRatedBooks.set(bestRatedBooks);
-      this.bestsellerBooks.set(bestsellerBooks);
-      this.onSaleBooks.set(onSaleBooks);
-    });
+    ])
+      .pipe(
+        retry({
+          count: 3,
+          delay: (error, retryCount) => {
+            if (retryCount === 4) {
+              return of();
+            }
+
+            return timer(5000);
+          },
+        }),
+        takeUntil(this.destroy$)
+      )
+      .subscribe({
+        next: ([bestRatedBooks, bestsellerBooks, onSaleBooks]) => {
+          this.isLoading.set(false);
+          this.bestRatedBooks.set(bestRatedBooks);
+          this.bestsellerBooks.set(bestsellerBooks);
+          this.onSaleBooks.set(onSaleBooks);
+        },
+        error: (error) => {
+          console.log(error);
+          this.errorHappened.set(true);
+          this.isLoading.set(false);
+        },
+      });
+  }
+
+  ngOnDestroy() {
+    this.destroy$.next();
+    this.destroy$.complete();
   }
 }
