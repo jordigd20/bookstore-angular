@@ -7,7 +7,7 @@ import {
   BookRatedResponse,
   RatedBook,
 } from '../interfaces/book.interface';
-import { Params } from '@angular/router';
+import { Params, Router } from '@angular/router';
 
 @Injectable({
   providedIn: 'root',
@@ -16,6 +16,7 @@ export class RatingsService {
   private httpService = inject(HttpService);
   private authService = inject(AuthService);
   private toastService = inject(ToastService);
+  private router = inject(Router);
 
   private noRatedBooksState = signal<{
     response: BookPaginatedResponse | undefined;
@@ -85,6 +86,12 @@ export class RatingsService {
             ...state,
             isLoading: false,
           }));
+
+          if (error.status === 401) {
+            this.router.navigate(['/signin']);
+            return;
+          }
+
           this.toastService.showErrorToast(
             'Something went wrong. Please try again later.'
           );
@@ -126,6 +133,12 @@ export class RatingsService {
             ...state,
             isLoading: false,
           }));
+
+          if (error.status === 401) {
+            this.router.navigate(['/signin']);
+            return;
+          }
+
           this.toastService.showErrorToast(
             'Something went wrong. Please try again later.'
           );
@@ -183,6 +196,17 @@ export class RatingsService {
           },
           error: (error) => {
             console.error(error);
+            if (error.status === 401) {
+              this.toastService.showWarningToast(
+                'You must be logged in to rate a book.'
+              );
+
+              this.router.navigate(['/signin']);
+
+              resolve(false);
+              return;
+            }
+
             resolve(false);
             this.toastService.showErrorToast(
               'Something went wrong. Please try again later.'
@@ -233,6 +257,17 @@ export class RatingsService {
           },
           error: (error) => {
             console.error(error);
+            if (error.status === 401) {
+              this.toastService.showWarningToast(
+                'You must be logged in to rate a book.'
+              );
+
+              this.router.navigate(['/signin']);
+
+              resolve(false);
+              return;
+            }
+
             resolve(false);
             this.toastService.showErrorToast(
               'Something went wrong. Please try again later.'

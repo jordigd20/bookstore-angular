@@ -3,6 +3,7 @@ import { HttpService } from './http.service';
 import { AuthService } from './auth.service';
 import { LastOrders, Order } from '../interfaces/order.interface';
 import { of } from 'rxjs';
+import { Router } from '@angular/router';
 
 const months: { [key: number]: string } = {
   1: 'January',
@@ -30,6 +31,7 @@ export interface DropdownData {
 export class OrdersService {
   private authService = inject(AuthService);
   private httpService = inject(HttpService);
+  private router = inject(Router);
 
   private ordersState = signal<{
     response: LastOrders | undefined;
@@ -90,13 +92,18 @@ export class OrdersService {
             error: undefined,
           });
         },
-        error: (err) => {
-          console.log(err);
+        error: (error) => {
+          console.log(error);
           this.ordersState.update((state) => ({
             ...state,
             isLoading: false,
-            error: err,
+            error,
           }));
+
+          if (error.status === 401) {
+            this.router.navigate(['/signin']);
+            return;
+          }
         },
       });
   }
@@ -166,13 +173,18 @@ export class OrdersService {
             },
           ];
         },
-        error: (err) => {
-          console.log(err);
+        error: (error) => {
+          console.log(error);
           this.ordersState.update((state) => ({
             ...state,
             isLoading: false,
-            error: err,
+            error,
           }));
+
+          if (error.status === 401) {
+            this.router.navigate(['/signin']);
+            return;
+          }
         },
       });
   }

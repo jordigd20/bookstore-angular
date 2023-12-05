@@ -6,6 +6,7 @@ import { tap } from 'rxjs';
 import { Dialog } from '@angular/cdk/dialog';
 import { SideCartComponent } from '../components/side-cart/cart/side-cart.component';
 import { ToastService } from './toast.service';
+import { Router } from '@angular/router';
 
 @Injectable({
   providedIn: 'root',
@@ -15,6 +16,7 @@ export class CartService {
   private authService = inject(AuthService);
   private toastService = inject(ToastService);
   private dialog = inject(Dialog);
+  private router = inject(Router);
 
   cartState = signal<CartState>({
     id: null,
@@ -104,8 +106,27 @@ export class CartService {
             },
             error: (error) => {
               console.error(error);
-              this.toastService.showWarningToast(
-                'You already have this book in your cart'
+              if (error.status === 400) {
+                this.toastService.showWarningToast(
+                  'You already have this book in your cart'
+                );
+
+                resolve(false);
+                return;
+              }
+
+              if (error.status === 401) {
+                this.toastService.showWarningToast(
+                  'You must be logged in to add a book to your cart.'
+                );
+                this.router.navigate(['/signin']);
+
+                resolve(false);
+                return;
+              }
+
+              this.toastService.showErrorToast(
+                'An error ocurred while adding the book to the cart'
               );
               resolve(false);
             },
@@ -227,8 +248,22 @@ export class CartService {
             window.location.href = response.url;
           },
           error: (error) => {
-            resolve(false);
             console.error(error);
+
+            if (error.status === 401) {
+              this.toastService.showWarningToast(
+                'You must be logged in to checkout.'
+              );
+
+              this.router.navigate(['/signin']);
+              resolve(false);
+              return;
+            }
+
+            this.toastService.showErrorToast(
+              'Something went wrong. Please try again later.'
+            );
+            resolve(false);
           },
         });
     });
