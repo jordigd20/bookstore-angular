@@ -7,7 +7,7 @@ export interface LastOrders {
 
 export interface Order {
   id: number;
-  status: 'COMPLETED' | 'PENDING' | 'CANCELED' | 'PROCESSING';
+  status: 'COMPLETED' | 'PENDING' | 'CANCELLED' | 'PROCESSING';
   createdAt: Date;
   updatedAt: Date;
   userId: number;
