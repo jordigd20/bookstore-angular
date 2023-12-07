@@ -36,7 +36,7 @@ export class CartItemComponent implements OnInit {
 
   cartService = inject(CartService);
 
-  quantityControl = new FormControl(1, [
+  quantityControl = new FormControl({ value: 1, disabled: false }, [
     Validators.required,
     Validators.min(1),
     Validators.pattern('^[0-9]*$'),
@@ -68,7 +68,6 @@ export class CartItemComponent implements OnInit {
   }
 
   inputHandler(event: any) {
-    console.log(this.quantityControl.valid);
     if (this.quantityControl.invalid) return;
 
     if (this.debounceTimer) clearTimeout(this.debounceTimer);
@@ -78,17 +77,22 @@ export class CartItemComponent implements OnInit {
       this.debounceTimer = undefined;
 
       this.isLoading.set(true);
+      this.quantityControl.disable();
       await this.cartService.updateQuantity(this.cartBook.book.id, quantity);
       this.isLoading.set(false);
+      this.quantityControl.enable();
     }, 1000);
   }
 
   async addOne() {
     const quantity = Number(this.quantityInput.nativeElement.value) + 1;
     this.quantityInput.nativeElement.value = String(quantity);
+
     this.isLoading.set(true);
+    this.quantityControl.disable();
     await this.cartService.updateQuantity(this.cartBook.book.id, quantity);
     this.isLoading.set(false);
+    this.quantityControl.enable();
   }
 
   async subtractOne() {
@@ -96,14 +100,18 @@ export class CartItemComponent implements OnInit {
 
     const quantity = Number(this.quantityInput.nativeElement.value) - 1;
     this.quantityInput.nativeElement.value = String(quantity);
+
     this.isLoading.set(true);
+    this.quantityControl.disable();
     await this.cartService.updateQuantity(this.cartBook.book.id, quantity);
     this.isLoading.set(false);
   }
 
   async removeBook() {
     this.isLoading.set(true);
+    this.quantityControl.disable();
     await this.cartService.removeBook(this.cartBook.book.id);
     this.isLoading.set(false);
+    this.quantityControl.enable();
   }
 }

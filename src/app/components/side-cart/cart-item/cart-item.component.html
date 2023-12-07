@@ -65,11 +65,10 @@
         type="number"
         min="1"
         [formControl]="quantityControl"
-        [attr.disabled]="isLoading()"
         [value]="cartBook.quantity"
         (keypress)="validateQuantity($event)"
         (input)="inputHandler($event)"
-      />
+        />
 
       <button
         class="inline-flex items-center justify-center rounded-md rounded-l-none border-y border-r border-border bg-transparent hover:bg-accent hover:text-accent-foreground h-8 w-8 transition-colors disabled:opacity-50"
