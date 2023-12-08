@@ -7,7 +7,7 @@ import {
 import { CommonModule } from '@angular/common';
 import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import { OrdersService } from '../../services/orders.service';
-import { of, retry, switchMap, throwError, timer } from 'rxjs';
+import { Subject, of, retry, switchMap, takeUntil, throwError, timer } from 'rxjs';
 import { Order } from '../../interfaces/order.interface';
 import { OrderTableComponent } from '../../components/order-table/order-table.component';
 
@@ -25,6 +25,7 @@ export class SuccessCheckoutComponent {
 
   isLoading = signal(true);
   order = signal<Order | undefined>(undefined);
+  destroy$ = new Subject<void>();
 
   ngOnInit() {
     this.activatedRoute.params
@@ -58,14 +59,13 @@ export class SuccessCheckoutComponent {
 
             return timer(10000);
           },
-        })
+        }),
+        takeUntil(this.destroy$)
       )
       .subscribe({
         next: (order) => {
           this.isLoading.set(false);
           this.order.set(order);
-
-          console.log(order);
         },
         error: (error) => {
           if (error.message && error.message === 'Order not completed') {
@@ -75,5 +75,10 @@ export class SuccessCheckoutComponent {
           this.isLoading.set(false);
         },
       });
+  }
+
+  ngOnDestroy() {
+    this.destroy$.next();
+    this.destroy$.complete();
   }
 }
