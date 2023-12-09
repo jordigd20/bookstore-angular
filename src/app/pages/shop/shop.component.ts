@@ -22,6 +22,7 @@ import { BreakpointObserver } from '@angular/cdk/layout';
 import { VerticalCardSkeletonComponent } from '../../components/cards/vertical-card-skeleton/vertical-card-skeleton.component';
 import { ActivatedRoute, Router } from '@angular/router';
 import { NgxPaginationModule } from 'ngx-pagination';
+import { ErrorWarningComponent } from '../../components/error-warning/error-warning.component';
 
 const BOOKS_PER_PAGE = 10;
 
@@ -37,6 +38,7 @@ const BOOKS_PER_PAGE = 10;
     PaginationComponent,
     BooksFilterComponent,
     OrderByMenuComponent,
+    ErrorWarningComponent,
     CdkMenuTrigger,
     NgxPaginationModule,
   ],
@@ -56,12 +58,14 @@ export class ShopComponent {
   booksPerPage = BOOKS_PER_PAGE;
 
   ngOnInit() {
-    if (Object.keys(this.activatedRoute.snapshot.queryParams).length === 0) {
-      this.bookService.resetFilters();
-    }
-
     this.activatedRoute.queryParams.subscribe((params) => {
       const newParams = { ...params };
+
+      if (Object.keys(params).length === 0) {
+        newParams['page'] = 1;
+        newParams['skip'] = 0;
+      }
+      this.bookService.resetFilters();
 
       if (params.hasOwnProperty('page')) {
         const page = Number(params['page']);

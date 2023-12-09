@@ -17,6 +17,7 @@ import { NgxPaginationModule } from 'ngx-pagination';
 import { PaginationComponent } from '../../../components/pagination/pagination.component';
 import { Params } from '@angular/router';
 import { RatingCardComponent } from '../../../components/cards/rating-card/rating-card.component';
+import { ErrorWarningComponent } from '../../../components/error-warning/error-warning.component';
 
 const BOOKS_PER_PAGE = 10;
 
@@ -30,6 +31,7 @@ const BOOKS_PER_PAGE = 10;
     VerticalCardComponent,
     RatingCardComponent,
     VerticalCardSkeletonComponent,
+    ErrorWarningComponent,
     FooterComponent,
     NgxPaginationModule,
     PaginationComponent,

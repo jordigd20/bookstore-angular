@@ -76,8 +76,14 @@ export class BooksService {
       .executeGet<BookPaginatedResponse>('/books', {
         ...params,
       })
-      .subscribe((response) => {
-        this.bookResponse.set({ response, isLoading: false });
+      .subscribe({
+        next: (response) => {
+          this.bookResponse.set({ response, isLoading: false });
+        },
+        error: (error) => {
+          console.error(error);
+          this.bookResponse.set({ response: undefined, isLoading: false });
+        },
       });
   }
 

@@ -7,6 +7,7 @@ import { DropdownListboxComponent } from '../../../components/dropdown-listbox/d
 import { OrdersService } from '../../../services/orders.service';
 import { OrderTableComponent } from '../../../components/order-table/order-table.component';
 import { OrderTableSkeletonComponent } from '../../../components/order-table-skeleton/order-table-skeleton.component';
+import { ErrorWarningComponent } from '../../../components/error-warning/error-warning.component';
 
 @Component({
   selector: 'app-orders',
@@ -17,6 +18,7 @@ import { OrderTableSkeletonComponent } from '../../../components/order-table-ske
     DashboardNavComponent,
     OrderTableComponent,
     OrderTableSkeletonComponent,
+    ErrorWarningComponent,
     FooterComponent,
     DropdownListboxComponent,
   ],

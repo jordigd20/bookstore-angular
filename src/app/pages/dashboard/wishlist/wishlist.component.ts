@@ -16,6 +16,7 @@ import { UserService } from '../../../services/user.service';
 import { NgxPaginationModule } from 'ngx-pagination';
 import { ActivatedRoute, Params, Router } from '@angular/router';
 import { PaginationComponent } from '../../../components/pagination/pagination.component';
+import { ErrorWarningComponent } from '../../../components/error-warning/error-warning.component';
 
 const BOOKS_PER_PAGE = 10;
 
@@ -28,6 +29,7 @@ const BOOKS_PER_PAGE = 10;
     DashboardNavComponent,
     VerticalCardComponent,
     VerticalCardSkeletonComponent,
+    ErrorWarningComponent,
     FooterComponent,
     NgxPaginationModule,
     PaginationComponent,
