@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
+import { ChangeDetectionStrategy, Component, EventEmitter, Output, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { BooksService } from '../../services/books.service';
 import { ActivatedRoute, Router } from '@angular/router';
@@ -12,6 +12,8 @@ import { FilterBy } from '../../interfaces/book-filters.interface';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class BooksFilterComponent {
+  @Output() closeMobileFilter = new EventEmitter<void>();
+
   bookService = inject(BooksService);
   activatedRoute = inject(ActivatedRoute);
   router = inject(Router);
@@ -161,6 +163,7 @@ export class BooksFilterComponent {
       },
       queryParamsHandling: 'merge',
     });
+    this.closeMobileFilter.emit();
   }
 
   resetFilters() {
