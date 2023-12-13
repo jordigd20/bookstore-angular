@@ -272,36 +272,41 @@ export class UserService {
       });
   }
 
-  addBookToWishlist(bookId: number) {
-    const user = this.authService.user();
-    const token = this.authService.token();
+  async addBookToWishlist(bookId: number) {
+    return new Promise<boolean>((resolve) => {
+      const user = this.authService.user();
+      const token = this.authService.token();
 
-    if (user === null || token === null) {
-      this.toastService.showWarningToast(
-        'You must be logged in to add a book to your wishlist.'
-      );
-      return;
-    }
+      if (user === null || token === null) {
+        this.toastService.showWarningToast(
+          'You must be logged in to add a book to your wishlist.'
+        );
+        resolve(false);
+        return;
+      }
 
-    this.httpService
-      .executeAuthPost(
-        `/users/${user.id}/wishlist`,
-        {
-          bookIds: [bookId],
-        },
-        token
-      )
-      .subscribe({
-        next: (response) => {
-          this.toastService.showSuccessToast('Book added to your wishlist');
-        },
-        error: (err) => {
-          console.error(err);
-          this.toastService.showWarningToast(
-            'You already have this book in your wishlist'
-          );
-        },
-      });
+      this.httpService
+        .executeAuthPost(
+          `/users/${user.id}/wishlist`,
+          {
+            bookIds: [bookId],
+          },
+          token
+        )
+        .subscribe({
+          next: (response) => {
+            this.toastService.showSuccessToast('Book added to your wishlist');
+            resolve(true);
+          },
+          error: (err) => {
+            console.error(err);
+            this.toastService.showWarningToast(
+              'You already have this book in your wishlist'
+            );
+            resolve(false);
+          },
+        });
+    });
   }
 
   removeBookFromWishlist(bookId: number) {

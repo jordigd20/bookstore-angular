@@ -29,8 +29,8 @@
               <button
                 *ngIf="authService.token()"
                 class="inline-flex items-center justify-center w-10 h-9 rounded-md shadow-sm bg-background text-sm text-primary border border-border transition-colors hover:bg-accent disabled:opacity-50"
-                [disabled]="isBookLoading()"
-                (click)="userService.addBookToWishlist(book()!.id)"
+                [disabled]="isAddToWishlistLoading()"
+                (click)="addToWishlist(book()!.id)"
               >
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
@@ -49,11 +49,11 @@
               </button>
               <button
                 class="inline-flex items-center justify-center gap-2 w-full py-2 px-3 rounded-md shadow-sm bg-primary text-sm text-primary-foreground transition-colors hover:bg-primary/90 disabled:opacity-50 max-w-sm md:max-w-none"
-                [disabled]="isBookLoading()"
+                [disabled]="isAddtoCartLoading()"
                 (click)="addToCart(book()!.id)"
               >
                 <svg
-                  *ngIf="isBookLoading()"
+                  *ngIf="isAddtoCartLoading()"
                   xmlns="http://www.w3.org/2000/svg"
                   width="20"
                   height="20"

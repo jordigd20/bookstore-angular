@@ -46,7 +46,8 @@ export class BookComponent {
   router = inject(Router);
 
   isLoading = signal(true);
-  isBookLoading = signal(false);
+  isAddtoCartLoading = signal(false);
+  isAddToWishlistLoading = signal(false);
   book = signal<Book | undefined>(undefined);
 
   ngOnInit() {
@@ -70,9 +71,15 @@ export class BookComponent {
   }
 
   async addToCart(idBook: number) {
-    this.isBookLoading.set(true);
+    this.isAddtoCartLoading.set(true);
     await this.cartService.addToCart(idBook);
-    this.isBookLoading.set(false);
+    this.isAddtoCartLoading.set(false);
+  }
+
+  async addToWishlist(idBook: number) {
+    this.isAddToWishlistLoading.set(true);
+    await this.userService.addBookToWishlist(idBook);
+    this.isAddToWishlistLoading.set(false);
   }
 
   toggleAccordion(accordion: CdkAccordionItem, id: string) {
