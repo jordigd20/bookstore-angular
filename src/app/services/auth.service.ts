@@ -124,6 +124,11 @@ export class AuthService {
           },
           error: (error) => {
             console.error(error);
+            this.toastService.showErrorToast(
+              error.error.message ??
+                'Something went wrong. Please try again later.'
+            );
+
             resolve(false);
           },
         });
