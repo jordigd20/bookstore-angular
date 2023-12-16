@@ -27,7 +27,7 @@
     tabindex="-1"
   >
     <div class="px-4 flex gap-2 justify-between">
-      <h3 class="font-semibold">
+      <h3 class="font-semibold line-clamp-2">
         {{ book.title }}
       </h3>
       <div class="hidden xs:flex flex-col">
@@ -51,7 +51,7 @@
       </span>
     </div>
 
-    <span class="px-4 text-muted-foreground">{{ book.author }}</span>
+    <span class="px-4 text-muted-foreground line-clamp-1">{{ book.author }}</span>
     <div
       *ngIf="book.averageRating"
       class="px-4 flex flex-wrap items-center leading-[initial]"

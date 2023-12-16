@@ -17,6 +17,7 @@ module.exports = {
       screens: {
         xs: "480px",
         xxs: "380px",
+        xxxs: "320px",
       },
       colors: {
         background: 'rgb(var(--background))',

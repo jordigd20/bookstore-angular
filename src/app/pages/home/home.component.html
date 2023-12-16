@@ -74,7 +74,7 @@
       >
         <ng-container *ngIf="!isLoading(); else loadingBooks">
           <div
-            class="py-2 grid grid-cols-1 xxs:grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 xl:grid-cols-6"
+            class="py-2 grid grid-cols-1 xxxs:grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 xl:grid-cols-6"
           >
             <ng-container *ngFor="let book of bestRatedBooks()">
               <app-vertical-card [book]="book" type="shop" />
@@ -84,7 +84,7 @@
 
         <ng-template #loadingBooks>
           <div
-            class="py-2 grid grid-cols-1 xxs:grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 xl:grid-cols-6"
+            class="py-2 grid grid-cols-1 xxxs:grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 xl:grid-cols-6"
           >
             <app-vertical-card-skeleton *ngFor="let _ of [1, 2, 3, 4, 5, 6]" />
           </div>
@@ -122,7 +122,7 @@
       >
         <ng-container *ngIf="!isLoading(); else loadingBooks">
           <div
-            class="py-2 grid grid-cols-1 xxs:grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 xl:grid-cols-6"
+            class="py-2 grid grid-cols-1 xxxs:grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 xl:grid-cols-6"
           >
             <ng-container *ngFor="let book of onSaleBooks()">
               <app-vertical-card [book]="book" type="shop" />
@@ -132,7 +132,7 @@
 
         <ng-template #loadingBooks>
           <div
-            class="py-2 grid grid-cols-1 xxs:grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 xl:grid-cols-6"
+            class="py-2 grid grid-cols-1 xxxs:grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 xl:grid-cols-6"
           >
             <app-vertical-card-skeleton *ngFor="let _ of [1, 2, 3, 4, 5, 6]" />
           </div>
