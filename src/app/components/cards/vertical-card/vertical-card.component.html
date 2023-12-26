@@ -79,7 +79,7 @@
           />
         </svg>
       </div>
-      <span class="text-sm">({{ book.averageRating }})</span>
+      <span class="text-sm">({{ book.averageRating | number : "1.1-1" }})</span>
     </div>
   </a>
 
@@ -127,6 +127,4 @@
       Add to cart
     </button>
   </div>
-
-
 </div>
