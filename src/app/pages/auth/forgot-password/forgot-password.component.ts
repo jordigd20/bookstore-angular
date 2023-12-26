@@ -60,7 +60,6 @@ export class ForgotPasswordComponent {
 
     if (isEmailSent) {
       this.emailSent.set(true);
-      console.log('Email sent');
     }
 
     this.isLoading.set(false);

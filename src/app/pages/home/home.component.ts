@@ -102,7 +102,7 @@ export class HomeComponent {
           this.onSaleBooks.set(onSaleBooks);
         },
         error: (error) => {
-          console.log(error);
+          console.error(error);
           this.errorHappened.set(true);
           this.isLoading.set(false);
         },

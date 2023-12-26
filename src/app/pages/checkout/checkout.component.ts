@@ -92,7 +92,6 @@ export class CheckoutComponent {
     this.formArray?.get([1])?.patchValue({
       address,
     });
-    console.log(this.stepperForm.value);
   }
 
   async onSubmit() {

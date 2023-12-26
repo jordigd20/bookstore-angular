@@ -154,7 +154,6 @@ export class CartService {
           )
           .subscribe({
             next: (response) => {
-              console.log(response);
               this.cartState.update((state) => ({
                 ...state,
                 total: Number(response.total),

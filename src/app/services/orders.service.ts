@@ -93,7 +93,7 @@ export class OrdersService {
           });
         },
         error: (error) => {
-          console.log(error);
+          console.error(error);
           this.ordersState.update((state) => ({
             ...state,
             isLoading: false,
@@ -174,7 +174,6 @@ export class OrdersService {
           ];
         },
         error: (error) => {
-          console.log(error);
           this.ordersState.update((state) => ({
             ...state,
             isLoading: false,

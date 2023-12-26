@@ -89,7 +89,6 @@ export class AuthFormComponent implements OnInit, AfterViewInit, OnDestroy {
       .pipe(takeUntil(this.destroy$))
       .subscribe((inputToFocus) => {
         if (inputToFocus !== '') {
-          console.log(inputToFocus);
           const input = this.formInputs.find(
             (input) => input.nativeElement.name === inputToFocus
           );
